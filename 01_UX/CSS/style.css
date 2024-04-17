@@ -1,0 +1,125 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f1f1f1;
+    color: #333;
+  }
+  
+  
+  
+  .container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 10px;
+  }
+  
+  .user-types {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-types button {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .user-types button:hover {
+    background-color: #e1e1e1;
+  }
+  
+  form {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+  
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    color: #333;
+  }
+  
+  .error-message {
+    display: none;
+    color: red;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  body.dark-mode {
+    background-color: #333;
+    color: #333;
+  }
+  
+  .navbar-toggle {
+    position: absolute;
+    top: 20px; 
+    right: 20px;
+    cursor: pointer;
+  }
+  
+  
+  .navbar-toggle ion-icon {
+    font-size: 30px;
+    color: #ea0b0b;
+  }
+  
+  /* .navbar-toggle .toggle-icon {
+    width: 30px;
+    height: 5px;
+    background-color: #ea0b0b;
+    position: relative;
+  } */
+  
+  
+  /* .navbar-toggle .toggle-icon::before {
+    top: -10px;
+  }
+  
+  .navbar-toggle .toggle-icon::after {
+    bottom: -10px;
+  } */
+  

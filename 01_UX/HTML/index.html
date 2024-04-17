@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body id="main-body">
+  <div class="container">
+    <h1>Sign In</h1>
+    <p>Explore this app as a test user:</p>
+    <div class="user-types">
+      <button>Admin</button>
+      <button>Employee</button>
+    </div>
+
+    
+    <nav class="navbar">
+      <div class="navbar-toggle" id="themeToggle">
+        <div class="toggle-icon">
+          <ion-icon name="toggle"></ion-icon>
+        </div>
+      </div>           
+    </nav>
+    
+      
+
+    <form id="sign-in-form" action="#" onsubmit="return validateForm()">
+      <label for="email">Email *</label>
+      <input type="email" id="email" name="email" placeholder="Your email" required>
+      <span class="error-message" id="email-error"></span>
+      <label for="password">Password *</label>
+      <input type="password" id="password" name="password" placeholder="Password" required>
+      <span class="error-message" id="password-error"></span>
+      <label for="2fa-code">2FA Code *</label>
+      <input type="text" id="2fa-code" name="2fa-code" placeholder="Enter code from email" required>
+      <span class="error-message" id="2fa-error"></span>
+      <button type="submit">Sign In</button>
+    </form>
+    
+    <div class="links" style="clear: both;">
+      <a href="#">Sign Up</a>
+      <a href="#">Forgot password</a>
+    </div>
+  </div>
+  <script src="../JS/script.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
