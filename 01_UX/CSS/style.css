@@ -161,3 +161,24 @@ body.dark-mode {
 .navbar-toggle .toggle-icon::after {
   bottom: -10px;
 } */
+
+
+.submit-button{
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 auto; 
+  display: block;
+
+}
+#new-password-error{
+  font-size: 15px;
+  color: red;
+}
+#confirm-password-error{
+  font-size: 15px;
+  color: red;
+}
