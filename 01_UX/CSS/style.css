@@ -92,12 +92,14 @@ input[type="text"] {
 
 .input-control.error input {
   border-color: #ff3860;
+  margin-bottom: 5px;
 }
 
 .input-control .error {
   color: #ff3860;
-  font-size: 12px;
-  height: 13px;
+  font-size: 16px;
+  margin-top: 3px; /* Adjust the margin to position the error message slightly above */
+  position: relative;
 }
 
 .links{
@@ -107,6 +109,7 @@ input[type="text"] {
 
 .links a {
   margin-right: 10px;
+  text-decoration: none;
 }
 
 button[type="submit"] {
