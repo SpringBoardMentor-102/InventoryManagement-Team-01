@@ -4,9 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../CSS/style.css">
 </head>
-<body id="main-body">
+<body id="main-body"> 
+    <nav class="navbar">
+        <div class="navbar-toggle" id="themeToggle">
+          <div class="toggle-icon">
+            <ion-icon name="toggle"></ion-icon>
+          </div>
+        </div>           
+      </nav>
+      
+
   <div class="container">
     <h1>Sign In</h1>
     <p>Explore this app as a test user:</p>
@@ -15,34 +27,28 @@
       <button>Employee</button>
     </div>
 
+   
     
-    <nav class="navbar">
-      <div class="navbar-toggle" id="themeToggle">
-        <div class="toggle-icon">
-          <ion-icon name="toggle"></ion-icon>
+    <form id="form" action="/">
+        <div class="input-control">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="text">
+            <div class="error"></div>
         </div>
-      </div>           
-    </nav>
-    
+        <div class="input-control">
+            <label for="password">Password</label>
+            <input id="password"name="password" type="password">
+            <div class="error"></div>
+        </div>
       
-
-    <form id="sign-in-form" action="#" onsubmit="return validateForm()">
-      <label for="email">Email *</label>
-      <input type="email" id="email" name="email" placeholder="Your email" required>
-      <span class="error-message" id="email-error"></span>
-      <label for="password">Password *</label>
-      <input type="password" id="password" name="password" placeholder="Password" required>
-      <span class="error-message" id="password-error"></span>
-      <label for="2fa-code">2FA Code *</label>
-      <input type="text" id="2fa-code" name="2fa-code" placeholder="Enter code from email" required>
-      <span class="error-message" id="2fa-error"></span>
       <button type="submit">Sign In</button>
+      <div class="links" style="clear: both; text-align: center;">
+        <a href="#">Sign Up</a>
+        <a href="#">Forgot password</a>
+      </div>
     </form>
     
-    <div class="links" style="clear: both;">
-      <a href="#">Sign Up</a>
-      <a href="#">Forgot password</a>
-    </div>
+    
   </div>
   <script src="../JS/script.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
