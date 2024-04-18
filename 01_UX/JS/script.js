@@ -1,111 +1,77 @@
-function validateForm() {
-    const email = document.getElementById("email").value;
-    const emailError = document.getElementById("email-error");
-    emailError.textContent = "";
-  
-    if (email === "") {
-      emailError.textContent = "Please enter your email address.";
-      console.log("Email:", email);
-      return false;
-    }
-  
-    const emailRegex =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!emailRegex.test(email)) {
-      emailError.textContent = "Please enter a valid email address.";
-      return false;
-    }
-  
-    const password = document.getElementById("password").value;
-    const passwordError = document.getElementById("password-error");
-    passwordError.textContent = "";
-  
-    const passwordStrengthRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordStrengthRegex.test(password)) {
-      passwordError.textContent =
-        "Password must contain at least 8 characters, including uppercase, lowercase, numbers, and symbols.";
-      return false;
-    }
-  
-    const minLength = 8;
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-    const hasNumber = /[0-9]/.test(password);
-    const hasSymbol = /[@$!%*?&]/.test(password); 
-  
-    if (password.length < minLength) {
-      passwordError.textContent =
-        "Password must be at least " + minLength + " characters long.";
-      return false;
-    }
-  
-    let missingChars = [];
-    if (!hasUppercase) {
-      missingChars.push("uppercase letter");
-    }
-    if (!hasLowercase) {
-      missingChars.push("lowercase letter");
-    }
-    if (!hasNumber) {
-      missingChars.push("number");
-    }
-    if (!hasSymbol) {
-      missingChars.push("symbol");
-    }
-  
-    if (missingChars.length > 0) {
-      passwordError.textContent =
-        "Password must contain " +
-        (missingChars.length > 1 ? "and " : "") +
-        missingChars.join(", ");
-      return false;
-    }
-  
-    const twoFaCode = document.getElementById("2fa-code").value;
-    const twoFaError = document.getElementById("2fa-error");
-    twoFaError.textContent = "";
-  
-    if (twoFaCode === "") {
-      twoFaError.textContent = "Please enter the 2FA code from your email.";
-      return false;
-    }
-  
-    if (twoFaCode === "1234") {
-      alert("Sign in successful!");
-      window.location.href = "blank-page.html";
-      return true;
-    } else {
-      alert("Incorrect code. Please try again.");
-      return false; 
-    }
+const form = document.getElementById("form");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const submitButton = document.getElementById("submit-btn");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  validateInputs();
+});
+
+const setError = (element, message) => {
+  const inputControl = element.parentElement;
+  const errorDisplay = inputControl.querySelector(".error");
+
+  errorDisplay.innerText = message;
+  inputControl.classList.add("error");
+  inputControl.classList.remove("success");
+};
+
+const setSuccess = (element) => {
+  const inputControl = element.parentElement;
+  const errorDisplay = inputControl.querySelector(".error");
+
+  errorDisplay.innerText = "";
+  inputControl.classList.add("success");
+  inputControl.classList.remove("error");
+};
+
+const isValidEmail = (email) => {
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+};
+
+const validateInputs = () => {
+  let hasErrors = false;
+
+  const emailValue = email.value.trim();
+  const passwordValue = password.value.trim();
+
+  if (emailValue === "") {
+    setError(email, "Email is required");
+    hasErrors = true;
+  } else if (!isValidEmail(emailValue)) {
+    setError(email, "Please enter a valid email address");
+    hasErrors = true;
+  } else {
+    setSuccess(email);
   }
-  
-  const passwordSuggestion = document.createElement("p");
-  passwordSuggestion.textContent =
-    "For a stronger password, consider using a mix of uppercase and lowercase letters, numbers, and symbols.";
-  passwordSuggestion.style.fontSize = "12px";
-  passwordSuggestion.style.color = "#ccc";
-  passwordSuggestion.style.marginTop = "5px";
-  const passwordContainer = document.querySelector("form");
-  passwordContainer.appendChild(passwordSuggestion);
-  
-  document.addEventListener('DOMContentLoaded', function () {
-    const signInForm = document.getElementById('sign-in-form');
-  
-    signInForm.addEventListener('submit', function (event) {
-      event.preventDefault(); 
-      const isValid = validateForm(); 
-      if (isValid) {
-        signInForm.submit(); 
-      }
-    });
-  });
-  
-  const themeToggle = document.getElementById('themeToggle');
-  const body = document.body;
-  
-  themeToggle.addEventListener('click', function () {
-    body.classList.toggle('dark-mode');
-  });
-  
+
+  if (passwordValue === "") {
+    setError(password, "Password is required");
+    hasErrors = true;
+  } else if (passwordValue.length < 8) {
+    setError(password, "Password must be at least 8 characters");
+    hasErrors = true;
+  } else {
+    setSuccess(password);
+  }
+
+  if (!hasErrors) {
+    window.location.href = "blank.html"; // Redirect to a blank page
+  }
+};
+
+// Clear error messages and styles on input focus
+email.addEventListener("focus", () => {
+  setSuccess(email);
+});
+
+password.addEventListener("focus", () => {
+  setSuccess(password);
+});
+
+document.getElementById("themeToggle").addEventListener("click", function() {
+  document.body.classList.toggle("dark-mode");
+});
