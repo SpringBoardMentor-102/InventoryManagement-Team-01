@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-
+//import mongoose from "mongoose";
+const mongoose = require('mongoose');
 //Schema of Categories
 
 var categorySchema = new mongoose.Schema({
@@ -19,4 +19,5 @@ var categorySchema = new mongoose.Schema({
 const Category = mongoose.model("category", categorySchema);
 
 //example export {category, transcation .....so on}
-export { Category };
+//export { Category };
+module.exports = Category;

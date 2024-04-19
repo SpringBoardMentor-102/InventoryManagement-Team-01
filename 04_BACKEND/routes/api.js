@@ -1,6 +1,7 @@
-import CategoryContoller from "../controllers/CategoryController.js";
-import { Router } from "express";
-
+// import CategoryContoller from "../controllers/CategoryController.js";
+// import { Router } from "express";
+const CategoryContoller = require("../controllers/CategoryController.js");
+const Router = require("express");
 const router = Router();
 
 //Add categories
@@ -17,4 +18,4 @@ router.put("/categories/:id", CategoryContoller.updateCategory);
 //delete category
 router.delete("/categories/:id", CategoryContoller.deleteCategory);
 
-export default router;
+module.exports = router;
