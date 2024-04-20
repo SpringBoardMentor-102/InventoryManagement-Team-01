@@ -1,8 +1,7 @@
 // this are the controllers make your own controllers and use that one like how it is done here
 // Understand the flow of code
 
-//import { Category } from "../model/conf.js";
-const Category = require("../model/conf.js");
+const Category = require("../model/categories.js");
 class CategoryContoller {
   static async addCategory(req, res) {
     try {
@@ -99,5 +98,4 @@ class CategoryContoller {
   }
 }
 
-//export default CategoryContoller;
 module.exports = CategoryContoller;

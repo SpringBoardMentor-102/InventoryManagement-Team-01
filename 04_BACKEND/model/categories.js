@@ -1,5 +1,4 @@
-//import mongoose from "mongoose";
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 //Schema of Categories
 
 var categorySchema = new mongoose.Schema({
@@ -13,11 +12,7 @@ var categorySchema = new mongoose.Schema({
   },
 });
 
-//create your schema here
-
 //Export the models
 const Category = mongoose.model("category", categorySchema);
 
-//example export {category, transcation .....so on}
-//export { Category };
 module.exports = Category;
