@@ -14,8 +14,10 @@ async function loginUser(req, res) {
             return res.status(401).send('Invalid email or password');
         }
 
-        // Check if the password matches (assuming password is stored as plain text)
-        if (password !== user.password) {
+        // Compare the provided password with the hashed password in the database
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) {
             return res.status(401).send('Invalid email or password');
         }
 
@@ -26,6 +28,7 @@ async function loginUser(req, res) {
         res.status(500).send('Internal Server Error');
     }
 }
+
 
 
 async function registerUser(req, res) {
@@ -40,12 +43,12 @@ async function registerUser(req, res) {
         }
 
         // Hash the password
-        //const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create a new user
+        // Create a new user with the hashed password
         const newUser = new User({
             email,
-            password,
+            password: hashedPassword,
             firstName,
             lastName,
             phone,
@@ -60,6 +63,7 @@ async function registerUser(req, res) {
         res.status(500).send('Internal Server Error');
     }
 }
+
 
 
 module.exports = { loginUser, registerUser };
