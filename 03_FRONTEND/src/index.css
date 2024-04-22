@@ -1,0 +1,189 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f1f1f1;
+    color: #333;
+  }
+  
+  
+  
+  .container {
+    background-color: #fff;
+    padding: 50px 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    text-align: center;
+    margin: 0 auto; /* Center the container horizontally */
+  }
+  
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 10px;
+  }
+  
+  .user-types {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-types button {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .user-types button:hover {
+    background-color: #e1e1e1;
+  }
+  
+  
+  #form h1 {
+    color: #0f2027;
+    text-align: center;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    margin-right: 10px; /* Adjust right margin to shift labels to the left */
+    text-align: left; /* Align label text to the left */
+    font-size: 14px;
+  }
+  
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+    width: calc(100% - 15px); /* Adjust input width to fit container */
+    /* Subtract margin from input width */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    margin-right: 10px; /* Adjust right margin to align inputs with labels */
+    background-color: #fff;
+    color: #333;
+  }
+  
+  
+  .input-control input:focus {
+    outline: 0;
+  }
+  
+  .input-control.success input {
+    border-color: #09c372;
+  }
+  
+  .input-control.error input {
+    border-color: #ff3860;
+    margin-bottom: 5px;
+  }
+  
+  .input-control .error {
+    color: #ff3860;
+    font-size: 16px;
+    margin-top: 3px; /* Adjust the margin to position the error message slightly above */
+    position: relative;
+  }
+  
+  .links{
+    padding-top: 20px;
+    text-align: center;
+  }
+  
+  .links a {
+    margin-right: 10px;
+    text-decoration: none;
+  }
+  
+  button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 auto; 
+    display: block;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #2e86c1;
+  }
+  
+  body.dark-mode {
+    background-color: #333;
+    color: #333;
+  }
+  
+  .navbar-toggle {
+    position: absolute;
+    top: 20px; 
+    right: 20px;
+    cursor: pointer;
+    
+  }
+  
+  
+  .navbar-toggle ion-icon {
+    font-size: 30px;
+    color: #ea0b0b;
+  }
+  
+  /* .navbar-toggle .toggle-icon {
+    width: 30px;
+    height: 5px;
+    background-color: #ea0b0b;
+    position: relative;
+  } */
+  
+  
+  /* .navbar-toggle .toggle-icon::before {
+    top: -10px;
+  }
+  
+  .navbar-toggle .toggle-icon::after {
+    bottom: -10px;
+  } */
+  
+  
+  .submit-button{
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 auto; 
+    display: block;
+  
+  }
+  #new-password-error{
+    font-size: 15px;
+    color: red;
+  }
+  #confirm-password-error{
+    font-size: 15px;
+    color: red;
+  }
+  #error{
+    font-size: 15px;
+    color: red;
+  }
+  
