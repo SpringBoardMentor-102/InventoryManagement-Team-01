@@ -1,8 +1,14 @@
-const Product = require("../models/productModel");
+const Product = require("../model/productModel");
 
 async function getAllProducts(req, res) {
   try {
     const products = await Product.find();
+
+      // Check if there are no checkouts
+      if (products.length === 0) {
+        return res.status(404).json({ msg: 'No products found' });
+      }
+  
     res.json(products);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -28,6 +34,9 @@ async function createProduct(req, res) {
     const newProduct = await product.save();
     res.status(201).json(newProduct);
   } catch (err) {
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.uuid) {
+      return res.status(400).json({ msg: 'UUID already exists' });
+    }
     res.status(400).json({ message: err.message });
   }
 }
