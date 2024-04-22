@@ -1,9 +1,16 @@
 const bcrypt = require("bcrypt");
 const User = require("../model/userModel");
+const { validationResult } = require("express-validator");
 
 class userContoller {
   static async loginUser(req, res) {
     const { email, password } = req.body;
+
+    //Doing validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
     try {
       // Find the user with the provided email
@@ -20,7 +27,6 @@ class userContoller {
       if (!passwordMatch) {
         return res.status(401).send("Invalid email or password");
       }
-
       // Password is correct, log the user in
       return res.status(201).send("Login succesfully");
       //   res.redirect("/dashboard"); // Redirect to the dashboard page
@@ -32,6 +38,11 @@ class userContoller {
   static async registerUser(req, res) {
     const { email, password, firstName, lastName, phone, roles, city } =
       req.body;
+    //validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
     try {
       // Check if email already exists
