@@ -1,26 +1,14 @@
-const express = require('express');
+const express = require("express");
+const userContoller = require("../controllers/userController");
+const verifyToken = require("../middleware/auth"); 
 const router = express.Router();
-const userController = require('../controllers/userController');
-router.post('/login', userController.loginUser);
 
-router.post('/register', userController.registerUser);
+router.post("/login", userContoller.loginUser);
 
-router.get('/login', (req, res) => {
-    try {
-        res.sendFile(__dirname + '/../public/loginForm.html');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Internal Server Error');
-    }
-});
+router.post("/register", userContoller.registerUser);
 
-router.get('/register', (req, res) => {
-    try {
-        res.sendFile(__dirname + '/../public/registrationForm.html');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Internal Server Error');
-    }
-});
+router.get("/protectedRoute", verifyToken, (req, res) => {
+    res.json({ msg: "This route is protected!" });
+  });
 
 module.exports = router;
