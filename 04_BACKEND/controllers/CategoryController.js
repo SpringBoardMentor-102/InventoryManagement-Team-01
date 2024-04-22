@@ -11,23 +11,23 @@ class CategoryContoller {
           categoryName: req.body.categoryName,
         });
         if (name) {
-          res.status(409).send("Category already exist");
+          return res.status(409).send("Category already exist");
         } else {
           try {
             await Category.create({
               categoryName: req.body.categoryName,
             });
-            res.status(200).send("succesfully Added");
+            return res.status(200).send("succesfully Added");
           } catch (error) {
-            res.status(400).send("Something Went Wrong");
+            return res.status(400).send("Something Went Wrong");
             console.log(error);
           }
         }
       } else {
-        res.status(400).send("Incomplete Data");
+        return res.status(400).send("Incomplete Data");
       }
     } catch (error) {
-      res.status(500).send("Internal Server Error");
+      return res.status(500).send("Internal Server Error");
       console.log(error);
     }
   }
@@ -36,12 +36,12 @@ class CategoryContoller {
     try {
       const categories = await Category.find();
       if (categories.length == 0) {
-        res.status(404).send("No Categories Found Please add one");
+        return res.status(404).send("No Categories Found Please add one");
       } else {
-        res.status(200).send(categories);
+        return res.status(200).send(categories);
       }
     } catch (error) {
-      res.status(500).send("Server Error");
+      return res.status(500).send("Server Error");
     }
   }
 
@@ -49,12 +49,12 @@ class CategoryContoller {
     try {
       const category = await Category.findById(req.params.id);
       if (!category) {
-        res.status(404).send("Invalid Category Id");
+        return res.status(404).send("Invalid Category Id");
       } else {
-        res.status(200).send(category);
+        return res.status(200).send(category);
       }
     } catch (error) {
-      res.status(500).send("Server Error");
+      return res.status(500).send("Server Error");
     }
   }
 
@@ -62,23 +62,23 @@ class CategoryContoller {
     try {
       const category = await Category.findById(req.params.id);
       if (!category) {
-        res.status(404).send("Invalid Category Id");
+        return res.status(404).send("Invalid Category Id");
       } else {
         const name = await Category.findOne({
           categoryName: req.body.categoryName?.toLowerCase(),
         });
         console.log(name);
         if (name) {
-          res.status(409).send("Name Already exist");
+          return res.status(409).send("Name Already exist");
         } else {
           await Category.findByIdAndUpdate(req.params.id, {
             categoryName: req.body.categoryName,
           });
-          res.status(200).send("Updated succesfully");
+          return res.status(200).send("Updated succesfully");
         }
       }
     } catch (error) {
-      res.status(500).send("Internal Server Error");
+      return res.status(500).send("Internal Server Error");
       console.log(error);
     }
   }
@@ -87,13 +87,13 @@ class CategoryContoller {
     try {
       const category = await Category.findById(req.params.id);
       if (!category) {
-        res.status(404).send("Invalid Category Id");
+        return res.status(404).send("Invalid Category Id");
       } else {
         await Category.deleteOne({ _id: req.params.id });
-        res.status(200).send("Successfully deleted");
+        return res.status(200).send("Successfully deleted");
       }
     } catch (error) {
-      res.status(500).send("Server Error");
+      return res.status(500).send("Server Error");
     }
   }
 }
