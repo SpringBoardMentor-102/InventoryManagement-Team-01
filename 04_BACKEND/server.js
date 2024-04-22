@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
+const config = require("dotenv/config");
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(
-      "mongodb+srv://tempaaditya:9K7XelnAzEdQXIe5@tempcluster.dc9szbg.mongodb.net/?retryWrites=true&w=majority&appName=tempCluster",
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
+    const conn = await mongoose.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (err) {
     console.log(err);
