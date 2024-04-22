@@ -184,4 +184,49 @@ body.dark-mode {
 }
 
 
+/* CSS for Sign_up Page*/
+
+.container_sign_up {
+  width: 400px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], input[type="password"], input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.error_sign_up {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 5px;
+}
+
+.action-links_sign_up {
+  text-align: center;
+  margin-top: 10px;
+}
+
 
