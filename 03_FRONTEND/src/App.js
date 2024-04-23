@@ -2,7 +2,7 @@ import React from 'react'
 import SignIn from './components/SignIn'
 import Reset from './components/Reset'
 import SignUp from './components/SignUp';
-import Home from './components/Home';
+import Dashboard from './components/Dashboard';
 import ForgotPassword from './components/ForgotPassword';
 
 import NotFound from './components/NotFound';
@@ -18,7 +18,7 @@ const App = () => {
     <Route path='/signup' element={<SignUp/>}/>
     <Route path='/reg_config' element={<Reg_Config/>}/>
     <Route path='/reset' element={<Reset/>}/>
-    <Route path='/home'  element={<Home/>}/>
+    <Route path='/Dashboard'  element={<Dashboard/>}/>
     <Route path='/forgot'  element={<ForgotPassword/>}/>
     <Route path='*' element={<NotFound/>}/>
   </Routes>
