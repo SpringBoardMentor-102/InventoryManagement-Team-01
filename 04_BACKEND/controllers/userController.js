@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../model/userModel");
 const { validationResult } = require("express-validator");
+const crypto = require('crypto');
+const { sendPasswordResetEmail } = require('../services/emailService');
 
 class userContoller {
   static async loginUser(req, res) {
@@ -28,21 +30,19 @@ class userContoller {
       if (!passwordMatch) {
         return res.status(401).send("Invalid email or password");
       }
+
       // Password is correct, generate JWT token
       const token = generateJWT(user);
-
-      // // Password is correct, log the user in
-      // return res.status(201).send("Login succesfully");
 
       // Send the token in response
       return res.status(201).json({ token });
 
-      //   res.redirect("/dashboard"); // Redirect to the dashboard page
     } catch (err) {
       console.error(err);
       res.status(500).send("Internal Server Error");
     }
   }
+
   static async registerUser(req, res) {
     const { email, password, firstName, lastName, phone, roles, city } =
       req.body;
@@ -79,10 +79,58 @@ class userContoller {
 
       // Send the token in response
       res.status(201).json({ token });
-      // res.status(201).send("user regesitered succesfully"); // Redirect to the login page after registration
+
     } catch (err) {
       console.error(err);
       res.status(500).send("Internal Server Error");
+    }
+  }
+
+  static async forgetPassword(req, res) {
+    const { email } = req.body;
+
+    try {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        return res.status(404).send('User not found');
+      }
+
+      const token = crypto.randomBytes(20).toString('hex');
+      user.resetPasswordToken = token;
+      user.resetPasswordExpires = Date.now() + 3600000; // Expires in 1 hour
+      await user.save();
+
+      await sendPasswordResetEmail(user.email, token);
+
+      res.status(200).send('Password reset link sent');
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    }
+  }
+
+  static async resetPassword(req, res) {
+    const { token, newPassword } = req.body;
+
+    try {
+      const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } });
+
+      if (!user) {
+        return res.status(401).send('Invalid or expired token');
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      user.password = hashedPassword;
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpires = undefined;
+      await user.save();
+
+      res.status(200).send('Password reset successful');
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
     }
   }
 }
@@ -103,12 +151,4 @@ function generateJWT(user) {
   return token;
 }
 
-function verifyJWT(token) {
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    return decoded.user;
-  } catch (error) {
-    throw new Error("Invalid token");
-  }
-}
 module.exports = userContoller;
