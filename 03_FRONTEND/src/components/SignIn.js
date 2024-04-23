@@ -68,7 +68,7 @@ function SignIn(){
       }
     
       if (!hasErrors) {
-        window.location.href = '/home'; // Redirect to a blank page
+        window.location.href = '/Dashboard'; // Redirect to a blank page
       }
     };
     
