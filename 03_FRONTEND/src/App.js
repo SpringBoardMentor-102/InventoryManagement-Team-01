@@ -4,7 +4,7 @@ import Reset from './components/Reset'
 import SignUp from './components/SignUp';
 import Dashboard from './components/Dashboard';
 import ForgotPassword from './components/ForgotPassword';
-
+import EmailNotification from './components/EmailNotification';
 import NotFound from './components/NotFound';
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import Reg_Config from './components/Reg_Config';
@@ -20,6 +20,7 @@ const App = () => {
     <Route path='/reset' element={<Reset/>}/>
     <Route path='/Dashboard'  element={<Dashboard/>}/>
     <Route path='/forgot'  element={<ForgotPassword/>}/>
+    <Route path='/email_notification'  element={<EmailNotification/>}/>
     <Route path='*' element={<NotFound/>}/>
   </Routes>
 </BrowserRouter>
