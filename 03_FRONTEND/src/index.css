@@ -231,6 +231,11 @@ body.dark-mode {
   color: red;
 }
 
+#error{
+  font-size: 15px;
+  color: red;
+}
+
 
 /* CSS for Sign_up Page*/
 
