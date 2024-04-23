@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import "../../src/index.css";
+
 
 
 const SignUp = () => {
@@ -99,7 +101,7 @@ function openGooglePopup() {
         <input type="submit" value="Sign Up"/>
 
         <div className="action-links_sign_up">
-           <p>Already registered?<Link to="/signin"> Sign In</Link></p>   <p><a href="#" onclick={openGooglePopup}>Login with Google</a></p>
+           <p>Already registered?<Link to="/signin"> Sign In</Link></p>   <p><a href="#" onClick={openGooglePopup}>Login with Google</a></p>
         </div>
     </form>
 </div>
