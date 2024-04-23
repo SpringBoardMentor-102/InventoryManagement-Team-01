@@ -2,12 +2,12 @@ import React from 'react'
 import SignIn from './components/SignIn'
 import Reset from './components/Reset'
 import SignUp from './components/SignUp';
-import Dashboard from './components/Dashboard';
+import Home from './components/Home';
 import ForgotPassword from './components/ForgotPassword';
 
 import NotFound from './components/NotFound';
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
-
+import Reg_Config from './components/Reg_Config';
 const App = () => {
   return (
 
@@ -16,8 +16,9 @@ const App = () => {
     <Route index element={<SignIn/>}/>
     <Route path='/signin' element={<SignIn/>}/>
     <Route path='/signup' element={<SignUp/>}/>
+    <Route path='/reg_config' element={<Reg_Config/>}/>
     <Route path='/reset' element={<Reset/>}/>
-    <Route path='/dashboard'  element={<Dashboard/>}/>
+    <Route path='/home'  element={<Home/>}/>
     <Route path='/forgot'  element={<ForgotPassword/>}/>
     <Route path='*' element={<NotFound/>}/>
   </Routes>
