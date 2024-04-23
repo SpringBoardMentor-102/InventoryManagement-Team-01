@@ -53,9 +53,9 @@ const SignUp = () => {
     }
 
     // Password validation
-    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&_]{10,}$/;
+    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&_]{8,}$/;
     if (!passwordRegex.test(password)) {
-        document.getElementById('passwordError').innerText = "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be 10 or more characters long.";
+        document.getElementById('passwordError').innerText = "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be 8 or more characters long.";
         setIsSignUp(false);
     }
 
@@ -83,19 +83,19 @@ function openGooglePopup() {
     <div className="container_sign_up">
     <h2>Sign Up</h2>
     <form id="signupForm" action='/' onSubmit={signUp}>
-        <input type="text" id="username" placeholder="Username" value={username} aria-label="Username" onChange={(e)=>setUsername(e.target.value)} />
+        <input type="text" id="username" placeholder="Username" value={username} aria-label="Username" onChange={(e)=>setUsername(e.target.value)} autoComplete='off' />
         <div id="usernameError" className="error_sign_up"></div>
 
-        <input type="email" id="email" placeholder="Email" value={email} aria-label="Email" onChange={(e)=>setEmail(e.target.value)}/>
-        <div id="emailError" className="error_sign_up"></div>
+        <input type="email" id="email" placeholder="Email" value={email} aria-label="Email" onChange={(e)=>setEmail(e.target.value)} autoComplete='off' />
+        <div id="emailError" className="error_sign_up"  ></div>
 
-        <input type="tel" id="mobile" placeholder="Mobile Number (10 digits)" pattern="[0-9]{10}" value={mobile} aria-label="Mobile Number" onChange={(e)=>setMobile(e.target.value)}/>
+        <input type="tel" id="mobile" placeholder="Mobile Number (10 digits)" pattern="[0-9]{10}" value={mobile} aria-label="Mobile Number" onChange={(e)=>setMobile(e.target.value)} autoComplete='off' />
         <div id="mobileError" className="error_sign_up"></div>
 
-        <input type="password" id="password" placeholder="Create Password"value={password} aria-label="Create Password" onChange={(e)=>setPassword(e.target.value)}/>
+        <input type="password" id="password" placeholder="Create Password"value={password} aria-label="Create Password" onChange={(e)=>setPassword(e.target.value)} autoComplete='off' />
         <div id="passwordError" className="error_sign_up"></div>
 
-        <input type="password" id="confirmPassword" placeholder="Confirm Password" value={ConfirmPassword} aria-label="Confirm Password" onChange={(e)=>setConfirmPassword(e.target.value)}/>
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" value={ConfirmPassword} aria-label="Confirm Password" onChange={(e)=>setConfirmPassword(e.target.value)} autoComplete='off' />
         <div id="confirmPasswordError" className="error_sign_up"></div>
 
         <input type="submit" value="Sign Up"/>
@@ -109,4 +109,4 @@ function openGooglePopup() {
   )
 }
 
-export default SignUp;
+export default SignUp
