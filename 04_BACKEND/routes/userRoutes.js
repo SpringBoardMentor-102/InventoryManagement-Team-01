@@ -8,7 +8,7 @@ const path = require('path');
 
 router.post("/login", loginSchema, userController.loginUser);
 
-router.post("/register", registerSchema, userContoller.registerUser);
+router.post("/register", registerSchema, userController.registerUser);
 
 router.post('/forget-password', userController.forgetPassword);
 router.post('/reset-password', userController.resetPassword);

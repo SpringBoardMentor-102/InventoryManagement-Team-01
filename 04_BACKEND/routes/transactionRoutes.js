@@ -6,7 +6,7 @@ const {
   handlegetTransactionByID,
   handleUpdatesTransactions,
   handleDeleteTransaction
-} = require('../controller/transactionController');
+} = require('../controllers/transactionController');
 
 
 // 1. Create a Transaction (POST)

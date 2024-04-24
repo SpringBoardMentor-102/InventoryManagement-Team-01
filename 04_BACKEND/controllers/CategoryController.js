@@ -2,7 +2,7 @@
 // Understand the flow of code
 
 const Category = require("../model/categories.js");
-class CategoryContoller {
+class CategoryController {
   static async addCategory(req, res) {
     try {
       console.log(req.body);
@@ -98,4 +98,4 @@ class CategoryContoller {
   }
 }
 
-module.exports = CategoryContoller;
+module.exports = CategoryController;
