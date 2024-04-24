@@ -160,4 +160,5 @@ function generateJWT(user) {
   return token;
 }
 
+
 module.exports = userContoller;

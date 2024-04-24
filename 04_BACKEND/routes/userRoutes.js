@@ -4,6 +4,7 @@ const verifyToken = require("../middleware/auth");
 const { loginSchema, registerSchema } = require("../utils/validator");
 const router = express.Router();
 const path = require('path');
+const User = require('../model/userModel');
 
 
 router.post("/login", loginSchema, userController.loginUser);
@@ -35,5 +36,25 @@ router.get("/protectedRoute", verifyToken, (req, res) => {
   res.json({ msg: "This route is protected!" });
 });
 
+router.post('/check-email', async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // Find the user with the provided email
+    const user = await User.findOne({ email });
+
+    // If user not found, return response with exists as false
+    if (!user) {
+      return res.status(200).json({ exists: false });
+    }
+
+    // If user found, return response with exists as true
+    res.status(200).json({ exists: true });
+
+  } catch (error) {
+    console.error("Email check error:", error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;
