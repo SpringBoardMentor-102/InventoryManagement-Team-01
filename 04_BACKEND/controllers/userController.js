@@ -5,7 +5,7 @@ const { validationResult } = require("express-validator");
 const crypto = require('crypto');
 const { sendPasswordResetEmail } = require('../services/emailService');
 
-class userContoller {
+class userController {
   static async loginUser(req, res) {
     const { email, password } = req.body;
 
@@ -151,4 +151,4 @@ function generateJWT(user) {
   return token;
 }
 
-module.exports = userContoller;
+module.exports = userController;

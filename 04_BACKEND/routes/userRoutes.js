@@ -1,12 +1,12 @@
 const express = require("express");
-const userContoller = require("../controllers/userController");
+const userController = require("../controllers/userController");
 const verifyToken = require("../middleware/auth");
 const { loginSchema, registerSchema } = require("../utils/validator");
 const router = express.Router();
 const path = require('path');
 
 
-router.post("/login", loginSchema, userContoller.loginUser);
+router.post("/login", loginSchema, userController.loginUser);
 
 router.post("/register", registerSchema, userContoller.registerUser);
 
