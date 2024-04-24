@@ -3,7 +3,11 @@ const jwt = require("jsonwebtoken");
 const User = require("../model/userModel");
 const { validationResult } = require("express-validator");
 const crypto = require('crypto');
-const { sendPasswordResetEmail } = require('../services/emailService');
+const {
+  sendPasswordResetEmail,
+  sendRegistrationEmail,
+} = require("../services/emailService");
+
 
 class userContoller {
   static async loginUser(req, res) {
@@ -46,6 +50,8 @@ class userContoller {
   static async registerUser(req, res) {
     const { email, password, firstName, lastName, phone, roles, city } =
       req.body;
+      console.log(req.body);
+
     //validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -79,7 +85,7 @@ class userContoller {
       await sendRegistrationEmail(email);
       
       const token = generateJWT(newUser);
-
+console.log(token);
       // Send the token in response
       res.status(201).json({ token });
 

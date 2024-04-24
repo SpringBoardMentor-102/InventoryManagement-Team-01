@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios';
 
 const Reset = () => {
 
@@ -59,5 +60,43 @@ const Reset = () => {
     </>
   )
 }
+
+
+
+// function checkPassword(){
+//     let newPassword = document.getElementById("new-password").value;
+//     let confirmPassword = document.getElementById("confirm-password").value;
+//     let newPasswordError = document.getElementById("new-password-error");
+//     let confirmPasswordError = document.getElementById("confirm-password-error");
+
+//     if(newPassword.length === 0){
+//         newPasswordError.textContent = "**Please enter a password**";
+//     } else if(confirmPassword.length === 0){
+//         confirmPasswordError.textContent = "**Must be filled**";
+//     } else if(newPassword.length < 8){
+//         newPasswordError.textContent = "Password must be at least 8 characters";
+//     } else if(newPassword !== confirmPassword){
+//         confirmPasswordError.textContent = "**Passwords don't match**";
+//     } else {
+//         // Reset error messages
+//         newPasswordError.textContent = "";
+//         confirmPasswordError.textContent = "";
+
+//         // Make API call to reset password
+//         axios.post('http://localhost:5000/api/users/reset-password', {
+//             token: "YOUR_TOKEN_VALUE",  // Replace with actual token
+//             newPassword: newPassword
+//         })
+//         .then(response => {
+//             console.log(response.data);
+//             alert("Password reset successfully");
+//             window.location.href = "blank.html";
+//         })
+//         .catch(error => {
+//             console.error("Reset password error:", error);
+//             alert("Password reset failed. Please try again.");
+//         });
+//     }
+// }
 
 export default Reset
