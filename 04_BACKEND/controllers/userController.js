@@ -156,12 +156,16 @@ class userContoller {
         return res.status(404).send('User not found');
       }
 
-      const token = crypto.randomBytes(20).toString('hex');
-      user.resetPasswordToken = token;
-      user.resetPasswordExpires = Date.now() + 3600000; // Expires in 1 hour
-      await user.save();
+      // const token = crypto.randomBytes(20).toString('hex');
+      // user.resetPasswordToken = token;
+      // user.resetPasswordExpires = Date.now() + 3600000; // Expires in 1 hour
+      // await user.save();
 
-      await sendPasswordResetEmail(user.email, token);
+      // await sendPasswordResetEmail(user.email, token);
+      const token = generateToken(user);
+
+  res.setHeader('reset-password-token', token);
+  res.status(200).json({ message: 'Token set in header' });
 
       res.status(200).send('Password reset link sent');
     } catch (err) {
@@ -171,29 +175,56 @@ class userContoller {
   }
 
   static async resetPassword(req, res) {
-    const { token, newPassword } = req.body;
+    // const { token, newPassword } = req.body;
+    const newPassword = req.body.newPassword;
+    const token = req.headers['reset-password-token'];
 
-    try {
-      const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } });
+  try {
+   
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      if (!user) {
-        return res.status(401).send('Invalid or expired token');
-      }
+    
+    const user = await User.findOneAndUpdate(
+      { email: decoded.email },
+      { password: newPassword },
+      { new: true } 
+    );
 
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-      user.password = hashedPassword;
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpires = undefined;
-      await user.save();
-
-      res.status(200).send('Password reset successful');
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('Internal Server Error');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
+    res.status(200).json({ message: 'Password updated successfully' });
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid or expired token' });
+  }
   }
 }
+
+//old code for reset-password
+
+    // try {
+    //   const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } });
+
+    //   if(!user)
+    //   {
+    //     return res.status(401).send('Invalid or expired token');
+    //   }
+
+    //   const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    //   user.password = hashedPassword;
+    //   user.resetPasswordToken = undefined;
+    //   user.resetPasswordExpires = undefined;
+    //   await user.save();
+
+    //   res.status(200).send('Password reset successful');
+    // } catch (err) {
+    //   console.error(err);
+    //   res.status(500).send('Internal Server Error');
+    // }
+  // }
+  
+
 
 function generateJWT(user) {
   const payload = {
@@ -205,7 +236,7 @@ function generateJWT(user) {
   };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: "24h", // Token expires in 24 hours
+  expiresIn : "24h", // Token expires in 24 hours
   });
 
   return token;

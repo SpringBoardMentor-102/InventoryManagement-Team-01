@@ -1,7 +1,7 @@
 import React from 'react'
 import img1 from '../images/conf.png';
 import { Link } from 'react-router-dom';
-import SignIn from './SignIn';
+
 
 
 const Reg_Config = () => {
