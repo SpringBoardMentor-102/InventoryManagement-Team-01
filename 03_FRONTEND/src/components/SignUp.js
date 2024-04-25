@@ -1,20 +1,120 @@
+// external dependencies
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+
+// internal dependencies: styling
 import "../../src/index.css";
 
+/** React component, representing the Sign-up view of the application
+ */
 const SignUp = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [city, setCity] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  // const [isSignUpSuccess, setIsSignUp] = useState(false);
-  const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
 
+  // declaring the state variables
+  const [firstName, setFirstName] = useState("");
+  const [firstnameError, setFirstnameError] = useState("");
+
+  const [lastName, setLastName] = useState("");
+  const [lastnameError, setLastnameError] = useState("");
+
+  const [city, setCity] = useState("");
+  const [cityError, setCityError] = useState("");
+
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  const [mobile, setMobile] = useState("");
+  const [mobileError, setMobileError] = useState("");
+
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  // ?? I am not sure what this is!!
+  const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
+  const [isSignUpSuccessError, setIsSignUpSuccessError] = useState(false);
+
+
+  /** This is a helper function to clear all the errors on the UI screen
+   */
+  const clearErrors = () => {
+
+    setFirstnameError("");
+    setLastnameError("");
+    setCityError("");
+    setEmailError("");
+    setMobileError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+  }
+
+  /** Helper function to validate the input sent by the user
+   * 
+   * @returns {Boolean} true if validation is success, false otherwise
+   */
+  const validateForm = () => {
+    let isValid = true;
+
+    // Clear previous error messages
+    clearErrors();
+
+    // Validation for empty fields
+    if (firstName.trim() === "") {
+      setFirstnameError("First name cannot be empty!")
+      isValid = false;
+    }
+
+    if (lastName.trim() === "") {
+      setLastnameError("Last name cannot be empty!")
+      isValid = false;
+    }
+
+    if (city.trim() === "") {
+      setCityError("City name cannot be empty!")
+      isValid = false;
+    }
+
+    if (email.trim() === "") {
+      setEmailError("Email cannot be empty!")
+      isValid = false;
+    }
+
+    if (mobile.trim() === "" || !/^\d{10}$/.test(mobile)) {
+      setMobileError("Mobile number is invalid!")
+      isValid = false;
+    }
+
+    if (password.trim() === "") {
+      setPasswordError("Password cannot be empty!")
+      isValid = false;
+    } else if (
+      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\da-zA-Z])([^\s]){6,20}$/.test(password)) {
+        setPasswordError("Password should have at least 1 capital, 1 small case, 1 number and 1 special character and should be of at least length 6 and maximum length of 50.")
+      isValid = false;
+    }
+
+    if (confirmPassword.trim() === "") {
+      setConfirmPasswordError("Confirm password cannot be empty")
+      isValid = false;
+    }
+
+    if (password !== confirmPassword) {
+      setConfirmPasswordError("Passwords do not match!")
+      isValid = false;
+    }
+
+    return isValid;
+  }
+  
+  /** Event handler for doing the user submit click
+   * @param {*} event 
+   */
   async function signUp(event) {
+
+    // do not propagate the event
     event.preventDefault();
 
     // Validate form fields
@@ -34,83 +134,34 @@ const SignUp = () => {
         roles: 0,
       })
       .then((response) => {
-        console.log(response.data);
-        setIsSignUpSuccess(true);
-        window.location.href = "/Reg_Config";
+        // this is a success response
+        console.log("This is the repsonse: ", response.data)
+
+        // check if status code is 200, 201 whatever is the right one
+        //      in case login was successful redirect to dashbboard
+        //      before navigating to the dashboard remember the JWT token received!!
+        //      navigate("/dashboard");
+        //      navigate("/dashboard");
+        //      navigate("/dashboard");
+        //      navigate("/dashboard");
+        //      navigate("/dashboard");
+        
+        // if the status code is not 200/201: something went wrong in the registration process
+        //      either registration was incomplete: redirect -> check email page
+        //      email does not exist: redirect -> dude! email doesnt exist, try again wala page
+        //      internal server error: redirect -> unknown error, please try again wala page
+
+        // setIsSignUpSuccess(true);
+        // window.location.href = "/Reg_Config"; // TODO: dangerously wrong!!
       })
       .catch((error) => {
+
+        // this is the case when HTTP call itself was failed, response never came
+        //      internal server error: redirect -> unknown error, server not responding, page/message
         console.error("Signup error:", error);
-        document.getElementById("nameError").innerText =
-          "Signup failed. Please try again.";
+        // document.getElementById("nameError").innerText =
+        //   "Signup failed. Please try again.";
       });
-  }
-
-  function validateForm() {
-    let isValid = true;
-
-    // Clear previous error messages
-    clearErrors();
-
-    // Validation for empty fields
-    if (firstName.trim() === "" || lastName.trim() === "") {
-      document.getElementById("nameError").innerText =
-        "First Name and Last Name cannot be empty.";
-      isValid = false;
-    }
-
-    if (city.trim() === "") {
-      document.getElementById("cityError").innerText = "City cannot be empty.";
-      isValid = false;
-    }
-
-    if (email.trim() === "") {
-      document.getElementById("emailError").innerText =
-        "Email cannot be empty.";
-      isValid = false;
-    }
-
-    if (mobile.trim() === "" || !/^\d{10}$/.test(mobile)) {
-      document.getElementById("mobileError").innerText =
-        "Mobile number should be 10 digits and contain numbers only.";
-      isValid = false;
-    }
-
-    if (password.trim() === "") {
-      document.getElementById("passwordError").innerText =
-        "Password cannot be empty.";
-      isValid = false;
-    } else if (
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&_]{6,50}$/.test(
-        password
-      )
-    ) {
-      document.getElementById("passwordError").innerText =
-        "Password must be alphanumeric, 6-50 characters long, and contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
-      isValid = false;
-    }
-
-    if (confirmPassword.trim() === "") {
-      document.getElementById("confirmPasswordError").innerText =
-        "Confirm Password cannot be empty.";
-      isValid = false;
-    }
-
-    if (password !== confirmPassword) {
-      document.getElementById("confirmPasswordError").innerText =
-        "Passwords do not match.";
-      isValid = false;
-    }
-
-    return isValid;
-  }
-
-  function clearErrors() {
-    document.getElementById("nameError").innerText = "";
-    document.getElementById("cityError").innerText = "";
-    document.getElementById("emailError").innerText = "";
-    document.getElementById("mobileError").innerText = "";
-    document.getElementById("passwordError").innerText = "";
-    document.getElementById("confirmPasswordError").innerText = "";
   }
 
   function openGooglePopup() {
@@ -134,6 +185,8 @@ const SignUp = () => {
           onChange={(e) => setFirstName(e.target.value)}
           autoComplete="off"
         />
+        <div id="firstnameError" className="error_sign_up" >{ firstnameError }</div>
+
         <input
           type="text"
           id="lastName"
@@ -143,7 +196,7 @@ const SignUp = () => {
           onChange={(e) => setLastName(e.target.value)}
           autoComplete="off"
         />
-        <div id="nameError" className="error_sign_up"></div>
+        <div id="lastnameError" className="error_sign_up">{ lastnameError }</div>
 
         <input
           type="text"
@@ -154,7 +207,7 @@ const SignUp = () => {
           onChange={(e) => setCity(e.target.value)}
           autoComplete="off"
         />
-        <div id="cityError" className="error_sign_up"></div>
+        <div id="cityError" className="error_sign_up">{ cityError }</div>
 
         <input
           type="email"
@@ -165,7 +218,7 @@ const SignUp = () => {
           onChange={(e) => setEmail(e.target.value)}
           autoComplete="off"
         />
-        <div id="emailError" className="error_sign_up"></div>
+        <div id="emailError" className="error_sign_up">{ emailError }</div>
 
         <input
           type="tel"
@@ -177,7 +230,7 @@ const SignUp = () => {
           onChange={(e) => setMobile(e.target.value)}
           autoComplete="off"
         />
-        <div id="mobileError" className="error_sign_up"></div>
+        <div id="mobileError" className="error_sign_up">{ mobileError }</div>
 
         <input
           type="password"
@@ -188,7 +241,7 @@ const SignUp = () => {
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="off"
         />
-        <div id="passwordError" className="error_sign_up"></div>
+        <div id="passwordError" className="error_sign_up">{ passwordError }</div>
 
         <input
           type="password"
@@ -199,7 +252,7 @@ const SignUp = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           autoComplete="off"
         />
-        <div id="confirmPasswordError" className="error_sign_up"></div>
+        <div id="confirmPasswordError" className="error_sign_up">{ confirmPasswordError }</div>
 
         <input type="submit" value="Sign Up" />
 

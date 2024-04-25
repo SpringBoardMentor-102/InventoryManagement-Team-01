@@ -6,8 +6,8 @@ import SignIn from './SignIn';
 
 const Reg_Config = () => {
   return (
-    <div class="container">
-    <div class="popup">
+    <div className="container">
+    <div className="popup">
       <img src={img1} alt=""/>
       <h1>Registration Confirmed!</h1>
       <p>Thank you for registering,</p>

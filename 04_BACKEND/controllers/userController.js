@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../model/userModel");
 const { validationResult } = require("express-validator");
 const crypto = require('crypto');
+require('dotenv').config({ path: './04_BACKEND/.env' });
+
 const {
   sendPasswordResetEmail,
   sendRegistrationEmail,
@@ -48,9 +50,15 @@ class userContoller {
   }
 
   static async registerUser(req, res) {
-    const { email, password, firstName, lastName, phone, roles, city } =
-      req.body;
-      console.log(req.body);
+
+    let isDebuggingOn = Boolean(process.env.DEBUGGING_ON)
+    console.log("Checking isDebuggingOn: ", isDebuggingOn)
+
+    const { email, password, firstName, lastName, phone, roles, city } = req.body;
+    console.log("Request params recieved email, password, firstName, lastName, phone, roles, city: ", email, password, firstName, lastName, phone, roles, city);
+      
+
+    return res.status(200).json({ "hip-hip": "Hurray" });
 
     //validation
     const errors = validationResult(req);

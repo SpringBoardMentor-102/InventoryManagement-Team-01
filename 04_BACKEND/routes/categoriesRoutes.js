@@ -1,7 +1,7 @@
 const CategoryController = require("../controllers/CategoryController.js");
 const Router = require("express");
 const router = Router();
-
+ 
 //Add categories
 router.post("/addcategory", CategoryController.addCategory);
 //get all categories
