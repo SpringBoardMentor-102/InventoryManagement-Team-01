@@ -13,11 +13,10 @@ const ForgotPassword = () => {
       if (response.data.exists){
         window.location.href='/reset';
       }else {
-        if(email === ""){
-          setMessage("please enter email");
+        if(email === "" || !email.includes("@") || !email.includes(".")){
+          setMessage("please enter proper email");
         }else{
           setMessage('email does not exists');
-
         }
       }
     }catch(error){
