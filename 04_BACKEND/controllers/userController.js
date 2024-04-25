@@ -1,7 +1,9 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../model/userModel");
 const { validationResult } = require("express-validator");
+
+
+const User = require("../model/userModel");
 const crypto = require('crypto');
 require('dotenv').config({ path: './04_BACKEND/.env' });
 
@@ -10,6 +12,9 @@ const {
   sendRegistrationEmail,
 } = require("../services/emailService");
 
+const { validateEmail, validatePassword, validateFirstName, validateLastName, validateMobile, validateCity } = require("./utilities/validators");
+
+let isDebuggingOn = process.env.DEBUGGING_ON === "false" ? false : true
 
 class userContoller {
   static async loginUser(req, res) {
@@ -49,33 +54,72 @@ class userContoller {
     }
   }
 
+
+  /** Controller function to register user. 
+   * 
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   *  422 when validation failure happens,
+   *  409 when registration is incomplete
+   *  403 when registration attempted on already registered email
+   *  500 when unknown error occurs
+   *  201 when registration successful
+   */
   static async registerUser(req, res) {
 
-    let isDebuggingOn = Boolean(process.env.DEBUGGING_ON)
-    console.log("Checking isDebuggingOn: ", isDebuggingOn)
-
+    // getting all the user parameters from the request object
     const { email, password, firstName, lastName, phone, roles, city } = req.body;
-    console.log("Request params recieved email, password, firstName, lastName, phone, roles, city: ", email, password, firstName, lastName, phone, roles, city);
-      
 
-    return res.status(200).json({ "hip-hip": "Hurray" });
+    // starting validation on the backend
+    isDebuggingOn ? console.log("Request params recieved email, password, firstName, lastName, phone, roles, city: ", email, password, firstName, lastName, phone, roles, city) : " ";
+    const validationResponses = {
+      emailResponse: validateEmail(email),
+      passwordResponse: validatePassword(password),
+      firstNameResponse: validateFirstName(firstName),
+      lastNameResponse: validateLastName(lastName),
+      phoneResponse: validateMobile(phone),
+      cityResponse: validateCity(city)
+    }
 
-    //validation
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+    // checking each of the validation responses
+    let returnMessage = ""
+    let isValidationFail = false
+    for (const key in validationResponses) {
+      let value = validationResponses[key]
+      if (value !== null) {
+        // adding the validation failure message to final return message if found
+        returnMessage += (value.message + " ")
+        isValidationFail = true
+      }
+    }
+
+    if (isValidationFail) {
+      // return a 422 status code when validation failure occurs
+      return res.status(422).json({ errors: returnMessage });
     }
 
     try {
       // Check if email already exists
       const existingUser = await User.findOne({ email });
 
-      if (existingUser) {
-        return res.status(409).send("Email already exists");
+      // if exising User found by email
+      if (existingUser) {                                 
+        
+        if (existingUser.confirmEmailToken !== null) {    // if user has not finished confirming email
+          // return a 409 status code when user needs to confirm email yet
+          return res.status(409).json({ errors: "User needs to click on link sent on email to confirm email." });
+        } else {                                          // if user has already FINISHED registration
+          // return a 403 status code when user cannot register again with same email
+          return res.status(403).send("Email already exists, sign in instead.");  
+        }
       }
+
+      // this is a new email trying to register
 
       // Hash the password
       const hashedPassword = await bcrypt.hash(password, 10);
+      const confirmEmailToken = crypto.randomBytes(20).toString('hex');
 
       // Create a new user with the hashed password
       const newUser = new User({
@@ -86,17 +130,16 @@ class userContoller {
         phone,
         roles,
         city,
+        confirmEmailToken
       });
 
+      // try sending an email with the token
+      await sendRegistrationEmail(email, confirmEmailToken);
+
+      // try saving the new user details if email sent was successful
       await newUser.save();
 
-      await sendRegistrationEmail(email);
-      
-      const token = generateJWT(newUser);
-console.log(token);
-      // Send the token in response
-      res.status(201).json({ token });
-
+      res.status(201).send();
     } catch (err) {
       console.error(err);
       res.status(500).send("Internal Server Error");

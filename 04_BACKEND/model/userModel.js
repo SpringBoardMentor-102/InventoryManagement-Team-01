@@ -10,7 +10,8 @@ const userSchema = new Schema({
     roles: { type: Number, required: true },
     city: { type: String, required: true },
     resetPasswordToken: { type: String },
-    resetPasswordExpires: { type: Date }
+    resetPasswordExpires: { type: Date },
+    confirmEmailToken: { type: String }
 });
 
 module.exports = mongoose.model('User', userSchema);

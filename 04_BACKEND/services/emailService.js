@@ -27,12 +27,12 @@ async function sendPasswordResetEmail(email, token) {
     }
 }
 
-async function sendRegistrationEmail(email) {
+async function sendRegistrationEmail(email, confirmEmailToken) {
     const mailOptions = {
         from: 'infosysspringboard76@gmail.com',
         to: email,
         subject: 'Registration Successful',
-        text: 'Thank you for registering!'
+        text: `Thank you for registering! Your token is ${confirmEmailToken}`
     };
     try {
         await transporter.sendMail(mailOptions);
