@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 // internal dependencies: styling
 import "../../src/index.css";
+import { validateCity, validateConfirmPassword, validateEmail, validateFirstName, validateLastName, validateMobile, validatePassword } from "../utilities/validators";
 
 /** React component, representing the Sign-up view of the application
  */
@@ -61,49 +62,55 @@ const SignUp = () => {
     // Clear previous error messages
     clearErrors();
 
-    // Validation for empty fields
-    if (firstName.trim() === "") {
-      setFirstnameError("First name cannot be empty!")
-      isValid = false;
+    let result = null
+
+    // validating the first name
+    result = validateFirstName(firstName);
+    if (result !== null) {
+      let isValid = false;
+      setFirstnameError(result.message)
     }
 
-    if (lastName.trim() === "") {
-      setLastnameError("Last name cannot be empty!")
-      isValid = false;
+    // validating the last name
+    result = validateLastName(lastName);
+    if (result !== null) {
+      let isValid = false;
+      setLastnameError(result.message)
+    }
+    
+    // validating the city parameter
+    result = validateCity(city);
+    if (result !== null) {
+      let isValid = false;
+      setCityError(result.message)
     }
 
-    if (city.trim() === "") {
-      setCityError("City name cannot be empty!")
-      isValid = false;
+    // validating email
+    result = validateEmail(email);
+    if (result !== null) {
+      let isValid = false;
+      setEmailError(result.message)
     }
 
-    if (email.trim() === "") {
-      setEmailError("Email cannot be empty!")
-      isValid = false;
+    // validating the  mobile number
+    result = validateMobile(mobile);
+    if (result !== null) {
+      let isValid = false;
+      setMobileError(result.message)
     }
 
-    if (mobile.trim() === "" || !/^\d{10}$/.test(mobile)) {
-      setMobileError("Mobile number is invalid!")
-      isValid = false;
+    // validating the password
+    result = validatePassword(password);
+    if (result !== null) {
+      let isValid = false;
+      setPasswordError(result.message)
     }
-
-    if (password.trim() === "") {
-      setPasswordError("Password cannot be empty!")
-      isValid = false;
-    } else if (
-      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\da-zA-Z])([^\s]){6,20}$/.test(password)) {
-        setPasswordError("Password should have at least 1 capital, 1 small case, 1 number and 1 special character and should be of at least length 6 and maximum length of 50.")
-      isValid = false;
-    }
-
-    if (confirmPassword.trim() === "") {
-      setConfirmPasswordError("Confirm password cannot be empty")
-      isValid = false;
-    }
-
-    if (password !== confirmPassword) {
-      setConfirmPasswordError("Passwords do not match!")
-      isValid = false;
+    
+    // validating the confirm password
+    result = validateConfirmPassword(confirmPassword);
+    if (result !== null) {
+      let isValid = false;
+      setConfirmPasswordError(result.message)
     }
 
     return isValid;
@@ -135,7 +142,8 @@ const SignUp = () => {
       })
       .then((response) => {
         // this is a success response
-        console.log("This is the repsonse: ", response.data)
+        
+        // if (response.status === 200)
 
         // check if status code is 200, 201 whatever is the right one
         //      in case login was successful redirect to dashbboard
