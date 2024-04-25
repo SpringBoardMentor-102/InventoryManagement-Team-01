@@ -54,6 +54,18 @@ class userContoller {
     }
   }
 
+
+  /** Controller function to register user. 
+   * 
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   *  422 when validation failure happens,
+   *  409 when registration is incomplete
+   *  403 when registration attempted on already registered email
+   *  500 when unknown error occurs
+   *  201 when registration successful
+   */
   static async registerUser(req, res) {
 
     // getting all the user parameters from the request object
@@ -127,7 +139,7 @@ class userContoller {
       // try saving the new user details if email sent was successful
       await newUser.save();
 
-      res.status(201).json({ token });
+      res.status(201).send();
     } catch (err) {
       console.error(err);
       res.status(500).send("Internal Server Error");
