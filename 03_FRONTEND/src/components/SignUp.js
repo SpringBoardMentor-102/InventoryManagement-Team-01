@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-
 // internal dependencies: styling
 import "../../src/index.css";
 import { validateCity, validateConfirmPassword, validateEmail, validateFirstName, validateLastName, validateMobile, validatePassword } from "../utilities/validators";
+
+// getting the path from environment variable
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 /** React component, representing the Sign-up view of the application
  */
@@ -67,49 +69,49 @@ const SignUp = () => {
     // validating the first name
     result = validateFirstName(firstName);
     if (result !== null) {
-      let isValid = false;
+      isValid = false;
       setFirstnameError(result.message)
     }
 
     // validating the last name
     result = validateLastName(lastName);
     if (result !== null) {
-      let isValid = false;
+      isValid = false;
       setLastnameError(result.message)
     }
     
     // validating the city parameter
     result = validateCity(city);
     if (result !== null) {
-      let isValid = false;
+      isValid = false;
       setCityError(result.message)
     }
 
     // validating email
     result = validateEmail(email);
     if (result !== null) {
-      let isValid = false;
+      isValid = false;
       setEmailError(result.message)
     }
 
     // validating the  mobile number
     result = validateMobile(mobile);
     if (result !== null) {
-      let isValid = false;
+      isValid = false;
       setMobileError(result.message)
     }
 
     // validating the password
     result = validatePassword(password);
     if (result !== null) {
-      let isValid = false;
+      isValid = false;
       setPasswordError(result.message)
     }
     
     // validating the confirm password
-    result = validateConfirmPassword(confirmPassword);
+    result = validateConfirmPassword(password, confirmPassword);
     if (result !== null) {
-      let isValid = false;
+      isValid = false;
       setConfirmPasswordError(result.message)
     }
 
@@ -119,19 +121,21 @@ const SignUp = () => {
   /** Event handler for doing the user submit click
    * @param {*} event 
    */
-  async function signUp(event) {
+  const signUp = async (event) => {
 
     // do not propagate the event
     event.preventDefault();
 
     // Validate form fields
     if (!validateForm()) {
+      console.log("form validation fails.")
       return;
     }
 
-    // API call to register user
+    console.log("making a call..")
+    // validation was successful, attempting to make a call to the backend
     await axios
-      .post("http://localhost:5000/api/users/register", {
+      .post(`${BACKEND_URL}/users/register`, {
         firstName: firstName,
         lastName: lastName,
         city: city,
@@ -141,34 +145,25 @@ const SignUp = () => {
         roles: 0,
       })
       .then((response) => {
-        // this is a success response
-        
-        // if (response.status === 200)
-
-        // check if status code is 200, 201 whatever is the right one
-        //      in case login was successful redirect to dashbboard
-        //      before navigating to the dashboard remember the JWT token received!!
-        //      navigate("/dashboard");
-        //      navigate("/dashboard");
-        //      navigate("/dashboard");
-        //      navigate("/dashboard");
-        //      navigate("/dashboard");
-        
-        // if the status code is not 200/201: something went wrong in the registration process
-        //      either registration was incomplete: redirect -> check email page
-        //      email does not exist: redirect -> dude! email doesnt exist, try again wala page
-        //      internal server error: redirect -> unknown error, please try again wala page
-
-        // setIsSignUpSuccess(true);
-        // window.location.href = "/Reg_Config"; // TODO: dangerously wrong!!
+        // registration successful
+        useNavigate("/dashboard");
       })
       .catch((error) => {
+        let response = error.response
+        console.log(response.status)
+        
+        if (response.status === 422) {        // 422 when validation failure happens,
+          console.error("Validation failure: ", response.data.errors);
+        } else if (response.status === 409) { // 409 when registration is incomplete
+          console.error("Incomplete registration", response.data.errors);
+        } else if (response.status === 409) { // 403 when registration attempted on already registered email
+          console.error("Already registered", response.data.errors);
+        } else if (response.status === 409) { // 500 when unknown error occurs
+          console.error("Internal Server Error", response.data.errors);
+        } else {                              // UNKOWN CASE
+          console.error("CRAZY STUFF", response.data.errors);
+        }
 
-        // this is the case when HTTP call itself was failed, response never came
-        //      internal server error: redirect -> unknown error, server not responding, page/message
-        console.error("Signup error:", error);
-        // document.getElementById("nameError").innerText =
-        //   "Signup failed. Please try again.";
       });
   }
 
