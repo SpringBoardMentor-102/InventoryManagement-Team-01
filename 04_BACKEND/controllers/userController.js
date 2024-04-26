@@ -165,71 +165,117 @@ class userContoller {
     }
   }
 
+  /** Controller function to forget password.
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   *  404 when User not found,
+   *  422 when validation failed,
+   *  200 when Password reset link sent,
+   *  500 when Internal Server error occurs
+   */
   static async forgetPassword(req, res) {
+    //Getting email from the request object
     const { email } = req.body;
 
+    // starting validation on the backend
+    isDebuggingOn ? console.log("Request params recieved email: ", email) : " ";
+
+    const validationResponses = validateEmail(email);
+    console.log(validationResponses);
+    // checking the validation responses
+    if (validationResponses !== null) {
+      return res.status(422).json({ errors: validationResponses?.message });
+    }
+
     try {
+      // check if email exists
       const user = await User.findOne({ email });
 
+      // If email not found
       if (!user) {
-        return res.status(404).send("User not found");
+        return res.status(404).json({ error: "User not found" });
       }
 
+      // if email found we generate token and save it to DB with an expiry of 1 hour
       const token = crypto.randomBytes(20).toString("hex");
       user.resetPasswordToken = token;
       user.resetPasswordExpires = Date.now() + 3600000; // Expires in 1 hour
       await user.save();
+      console.log(token);
 
+      // sending reset link to email
       await sendPasswordResetEmail(user.email, token);
-      // const token = generateToken(user);
-
-      // res.setHeader("reset-password-token", token);
-      // res.status(200).json({ message: "Token set in header" });
-
-      res.status(200).send("Password reset link sent");
+      res.status(200).json({ error: "Password reset link sent" });
     } catch (err) {
       console.error(err);
-      res.status(500).send("Internal Server Error");
+      res.status(500).json({ error: "Internal Server Error" });
     }
   }
 
+  /** Controller function to reset password.
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   *  422 when validation failure happens,
+   *  401 when Invalid or expired token,
+   *  400 when password is same as previous one used,
+   *  500 when unknown error occurs,
+   *  200 when reset successful
+   */
   static async resetPassword(req, res) {
-    console.log(req.body);
-    // const { token, newPassword } = req.body;
-    const newPassword = req.body.newPassword;
-    // const token = req.headers['reset-password-token'];
-    const token = req.body.token;
+    // getting all the user parameters from the request object
+    const { token, newPassword } = req.body;
+
+    // starting validation on the backend
+    isDebuggingOn
+      ? console.log("Request params recieved password: ", newPassword)
+      : " ";
+
+    const validationResponses = validatePassword(newPassword);
+    console.log(validationResponses);
+    // checking the validation responses
+    if (validationResponses !== null) {
+      return res.status(422).json({ errors: validationResponses?.message });
+    }
 
     try {
-      // const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      // check if token exists in DB
+      const user = await User.findOne({
+        resetPasswordToken: token,
+        resetPasswordExpires: { $gt: Date.now() },
+      });
+      console.log(user);
 
-      const user = await User.findOne({ resetPasswordToken: token });
-
+      // if token not found
       if (!user) {
-        return res.status(401).send("Invalid or expired token");
+        return res.status(401).json({ error: "Invalid or expired token" });
       }
 
+      // Compare the provided password with the hashed password in the database
+      const passwordMatch = await bcrypt.compare(newPassword, user.password);
+
+      if (passwordMatch) {
+        return res.status(400).json({
+          error: "New password must be different from the previous password",
+        });
+      }
+
+      // If new password is differnet from previous one  ,create new password in DB
+      // Hashing the password
       const hashedPassword = await bcrypt.hash(newPassword, 10);
 
       user.password = hashedPassword;
+      // Clearing the token from DB
       user.resetPasswordToken = undefined;
       user.resetPasswordExpires = undefined;
       await user.save();
 
-      res.status(200).send({ message: "Password updated successfully" });
-
-      // const user = await User.findOneAndUpdate(
-      //   { email: decoded.email },
-      //   { password: newPassword },
-      //   { new: true }
-      // );
-
-      // if (!user) {
-      //   return res.status(404).json({ message: "User not found" });
-      // }
-      // res.status(200).json({ message: "Password updated successfully" });
+      res.status(200).json({ message: "Password updated successfully" });
     } catch (error) {
-      res.status(400).json({ message: "Invalid or expired token" });
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 }

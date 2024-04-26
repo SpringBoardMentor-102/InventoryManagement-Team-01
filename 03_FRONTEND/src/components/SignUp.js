@@ -5,14 +5,23 @@ import { Link, useNavigate } from "react-router-dom";
 
 // internal dependencies: styling
 import "../../src/index.css";
-import { validateCity, validateConfirmPassword, validateEmail, validateFirstName, validateLastName, validateMobile, validatePassword } from "../utilities/validators";
+import {
+  validateCity,
+  validateConfirmPassword,
+  validateEmail,
+  validateFirstName,
+  validateLastName,
+  validateMobile,
+  validatePassword,
+} from "../utilities/validators";
 
 // getting the path from environment variable
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 /** React component, representing the Sign-up view of the application
  */
 const SignUp = () => {
+  const navigate = useNavigate();
 
   // declaring the state variables
   const [firstName, setFirstName] = useState("");
@@ -40,11 +49,9 @@ const SignUp = () => {
   const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
   const [isSignUpSuccessError, setIsSignUpSuccessError] = useState(false);
 
-
   /** This is a helper function to clear all the errors on the UI screen
    */
   const clearErrors = () => {
-
     setFirstnameError("");
     setLastnameError("");
     setCityError("");
@@ -52,10 +59,10 @@ const SignUp = () => {
     setMobileError("");
     setPasswordError("");
     setConfirmPasswordError("");
-  }
+  };
 
   /** Helper function to validate the input sent by the user
-   * 
+   *
    * @returns {Boolean} true if validation is success, false otherwise
    */
   const validateForm = () => {
@@ -64,75 +71,74 @@ const SignUp = () => {
     // Clear previous error messages
     clearErrors();
 
-    let result = null
+    let result = null;
 
     // validating the first name
     result = validateFirstName(firstName);
     if (result !== null) {
       isValid = false;
-      setFirstnameError(result.message)
+      setFirstnameError(result.message);
     }
 
     // validating the last name
     result = validateLastName(lastName);
     if (result !== null) {
       isValid = false;
-      setLastnameError(result.message)
+      setLastnameError(result.message);
     }
-    
+
     // validating the city parameter
     result = validateCity(city);
     if (result !== null) {
       isValid = false;
-      setCityError(result.message)
+      setCityError(result.message);
     }
 
     // validating email
     result = validateEmail(email);
     if (result !== null) {
       isValid = false;
-      setEmailError(result.message)
+      setEmailError(result.message);
     }
 
     // validating the  mobile number
     result = validateMobile(mobile);
     if (result !== null) {
       isValid = false;
-      setMobileError(result.message)
+      setMobileError(result.message);
     }
 
     // validating the password
     result = validatePassword(password);
     if (result !== null) {
       isValid = false;
-      setPasswordError(result.message)
+      setPasswordError(result.message);
     }
-    
+
     // validating the confirm password
     result = validateConfirmPassword(password, confirmPassword);
     if (result !== null) {
       isValid = false;
-      setConfirmPasswordError(result.message)
+      setConfirmPasswordError(result.message);
     }
 
     return isValid;
-  }
-  
+  };
+
   /** Event handler for doing the user submit click
-   * @param {*} event 
+   * @param {*} event
    */
   const signUp = async (event) => {
-
     // do not propagate the event
     event.preventDefault();
 
     // Validate form fields
     if (!validateForm()) {
-      console.log("form validation fails.")
+      console.log("form validation fails.");
       return;
     }
 
-    console.log("making a call..")
+    console.log("making a call..");
     // validation was successful, attempting to make a call to the backend
     await axios
       .post(`${BACKEND_URL}/users/register`, {
@@ -146,26 +152,30 @@ const SignUp = () => {
       })
       .then((response) => {
         // registration successful
-        useNavigate("/dashboard");
+        navigate("/dashboard");
       })
       .catch((error) => {
-        let response = error.response
-        console.log(response.status)
-        
-        if (response.status === 422) {        // 422 when validation failure happens,
+        let response = error.response;
+        console.log(response.status);
+
+        if (response.status === 422) {
+          // 422 when validation failure happens,
           console.error("Validation failure: ", response.data.errors);
-        } else if (response.status === 409) { // 409 when registration is incomplete
+        } else if (response.status === 409) {
+          // 409 when registration is incomplete
           console.error("Incomplete registration", response.data.errors);
-        } else if (response.status === 409) { // 403 when registration attempted on already registered email
+        } else if (response.status === 409) {
+          // 403 when registration attempted on already registered email
           console.error("Already registered", response.data.errors);
-        } else if (response.status === 409) { // 500 when unknown error occurs
+        } else if (response.status === 409) {
+          // 500 when unknown error occurs
           console.error("Internal Server Error", response.data.errors);
-        } else {                              // UNKOWN CASE
+        } else {
+          // UNKOWN CASE
           console.error("CRAZY STUFF", response.data.errors);
         }
-
       });
-  }
+  };
 
   function openGooglePopup() {
     window.open(
@@ -188,7 +198,9 @@ const SignUp = () => {
           onChange={(e) => setFirstName(e.target.value)}
           autoComplete="off"
         />
-        <div id="firstnameError" className="error_sign_up" >{ firstnameError }</div>
+        <div id="firstnameError" className="error_sign_up">
+          {firstnameError}
+        </div>
 
         <input
           type="text"
@@ -199,7 +211,9 @@ const SignUp = () => {
           onChange={(e) => setLastName(e.target.value)}
           autoComplete="off"
         />
-        <div id="lastnameError" className="error_sign_up">{ lastnameError }</div>
+        <div id="lastnameError" className="error_sign_up">
+          {lastnameError}
+        </div>
 
         <input
           type="text"
@@ -210,7 +224,9 @@ const SignUp = () => {
           onChange={(e) => setCity(e.target.value)}
           autoComplete="off"
         />
-        <div id="cityError" className="error_sign_up">{ cityError }</div>
+        <div id="cityError" className="error_sign_up">
+          {cityError}
+        </div>
 
         <input
           type="email"
@@ -221,7 +237,9 @@ const SignUp = () => {
           onChange={(e) => setEmail(e.target.value)}
           autoComplete="off"
         />
-        <div id="emailError" className="error_sign_up">{ emailError }</div>
+        <div id="emailError" className="error_sign_up">
+          {emailError}
+        </div>
 
         <input
           type="tel"
@@ -233,7 +251,9 @@ const SignUp = () => {
           onChange={(e) => setMobile(e.target.value)}
           autoComplete="off"
         />
-        <div id="mobileError" className="error_sign_up">{ mobileError }</div>
+        <div id="mobileError" className="error_sign_up">
+          {mobileError}
+        </div>
 
         <input
           type="password"
@@ -244,7 +264,9 @@ const SignUp = () => {
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="off"
         />
-        <div id="passwordError" className="error_sign_up">{ passwordError }</div>
+        <div id="passwordError" className="error_sign_up">
+          {passwordError}
+        </div>
 
         <input
           type="password"
@@ -255,7 +277,9 @@ const SignUp = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           autoComplete="off"
         />
-        <div id="confirmPasswordError" className="error_sign_up">{ confirmPasswordError }</div>
+        <div id="confirmPasswordError" className="error_sign_up">
+          {confirmPasswordError}
+        </div>
 
         <input type="submit" value="Sign Up" />
 

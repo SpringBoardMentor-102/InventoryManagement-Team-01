@@ -1,53 +1,123 @@
+// external dependencies
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+//internal dependencies
+import {
+  validateConfirmPassword,
+  validatePassword,
+} from "../utilities/validators";
+
+// getting the path from environment variable
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+/** React component, representing the reset-password view of the application
+ */
 const Reset = () => {
-  const [Password, setPassword] = useState("");
-  const [confirmPassword, setconfirmPassword] = useState("");
-  const [resetSuccess, setResetSuccess] = useState(false);
+  // declared the naviagtion hook
+  const navigate = useNavigate();
 
-  // let password=document.getElementById("new-password").value;
-  // let confirm_password=document.getElementById("confirm-password").value;
-  // let error=document.getElementById("new-password-error");
-  // let message=document.getElementById("confirm-password-error");
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get("token");
-  console.log(token);
-  const handleReset = async () => {
-    if (Password === confirmPassword) {
-      axios
-        .post("http://localhost:5000/api/users/reset-password", {
-          token: token,
-          newPassword: Password,
-        })
-        .then((response) => {
-          console.log(response.data);
-          alert("Password reset successfully");
-          // window.location.href = "blank.html";
-        })
-        .catch((error) => {
-          console.error("Reset password error:", error);
-          alert("Password reset failed. Please try again.");
-        });
-    }
+  // declaring the state variables
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const [confirmPassword, setconfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  /** This is a helper function to clear all the errors on the UI screen
+   */
+  const clearErrors = () => {
+    setPasswordError("");
+    setConfirmPasswordError("");
   };
 
-  // if(password.length===0){
-  //     error.textContent="**please enter password**"
-  //         }else if(confirm_password.length===0){
-  //             message.textContent="**must be field**";
-  //     }
+  /** Helper function to validate the input sent by the user
+   *
+   * @returns {Boolean} true if validation is success, false otherwise
+   */
+  const validateForm = () => {
+    let isValid = true;
 
-  //         if(password.length !==0 && password.length<8){
-  //             error.textContent="Password must be at least 8 characters";
-  //         }else if(password.length !==0){
-  //     if(password !==confirm_password){
-  //         message.textContent="**Password don't match**";
-  //     }else if(password ===confirm_password){
-  //         alert("reset successfully");
-  //         window.location.href="blank.html";
-  //     }
-  // }
+    // Clear previous error messages
+    clearErrors();
+
+    let result = null;
+
+    // validating the password
+    result = validatePassword(password);
+    if (result !== null) {
+      isValid = false;
+      setPasswordError(result.message);
+    }
+
+    // validating the confirm password
+    result = validateConfirmPassword(password, confirmPassword);
+    if (result !== null) {
+      isValid = false;
+      setConfirmPasswordError(result.message);
+    }
+
+    return isValid;
+  };
+
+  /** Event handler for doing the user submit click
+   * @param {*} event
+   */
+  const handleReset = async (event) => {
+    event.preventDefault();
+
+    // Validate form fields
+    if (!validateForm()) {
+      console.log("form validation fails.");
+      return;
+    }
+
+    // taking token from URL Params
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    console.log(token);
+
+    axios
+      .post(`${BACKEND_URL}/users/reset-password`, {
+        token: token,
+        newPassword: password,
+      })
+      .then((response) => {
+        console.log(response.data);
+        alert("Password reset successfully");
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        let response = error.response;
+        console.log(response.status);
+
+        if (response.status === 422) {
+          // 422 when validation failure happens,
+          console.error("Validation failure: ", response.data.errors);
+          setPasswordError("Validation failure: ", response.data.errors);
+        } else if (response.status === 401) {
+          // 401 when Invalid or expired token
+          console.error("Invalid or expired token", response.data.errors);
+          setPasswordError("Invalid or expired token", response.data.errors);
+        } else if (response.status === 500) {
+          // 500 when unknown error occurs
+          console.error("Internal Server Error", response.data.errors);
+          setPasswordError("Internal Server Error", response.data.errors);
+        } else if (response.status === 400) {
+          // 500 when unknown error occurs
+          console.error("Password Match", response.data.errors);
+          setPasswordError(
+            "New password must be different from the previous password",
+            response.data.errors
+          );
+        } else {
+          // UNKOWN CASE
+          console.error("CRAZY STUFF", response.data.errors);
+          setPasswordError("CRAZY STUFF", response.data.errors);
+        }
+      });
+  };
 
   return (
     <>
@@ -62,10 +132,12 @@ const Reset = () => {
               id="new-password"
               name="New Password"
               type="password"
-              value={Password}
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div id="new-password-error"></div>
+            <div id="passwordError" className="error_sign_up">
+              {passwordError}
+            </div>
           </div>
           <div className="input-control">
             <label htmlFor="confirm-password">Confirm Password</label>
@@ -76,7 +148,9 @@ const Reset = () => {
               value={confirmPassword}
               onChange={(e) => setconfirmPassword(e.target.value)}
             />
-            <div id="confirm-password-error"></div>
+            <div id="confirmPasswordError" className="error_sign_up">
+              {confirmPasswordError}
+            </div>
           </div>
 
           <input
