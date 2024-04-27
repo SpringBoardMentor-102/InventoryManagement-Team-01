@@ -11,7 +11,8 @@ const userSchema = new Schema({
     city: { type: String, required: true },
     resetPasswordToken: { type: String },
     resetPasswordExpires: { type: Date },
-    confirmEmailToken: { type: String }
+    confirmEmailToken: { type: String },
+    isEmailVerified: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model('User', userSchema);

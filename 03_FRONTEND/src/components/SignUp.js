@@ -152,7 +152,9 @@ const SignUp = () => {
       })
       .then((response) => {
         // registration successful
-        navigate("/dashboard");
+        //navigate("/dashboard");
+        console.log(response);
+        alert("Email verification link sent successfully, Please check you mail");
       })
       .catch((error) => {
         let response = error.response;

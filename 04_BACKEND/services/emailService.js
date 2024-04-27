@@ -31,8 +31,8 @@ async function sendRegistrationEmail(email, confirmEmailToken) {
   const mailOptions = {
     from: "infosysspringboard76@gmail.com",
     to: email,
-    subject: "Registration Successful",
-    text: `Thank you for registering! Your token is ${confirmEmailToken}`,
+    subject: "Registration Confirmation",
+    text: `Click this link to confirm your email and complete registration: http://localhost:3000/confirm-email?token=${confirmEmailToken}`,
   };
   try {
     await transporter.sendMail(mailOptions);
