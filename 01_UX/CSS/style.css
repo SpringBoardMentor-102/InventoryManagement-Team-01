@@ -39,7 +39,7 @@
 
 
 html {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 
@@ -454,6 +454,36 @@ aside .sidebar a:hover span {
 
 main {
   margin-top: 1.4rem;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative; 
+}
+
+#search-input {
+  padding: 10px 40px 10px 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+  background-position: 10px center;
+  background-repeat: no-repeat;
+}
+
+#search-btn {
+  border: none;
+  background-color: #ddd;
+  padding: 8px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  margin-left: -45px;
+  margin-top:-13px ;
+}
+
+#search-btn .material-icons-sharp {
+  font-size: 20px;
 }
 
 main .date {
