@@ -23,6 +23,17 @@ const {
 let isDebuggingOn = process.env.DEBUGGING_ON === "false" ? false : true;
 
 class userContoller {
+  /** Controller function to login user.
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ *  400 when validation failure happens,
+ *  401 when User needs to verify the email,
+ *  401 when Invalid email or password,
+ *  500 when Internal Server error occurs,
+ *  201 when Login successful with JWT token in response
+ */
   static async loginUser(req, res) {
     const { email, password } = req.body;
 
@@ -36,6 +47,10 @@ class userContoller {
       // Find the user with the provided email
       const user = await User.findOne({ email });
 
+      // If user has not verified email yet, return error
+      if (!user.isEmailVerified) {
+        return res.status(401).send("User needs to verify the email");
+      }
       // If user not found, return error
       if (!user) {
         return res.status(401).send("Invalid email or password");
@@ -279,16 +294,23 @@ class userContoller {
     }
   }
 
-  
+/** Controller function to confirm user's email.
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ *  404 when Invalid or expired token,
+ *  500 when Internal Server error occurs,
+ *  200 when Email verified successfully
+ */
   static async confirmEmail(req, res) {
     console.log("Confirm Email Route Accessed");
-    const { token } = req.query.token; // Extract token from URL query parameters
+    const { token }= req.query; // Extract token from URL query parameters
     console.log(req.query);
-    console.log(token);
     try {
         // Find user by confirmation token
         const user = await User.findOne({ confirmEmailToken: token });
-
+        //console.log(user);
         // If user not found, return an error
         if (!user) {
             return res.status(404).json({ error: "Invalid or expired token" });

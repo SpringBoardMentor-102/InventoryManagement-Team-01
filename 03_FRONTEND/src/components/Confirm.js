@@ -20,6 +20,10 @@ const Confirm = () => {
 
   const handleConfirm = async () => {
     try {
+          // taking token from URL Params
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    console.log(token);
       const response = await axios.get(`${BACKEND_URL}/users/confirm-email?token=${token}`);
       console.log(response.data);
       setIsConfirmed(true);
