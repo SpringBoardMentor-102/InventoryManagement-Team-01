@@ -278,6 +278,35 @@ class userContoller {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  
+  static async confirmEmail(req, res) {
+    console.log("Confirm Email Route Accessed");
+    const { token } = req.query.token; // Extract token from URL query parameters
+    console.log(req.query);
+    console.log(token);
+    try {
+        // Find user by confirmation token
+        const user = await User.findOne({ confirmEmailToken: token });
+
+        // If user not found, return an error
+        if (!user) {
+            return res.status(404).json({ error: "Invalid or expired token" });
+        }
+
+        // Update user's email verification status
+        user.isEmailVerified = true;
+        user.confirmEmailToken = null;
+        await user.save();
+        console.log("Verified SuccessFully!!")
+        // Respond with a success message
+        res.status(200).json({ message: "Email verified successfully" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
 }
 
 function generateJWT(user) {

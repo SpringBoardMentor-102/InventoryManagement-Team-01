@@ -1,6 +1,7 @@
 import React from 'react'
 import SignIn from './components/SignIn'
 import Reset from './components/Reset'
+import Confirm from './components/Confirm'
 import SignUp from './components/SignUp';
 import Dashboard from './components/Dashboard';
 import ForgotPassword from './components/ForgotPassword';
@@ -18,6 +19,7 @@ const App = () => {
     <Route path='/signup' element={<SignUp/>}/>
     <Route path='/reg_config' element={<Reg_Config/>}/>
     <Route path='/reset' element={<Reset/>}/>
+    <Route path="/confirm-email" element={<Confirm />} />
     <Route path='/Dashboard'  element={<Dashboard/>}/>
     <Route path='/forgot'  element={<ForgotPassword/>}/>
     <Route path='/email_notification'  element={<EmailNotification/>}/>
