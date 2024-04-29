@@ -1,113 +1,111 @@
+// external dependencies
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
+// Internal dependencies
+import { validateEmail, validatePassword } from "../utilities/validators";
+
+// getting the path from environment variable
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+/** React component, representing the Sign-in view of the application
+ */
 function SignIn() {
-  //changes
+  const navigate = useNavigate();
+  // declaring the state variables
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage]=useState('');
-  useEffect(() => {
-    const form = document.getElementById("form");
-    const email = document.getElementById("email");
-    const password = document.getElementById("password");
-    // const submitButton = document.getElementById("submit-btn");
+  const [passwordError, setPasswordError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      validateInputs();
-    });
+  /** This is a helper function to clear all the errors on the UI screen
+   */
+  const clearErrors = () => {
+    setEmailError("");
+    setPasswordError("");
+  };
 
-    const setError = (element, message) => {
-      const inputControl = element.parentElement;
-      const errorDisplay = inputControl.querySelector(".error");
+  /** Helper function to validate the input sent by the user
+   *
+   * @returns {Boolean} true if validation is success, false otherwise
+   */
+  const validateForm = () => {
+    let isValid = true;
 
-      errorDisplay.innerText = message;
-      inputControl.classList.add("error");
-      inputControl.classList.remove("success");
-    };
+    // Clear previous error messages
+    clearErrors();
 
-    const setSuccess = (element) => {
-      const inputControl = element.parentElement;
-      const errorDisplay = inputControl.querySelector(".error");
+    let result = null;
 
-      errorDisplay.innerText = "";
-      inputControl.classList.add("success");
-      inputControl.classList.remove("error");
-    };
+    // validating email
+    result = validateEmail(email);
+    if (result !== null) {
+      isValid = false;
+      setEmailError(result.message);
+    }
 
-    const isValidEmail = (email) => {
-      const re =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(email).toLowerCase());
-    };
+    // validating the password
+    result = validatePassword(password);
+    if (result !== null) {
+      isValid = false;
+      setPasswordError(result.message);
+    }
 
-    const validateInputs = () => {
-      let hasErrors = false;
+    return isValid;
+  };
 
-      const emailValue = email.value.trim();
-      const passwordValue = password.value.trim();
+  /** Event handler for doing the user submit click
+   * @param {*} event
+   */
+  const onLogin = async (event) => {
+    // do not propagate the event
+    event.preventDefault();
 
-      if (emailValue === "") {
-        setError(email, "Email is required");
-        hasErrors = true;
-        return;
-      } else if (!isValidEmail(emailValue)) {
-        setError(email, "Please enter a valid email address");
-        hasErrors = true;
-        return;
-      } else {
-        setSuccess(email);
-      }
+    // Validate form fields
+    if (!validateForm()) {
+      console.log("form validation fails.");
+      return;
+    }
 
-      if (passwordValue === "") {
-        setError(password, "Password is required");
-        hasErrors = true;
-      } else if (passwordValue.length < 8) {
-        setError(password, "Password must be at least 8 characters");
-        hasErrors = true;
-      } else {
-        setSuccess(password);
-      }
-
-      // if (!hasErrors) {
-      //   window.location.href = "/Dashboard"; // Redirect to a blank page
-      // }
-    };
-
-    // Clear error messages and styles on input focus
-    email.addEventListener("focus", () => {
-      setSuccess(email);
-    });
-
-    password.addEventListener("focus", () => {
-      setSuccess(password);
-    });
-
-    document
-      .getElementById("themeToggle")
-      .addEventListener("click", function () {
-        document.body.classList.toggle("dark-mode");
-      });
-  }, []);
-
-  //changes
-  const onLogin = async () => {
+    console.log("making a call..");
+    // validation was successful, attempting to make a call to the backend
     await axios
-      .post("http://localhost:5000/api/users/login", {
+      .post(`${BACKEND_URL}/users/login`, {
         email: email,
         password: password,
       })
-      .then(
-        (res) => {
-          window.location.href = "/Dashboard";
-        },
-        (e) => {
-          if(email !=='' &&password !==''){
-            setErrorMessage("Please enter the vaild Credentials");
-          }
+      .then((response) => {
+        console.log("Login Succesfull");
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        let response = error.response;
+        console.log(response.status);
+
+        if (response.status === 422) {
+          // 422 when validation failure happens,
+          console.error("Validation failure: ", response.data.errors);
+          setErrorMessage("Validation failure: ", response.data.errors);
+        } else if (response.status === 401) {
+          // 401 when registration is incomplete
+          console.error("Incomplete verification", response.data.errors);
+          setErrorMessage("Incomplete verification", response.data.errors);
+        } else if (response.status === 402) {
+          // 402 when registration attempted on already registered email
+          console.error("Invalid email or password", response.data.errors);
+          setErrorMessage("Invalid email or password", response.data.errors);
+        } else if (response.status === 500) {
+          // 500 when unknown error occurs
+          console.error("Internal Server Error", response.data.errors);
+          setErrorMessage("Internal Server Error", response.data.errors);
+        } else {
+          // UNKOWN CASE
+          console.error("CRAZY STUFF", response.data.errors);
+          setErrorMessage("CRAZY STUFF", response.data.errors);
         }
-      );
+      });
   };
 
   return (
@@ -125,7 +123,7 @@ function SignIn() {
         <p>Explore this app as a test user:</p>
 
         <form id="form" action="/">
-        <div style={{fontSize:"12px", color: "red"}}>{errorMessage}</div>
+          <div style={{ fontSize: "12px", color: "red" }}>{errorMessage}</div>
           <div className="input-control">
             <label htmlFor="email">Email</label>
             <input
@@ -136,23 +134,25 @@ function SignIn() {
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="off"
             />
-            <div className="error"></div>
+            <div id="emailError" className="error_sign_up">
+              {emailError}
+            </div>
           </div>
           <div className="input-control">
             <label htmlFor="password">Password</label>
             <input
               id="password"
               name="password"
-  
-
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
             />
-            <div className="error"></div>
+            <div id="passwordError" className="error_sign_up">
+              {passwordError}
+            </div>
           </div>
-  
-          <button type="submit" onClick={() => onLogin()}>
+
+          <button type="submit" onClick={onLogin}>
             Sign In
           </button>
           <div className="links" style={{ clear: "both", textAlign: "center" }}>

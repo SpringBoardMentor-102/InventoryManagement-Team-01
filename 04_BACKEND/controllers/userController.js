@@ -24,23 +24,47 @@ let isDebuggingOn = process.env.DEBUGGING_ON === "false" ? false : true;
 
 class userContoller {
   /** Controller function to login user.
- *
- * @param {*} req
- * @param {*} res
- * @returns
- *  400 when validation failure happens,
- *  401 when User needs to verify the email,
- *  401 when Invalid email or password,
- *  500 when Internal Server error occurs,
- *  201 when Login successful with JWT token in response
- */
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   *  422 when validation failure happens,
+   *  401 when User needs to verify the email,
+   *  402 when Invalid email or password,
+   *  500 when Internal Server error occurs,
+   *  201 when Login successful with JWT token in response
+   */
   static async loginUser(req, res) {
+    // getting all the user parameters from the request object
     const { email, password } = req.body;
 
-    //Doing validation
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+    // starting validation on the backend
+    isDebuggingOn
+      ? console.log(
+          "Request params recieved email, password, firstName, lastName, phone, roles, city: ",
+          email,
+          password
+        )
+      : " ";
+    const validationResponses = {
+      emailResponse: validateEmail(email),
+      passwordResponse: validatePassword(password),
+    };
+
+    // checking each of the validation responses
+    let returnMessage = "";
+    let isValidationFail = false;
+    for (const key in validationResponses) {
+      let value = validationResponses[key];
+      if (value !== null) {
+        // adding the validation failure message to final return message if found
+        returnMessage += value.message + " ";
+        isValidationFail = true;
+      }
+    }
+    if (isValidationFail) {
+      // return a 422 status code when validation failure occurs
+      return res.status(422).json({ errors: returnMessage });
     }
 
     try {
@@ -53,14 +77,14 @@ class userContoller {
       }
       // If user not found, return error
       if (!user) {
-        return res.status(401).send("Invalid email or password");
+        return res.status(402).send("Invalid email or password");
       }
 
       // Compare the provided password with the hashed password in the database
       const passwordMatch = await bcrypt.compare(password, user.password);
 
       if (!passwordMatch) {
-        return res.status(401).send("Invalid email or password");
+        return res.status(402).send("Invalid email or password");
       }
 
       // Password is correct, generate JWT token
@@ -294,41 +318,40 @@ class userContoller {
     }
   }
 
-/** Controller function to confirm user's email.
- *
- * @param {*} req
- * @param {*} res
- * @returns
- *  404 when Invalid or expired token,
- *  500 when Internal Server error occurs,
- *  200 when Email verified successfully
- */
+  /** Controller function to confirm user's email.
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   *  404 when Invalid or expired token,
+   *  500 when Internal Server error occurs,
+   *  200 when Email verified successfully
+   */
   static async confirmEmail(req, res) {
     console.log("Confirm Email Route Accessed");
-    const { token }= req.query; // Extract token from URL query parameters
+    const { token } = req.query; // Extract token from URL query parameters
     console.log(req.query);
     try {
-        // Find user by confirmation token
-        const user = await User.findOne({ confirmEmailToken: token });
-        //console.log(user);
-        // If user not found, return an error
-        if (!user) {
-            return res.status(404).json({ error: "Invalid or expired token" });
-        }
+      // Find user by confirmation token
+      const user = await User.findOne({ confirmEmailToken: token });
+      //console.log(user);
+      // If user not found, return an error
+      if (!user) {
+        return res.status(404).json({ error: "Invalid or expired token" });
+      }
 
-        // Update user's email verification status
-        user.isEmailVerified = true;
-        user.confirmEmailToken = null;
-        await user.save();
-        console.log("Verified SuccessFully!!")
-        // Respond with a success message
-        res.status(200).json({ message: "Email verified successfully" });
+      // Update user's email verification status
+      user.isEmailVerified = true;
+      user.confirmEmailToken = null;
+      await user.save();
+      console.log("Verified SuccessFully!!");
+      // Respond with a success message
+      res.status(200).json({ message: "Email verified successfully" });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Internal Server Error" });
+      console.error(err);
+      res.status(500).json({ error: "Internal Server Error" });
     }
-}
-
+  }
 }
 
 function generateJWT(user) {
