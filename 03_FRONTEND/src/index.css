@@ -294,7 +294,14 @@ input[type="submit"]:hover {
   margin-top: 10px;
 }
 
-
+/* CSS for login text in reset.js */
+.login-button {
+  text-decoration: underline;
+  margin-top: 16px;
+  font-size: 14px;
+  background: none;
+  color: blue;
+}
 
 
 #dashboard-page-body {

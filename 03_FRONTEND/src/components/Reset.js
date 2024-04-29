@@ -24,6 +24,7 @@ const Reset = () => {
 
   const [confirmPassword, setconfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
 
   /** This is a helper function to clear all the errors on the UI screen
    */
@@ -86,7 +87,8 @@ const Reset = () => {
       .then((response) => {
         console.log(response.data);
         alert("Password reset successfully");
-        navigate("/dashboard");
+        setPasswordResetSuccess(true);
+        // navigate("/dashboard");
       })
       .catch((error) => {
         let response = error.response;
@@ -159,6 +161,11 @@ const Reset = () => {
             value="Submit"
             onClick={handleReset}
           />
+            {passwordResetSuccess && ( 
+            <button className="login-button" onClick={() => navigate("/signin")}>
+              Continue To Login
+            </button>
+          )}
         </form>
       </div>
     </>
