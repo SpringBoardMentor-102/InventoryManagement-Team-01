@@ -193,7 +193,7 @@ class userContoller {
       });
 
       // try sending an email with the token
-      await sendRegistrationEmail(email, confirmEmailToken);
+      await sendRegistrationEmail(email, confirmEmailToken, firstName);
 
       // try saving the new user details if email sent was successful
       await newUser.save();

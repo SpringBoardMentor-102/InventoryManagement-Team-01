@@ -27,12 +27,18 @@ async function sendPasswordResetEmail(email, token) {
   }
 }
 
-async function sendRegistrationEmail(email, confirmEmailToken) {
+async function sendRegistrationEmail(email, confirmEmailToken, firstName) {
   const mailOptions = {
     from: "infosysspringboard76@gmail.com",
     to: email,
     subject: "Registration Confirmation",
-    text: `Click this link to confirm your email and complete registration: http://localhost:3000/confirm-email?token=${confirmEmailToken}`,
+    html: `
+      <p>Dear ${firstName},</p>
+      <p>Thank you for registering with us. Please click the following link to confirm your email and complete the registration process:</p>
+      <p><a href="http://localhost:3000/confirm-email?token=${confirmEmailToken}"><b>Confirm Email</b></a></p>
+      <p>If you didn't register with us, you can safely ignore this email.</p>
+      <p>If you already have an account, you can <a href="http://localhost:3000/login"><b>login here<b></a>.</p>
+    `,
   };
   try {
     await transporter.sendMail(mailOptions);
