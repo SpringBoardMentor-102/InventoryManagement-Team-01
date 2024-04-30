@@ -55,7 +55,7 @@ const Reset = () => {
     }
 
     // validating the confirm password
-    result = validateConfirmPassword(password, confirmPassword);
+    result = validateConfirmPassword(confirmPassword, password);
     if (result !== null) {
       isValid = false;
       setConfirmPasswordError(result.message);
