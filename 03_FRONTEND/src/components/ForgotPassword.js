@@ -15,6 +15,7 @@ const ForgotPassword = () => {
   // declaring the state variables
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   /** This is a helper function to clear all the errors on the UI screen
    */
@@ -68,23 +69,28 @@ const ForgotPassword = () => {
       })
       .catch((error) => {
         let response = error.response;
-        console.log(response.status);
+        if (response) {
+          console.log(response.status);
 
-        if (response.status === 422) {
-          // 422 when validation failure happens,
-          console.error("Validation failure: ", response.data.errors);
-          setEmailError("Validation failure: ", response.data.errors);
-        } else if (response.status === 500) {
-          // 500 when unknown error occurs
-          console.error("Internal Server Error", response.data.errors);
-          setEmailError("Internal Server Error", response.data.errors);
-        } else if (response.status === 404) {
-          console.error("User Not Found", response.data.errors);
-          setEmailError("User Not Found", response.data.errors);
+          if (response.status === 422) {
+            // 422 when validation failure happens,
+            console.error("Validation failure: ", response.data.errors);
+            setErrorMessage("Validation failure: ", response.data.errors);
+          } else if (response.status === 500) {
+            // 500 when unknown error occurs
+            console.error("Internal Server Error", response.data.errors);
+            setErrorMessage("Internal Server Error", response.data.errors);
+          } else if (response.status === 404) {
+            console.error("User Not Found", response.data.errors);
+            setErrorMessage("User Not Found", response.data.errors);
+          } else {
+            // UNKOWN CASE
+            console.error("CRAZY STUFF", response.data.errors);
+            setErrorMessage("CRAZY STUFF", response.data.errors);
+          }
         } else {
-          // UNKOWN CASE
-          console.error("CRAZY STUFF", response.data.errors);
-          setEmailError("CRAZY STUFF", response.data.errors);
+          console.log("Backend not working");
+          setErrorMessage("Internal Server Error");
         }
       });
   };
@@ -95,6 +101,7 @@ const ForgotPassword = () => {
         <h1>Forgot Password</h1>
 
         <form id="form">
+          <div style={{ fontSize: "12px", color: "red" }}>{errorMessage}</div>
           <div className="input-control">
             <div style={{ fontSize: "15px", color: "red" }}>{emailError}</div>
             <label htmlFor="email">Email Address</label>

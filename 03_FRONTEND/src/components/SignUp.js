@@ -45,6 +45,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
+  const [errorMessage, setErrorMessage] = useState("");
   // ?? I am not sure what this is!!
   const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
   const [isSignUpSuccessError, setIsSignUpSuccessError] = useState(false);
@@ -154,27 +155,38 @@ const SignUp = () => {
         // registration successful
         //navigate("/dashboard");
         console.log(response);
-        alert("Email verification link sent successfully, Please check you mail");
+        alert(
+          "Email verification link sent successfully, Please check you mail"
+        );
       })
       .catch((error) => {
         let response = error.response;
-        console.log(response.status);
-
-        if (response.status === 422) {
-          // 422 when validation failure happens,
-          console.error("Validation failure: ", response.data.errors);
-        } else if (response.status === 409) {
-          // 409 when registration is incomplete
-          console.error("Incomplete registration", response.data.errors);
-        } else if (response.status === 409) {
-          // 403 when registration attempted on already registered email
-          console.error("Already registered", response.data.errors);
-        } else if (response.status === 409) {
-          // 500 when unknown error occurs
-          console.error("Internal Server Error", response.data.errors);
+        console.log(response?.status);
+        if (response) {
+          if (response?.status === 422) {
+            // 422 when validation failure happens,
+            console.error("Validation failure: ", response.data.errors);
+            setErrorMessage("Validation failure: ", response.data.errors);
+          } else if (response?.status === 409) {
+            // 409 when registration is incomplete
+            console.error("Incomplete registration", response.data.errors);
+            setErrorMessage("Incomplete registration", response.data.errors);
+          } else if (response?.status === 403) {
+            // 403 when registration attempted on already registered email
+            console.error("Already registered", response.data.errors);
+            setErrorMessage("Already registered", response.data.errors);
+          } else if (response?.status === 500) {
+            // 500 when unknown error occurs
+            console.error("Internal Server Error", response.data.errors);
+            setErrorMessage("Internal Server Error", response.data.errors);
+          } else {
+            // UNKOWN CASE
+            console.error("CRAZY STUFF", response.data.errors);
+            setErrorMessage("CRAZY STUFF", response.data.errors);
+          }
         } else {
-          // UNKOWN CASE
-          console.error("CRAZY STUFF", response.data.errors);
+          console.log("Backend not working");
+          setErrorMessage("Internal Server Error");
         }
       });
   };
@@ -191,6 +203,7 @@ const SignUp = () => {
     <div className="container_sign_up">
       <h2>Sign Up</h2>
       <form id="signupForm" action="/register" onSubmit={signUp}>
+        <div style={{ fontSize: "12px", color: "red" }}>{errorMessage}</div>
         <input
           type="text"
           id="firstName"
