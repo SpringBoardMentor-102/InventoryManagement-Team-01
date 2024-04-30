@@ -169,6 +169,7 @@ const SignUp = () => {
             setErrorMessage("Validation failure: ", response.data.errors);
           } else if (response?.status === 409) {
             // 409 when registration is incomplete
+            navigate("/email_notification");
             console.error("Incomplete registration", response.data.errors);
             setErrorMessage("Incomplete registration", response.data.errors);
           } else if (response?.status === 403) {
