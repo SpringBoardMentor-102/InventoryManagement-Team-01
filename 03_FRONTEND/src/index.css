@@ -484,6 +484,40 @@ main {
   margin-top: 1.4rem;
 }
 
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  /* margin-left: 600px; */
+  position: absolute;
+  left: 50%; /* Center the search bar horizontally */
+  transform: translateX(-50%); /* Center the search bar horizontally */
+  width: 50%; 
+}
+
+#search-input {
+  padding: 10px 20px 10px 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+  background-position: 10px center;
+  background-repeat: no-repeat;
+}
+
+#search-btn {
+  border: none;
+  background-color: #ddd;
+  padding: 8px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  margin-top:-15px ;
+  margin-left: -45px;
+}
+
+#search-btn .material-icons-sharp {
+  font-size: 18px;
+}
+
 main .date {
   display: inline-block;
   background: var(--color-light);

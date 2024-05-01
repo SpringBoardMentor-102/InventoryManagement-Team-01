@@ -1,6 +1,6 @@
 import React  from 'react'
 import img1 from "../images/logo.png"
-import Searchbar from './Searchbar';
+import SearchBar from './Searchbar';
 
 const Dashboard = () => {
   return (
@@ -12,6 +12,7 @@ const Dashboard = () => {
                     <img src={img1} alt=""/>
                     <h2>INFO <span className="danger">SYS</span></h2>
                 </div>
+                <SearchBar/>
                 <div className="close" id="close-btn">
                     <span className="material-icons-sharp">close</span>                
                     </div>

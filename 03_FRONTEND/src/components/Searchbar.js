@@ -1,9 +1,16 @@
-import React from 'react'
+import React  from 'react'
 
-const Searchbar = () => {
+const SearchBar = () => {
+
   return (
-    <div>Searchbar</div>
+
+    <div className="search-bar">
+      <input type="text" id="search-input" placeholder="Search here..."/> 
+        <button type="button" id="search-btn">
+          <span className="material-icons-sharp">search</span>
+        </button>
+    </div>
   )
 }
 
-export default Searchbar
+export default SearchBar;
