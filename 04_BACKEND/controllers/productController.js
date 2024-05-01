@@ -15,6 +15,11 @@ async function getAllProducts(req, res) {
   }
 }
 
+/**
+* Controller function for Getting product by ID
+* @param {string} id - Product ID
+* @returns {Promise<Object>} 
+*/
 async function getProductById(req, res) {
   try {
     const product = await Product.findById(req.params.id);
@@ -28,6 +33,11 @@ async function getProductById(req, res) {
   }
 }
 
+/**
+* Controller function for Create a new product
+* @param {Object} productData - Data for the new product
+* @returns {Promise<Object>} 
+*/
 async function createProduct(req, res) {
   const product = new Product(req.body);
   try {
@@ -41,6 +51,12 @@ async function createProduct(req, res) {
   }
 }
 
+/**
+* Controller function for Update product by ID
+* @param {string} id - Product ID
+* @param {Object} newData 
+* @returns {Promise<Object>} 
+*/
 async function updateProduct(req, res) {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
@@ -58,6 +74,11 @@ async function updateProduct(req, res) {
   }
 }
 
+/**
+* Controller function for Delete product by ID
+* @param {string} id - Product ID
+* @returns {Promise<Object>} 
+*/
 async function deleteProduct(req, res) {
   try {
     await Product.findByIdAndDelete(req.params.id);
