@@ -30,7 +30,7 @@ class userContoller {
    * @returns
    *  422 when validation failure happens,
    *  401 when User needs to verify the email,
-   *  402 when Invalid email or password,
+   *  403 when Invalid email or password,
    *  500 when Internal Server error occurs,
    *  201 when Login successful with JWT token in response
    */
@@ -71,20 +71,21 @@ class userContoller {
       // Find the user with the provided email
       const user = await User.findOne({ email });
 
+      // If user not found, return error
+      if (!user) {
+        return res.status(403).send("Invalid email or password");
+      }
+
       // If user has not verified email yet, return error
       if (!user.isEmailVerified) {
         return res.status(401).send("User needs to verify the email");
-      }
-      // If user not found, return error
-      if (!user) {
-        return res.status(402).send("Invalid email or password");
       }
 
       // Compare the provided password with the hashed password in the database
       const passwordMatch = await bcrypt.compare(password, user.password);
 
       if (!passwordMatch) {
-        return res.status(402).send("Invalid email or password");
+        return res.status(403).send("Invalid email or password");
       }
 
       // Password is correct, generate JWT token
@@ -192,7 +193,7 @@ class userContoller {
       });
 
       // try sending an email with the token
-      await sendRegistrationEmail(email, confirmEmailToken);
+      await sendRegistrationEmail(email, confirmEmailToken, firstName);
 
       // try saving the new user details if email sent was successful
       await newUser.save();

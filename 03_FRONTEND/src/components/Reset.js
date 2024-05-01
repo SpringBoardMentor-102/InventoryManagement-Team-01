@@ -26,6 +26,8 @@ const Reset = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   /** This is a helper function to clear all the errors on the UI screen
    */
   const clearErrors = () => {
@@ -53,7 +55,7 @@ const Reset = () => {
     }
 
     // validating the confirm password
-    result = validateConfirmPassword(password, confirmPassword);
+    result = validateConfirmPassword(confirmPassword, password);
     if (result !== null) {
       isValid = false;
       setConfirmPasswordError(result.message);
@@ -92,31 +94,36 @@ const Reset = () => {
       })
       .catch((error) => {
         let response = error.response;
-        console.log(response.status);
+        if (response) {
+          console.log(response?.status);
 
-        if (response.status === 422) {
-          // 422 when validation failure happens,
-          console.error("Validation failure: ", response.data.errors);
-          setPasswordError("Validation failure: ", response.data.errors);
-        } else if (response.status === 401) {
-          // 401 when Invalid or expired token
-          console.error("Invalid or expired token", response.data.errors);
-          setPasswordError("Invalid or expired token", response.data.errors);
-        } else if (response.status === 500) {
-          // 500 when unknown error occurs
-          console.error("Internal Server Error", response.data.errors);
-          setPasswordError("Internal Server Error", response.data.errors);
-        } else if (response.status === 400) {
-          // 500 when unknown error occurs
-          console.error("Password Match", response.data.errors);
-          setPasswordError(
-            "New password must be different from the previous password",
-            response.data.errors
-          );
+          if (response?.status === 422) {
+            // 422 when validation failure happens,
+            console.error("Validation failure: ", response.data.errors);
+            setErrorMessage("Validation failure: ", response.data.errors);
+          } else if (response?.status === 401) {
+            // 401 when Invalid or expired token
+            console.error("Invalid or expired token", response.data.errors);
+            setErrorMessage("Invalid or expired token", response.data.errors);
+          } else if (response?.status === 500) {
+            // 500 when unknown error occurs
+            console.error("Internal Server Error", response.data.errors);
+            setErrorMessage("Internal Server Error", response.data.errors);
+          } else if (response?.status === 400) {
+            // 400 when password matched with previous one
+            console.error("Password Match", response.data.errors);
+            setErrorMessage(
+              "New password must be different from the previous password",
+              response.data.errors
+            );
+          } else {
+            // UNKOWN CASE
+            console.error("CRAZY STUFF", response.data.errors);
+            setErrorMessage("CRAZY STUFF", response.data.errors);
+          }
         } else {
-          // UNKOWN CASE
-          console.error("CRAZY STUFF", response.data.errors);
-          setPasswordError("CRAZY STUFF", response.data.errors);
+          console.log("Backend not working");
+          setErrorMessage("Internal Server Error");
         }
       });
   };
@@ -128,6 +135,7 @@ const Reset = () => {
         <p>Please create a new password that you don't use on any other.</p>
 
         <form id="form" action="/">
+          <div style={{ fontSize: "12px", color: "red" }}>{errorMessage}</div>
           <div className="input-control">
             <label htmlFor="new-password">New Password</label>
             <input
@@ -161,8 +169,11 @@ const Reset = () => {
             value="Submit"
             onClick={handleReset}
           />
-            {passwordResetSuccess && ( 
-            <button className="login-button" onClick={() => navigate("/signin")}>
+          {passwordResetSuccess && (
+            <button
+              className="login-button"
+              onClick={() => navigate("/signin")}
+            >
               Continue To Login
             </button>
           )}

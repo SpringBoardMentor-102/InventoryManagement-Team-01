@@ -82,28 +82,32 @@ function SignIn() {
       })
       .catch((error) => {
         let response = error.response;
-        console.log(response.status);
-
-        if (response.status === 422) {
-          // 422 when validation failure happens,
-          console.error("Validation failure: ", response.data.errors);
-          setErrorMessage("Validation failure: ", response.data.errors);
-        } else if (response.status === 401) {
-          // 401 when registration is incomplete
-          console.error("Incomplete verification", response.data.errors);
-          setErrorMessage("Incomplete verification", response.data.errors);
-        } else if (response.status === 402) {
-          // 402 when registration attempted on already registered email
-          console.error("Invalid email or password", response.data.errors);
-          setErrorMessage("Invalid email or password", response.data.errors);
-        } else if (response.status === 500) {
-          // 500 when unknown error occurs
-          console.error("Internal Server Error", response.data.errors);
-          setErrorMessage("Internal Server Error", response.data.errors);
+        console.log(response?.status);
+        if (response) {
+          if (response?.status === 422) {
+            // 422 when validation failure happens,
+            console.error("Validation failure: ", response.data.errors);
+            setErrorMessage("Validation failure: ", response.data.errors);
+          } else if (response?.status === 401) {
+            // 401 when registration is incomplete
+            console.error("Incomplete verification", response.data.errors);
+            setErrorMessage("Incomplete verification", response.data.errors);
+          } else if (response?.status === 403) {
+            // 403 when registration attempted on already registered email
+            console.error("Invalid email or password", response.data.errors);
+            setErrorMessage("Invalid email or password", response.data.errors);
+          } else if (response?.status === 500) {
+            // 500 when unknown error occurs
+            console.error("Internal Server Error", response.data.errors);
+            setErrorMessage("Internal Server Error", response.data.errors);
+          } else {
+            // UNKOWN CASE
+            console.error("CRAZY STUFF", response.data.errors);
+            setErrorMessage("CRAZY STUFF", response.data.errors);
+          }
         } else {
-          // UNKOWN CASE
-          console.error("CRAZY STUFF", response.data.errors);
-          setErrorMessage("CRAZY STUFF", response.data.errors);
+          console.log("Backend not working");
+          setErrorMessage("Internal Server Error");
         }
       });
   };
