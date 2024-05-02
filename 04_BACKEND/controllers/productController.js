@@ -1,33 +1,22 @@
 const Product = require("../model/productModel");
 const axios = require("axios");
 const {
-  validateFirstName,
+  validateName,
   validateDescription,
   validatePrice,
   validateQuantity,
   validateStatus,
   validateCategoryId,
-} = require("./utilities/validators");
+  validateImageUrl,
+} = require("./utilities/validators/producModelValidators");
 
+/**
+ * Controller function for Getting all product
+ * @param {*} req
+ * @param {*} res
+ * @returns products json
+ */
 async function getAllProducts(req, res) {
-  // try {
-  //   const products = await Product.find();
-
-  //   // Check if there are no checkouts
-  //   if (products.length === 0) {
-  //     return res.status(404).json({ msg: "No products found" });
-  //   }
-  //   const categoryid = products[1].category_id;
-  //   console.log(products[1].category_id);
-  //   const response = await axios.get(
-  //     `http://localhost:5000/api/category/getcategory/${categoryid}`
-  //   );
-  //   console.log(response.data.categoryName);
-  //   res.json({ product: products, category: response.data.categoryName });
-  // } catch (err) {
-  //   res.status(500).json({ message: err.message });
-  // }
-
   try {
     // Use the aggregate method to perform a MongoDB aggregation
     const products = await Product.aggregate([
@@ -98,10 +87,9 @@ async function getProductById(req, res) {
       return res.status(404).json({ errors: "Product not found" });
     }
 
-   // If the product exists, respond with the product in JSON format
+    // If the product exists, respond with the product in JSON format
     return res.json(product);
   } catch (err) {
-
     // Handle any errors that occur during the database query
     return res.status(500).json({ errors: err.message });
   }
@@ -113,74 +101,63 @@ async function getProductById(req, res) {
  * @returns {Promise<Object>}
  */
 async function createProduct(req, res) {
-  // const product = new Product(req.body);
-  // try {
-  //   const newProduct = await product.save();
-  //   res.status(201).json(newProduct);
-  // } catch (err) {
-  //   // if (error.code === 11000 && error.keyPattern && error.keyPattern.uuid) {
-  //   //   return res.status(400).json({ msg: 'UUID already exists' });
-  //   // }
-  //   res.status(400).json({ message: err.message });
-  // }
-
   // Destructure the request body to extract the required fields
   const { name, description, price, quantity, status, categoryId, imageUrl } =
     req.body;
 
-    try {
-      // Validate the request body fields
-      const validationResponses = {
-        nameResponse: validateFirstName(name),
-        descriptionResponse: validateDescription(description),
-        priceResponse: validatePrice(price),
-        quantityResponse: validateQuantity(quantity),
-        statusResponse: validateStatus(status),
-        categoryIdResponse: validateCategoryId(categoryId),
-        imageUrlResponse: validateImageUrl(imageUrl),
-      };
-  
-      // Check each validation response
-      let returnMessage = "";
-      let isValidationFail = false;
-      for (const key in validationResponses) {
-        let value = validationResponses[key];
-        if (value !== null) {
-          // Add the validation failure message to the final return message if found
-          returnMessage += value.message + " ";
-          isValidationFail = true;
-        }
+  try {
+    // Validate the request body fields
+    const validationResponses = {
+      nameResponse: validateName(name),
+      descriptionResponse: validateDescription(description),
+      priceResponse: validatePrice(price),
+      quantityResponse: validateQuantity(quantity),
+      // statusResponse: validateStatus(status),
+      categoryIdResponse: validateCategoryId(categoryId),
+      // imageUrlResponse: validateImageUrl(imageUrl),
+    };
+
+    // Check each validation response
+    let returnMessage = "";
+    let isValidationFail = false;
+    for (const key in validationResponses) {
+      let value = validationResponses[key];
+      if (value !== null) {
+        // Add the validation failure message to the final return message if found
+        returnMessage += value.message + " ";
+        isValidationFail = true;
       }
-  
-      if (isValidationFail) {
-        // Return a 422 status code when validation failure occurs
-        return res.status(422).json({ errors: returnMessage });
-      }
-  
-      // Create a new product instance using the extracted fields
-      const product = new Product({
-        name,
-        description,
-        price,
-        quantity,
-        status,
-        categoryId,
-        imageUrl,
-      });
-      // Save the new product to the database
-      const newProduct = await product.save();
-      // Return the newly created product as a JSON response with status code 201 (Created)
-      return res.status(201).json(newProduct);
-    } catch (err) {
-      if (err.code === 11000 && err.keyPattern && err.keyPattern.name) {
-        // Duplicate name error
-        return res
-          .status(400)
-          .json({ errors: "Product with this name already exists" });
-      }
-      // For other errors, return a generic error message
-      return res.status(400).json({ errors: err.message });
     }
+
+    if (isValidationFail) {
+      // Return a 422 status code when validation failure occurs
+      return res.status(422).json({ errors: returnMessage });
+    }
+
+    // Create a new product instance using the extracted fields
+    const product = new Product({
+      name,
+      description,
+      price,
+      quantity,
+      status,
+      categoryId,
+      imageUrl,
+    });
+    // Save the new product to the database
+    const newProduct = await product.save();
+    // Return the newly created product as a JSON response with status code 201 (Created)
+    return res.status(201).json(newProduct);
+  } catch (err) {
+    if (err.code === 11000 && err.keyPattern && err.keyPattern.name) {
+      // Duplicate name error
+      return res
+        .status(400)
+        .json({ errors: "Product with this name already exists" });
+    }
+    // For other errors, return a generic error message
+    return res.status(400).json({ errors: err.message });
+  }
 }
 
 /**
@@ -191,23 +168,18 @@ async function createProduct(req, res) {
  */
 async function updateProduct(req, res) {
   try {
-
-    //  // Validate if the request parameter 'id' is a valid MongoDB ObjectId
-    //  if (!isValidObjectId(req.params.id)) {
-    //   return res.status(400).json({ errors: "Invalid product ID" });
-    // }
     // Update the product with the provided ID using the request body
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
-     // Check if the product was updated successfully
+    // Check if the product was updated successfully
     if (updatedProduct) {
       // Respond with the updated product in JSON format
       res.json(updatedProduct);
     } else {
-       // If the product does not exist, respond with a 404 error
+      // If the product does not exist, respond with a 404 error
       res.status(404).json({ errors: "Product not found" });
     }
   } catch (err) {
@@ -227,7 +199,7 @@ async function deleteProduct(req, res) {
       return res.status(400).json({ errors: "Invalid product ID" });
     }
 
-     // Attempt to find and delete the product by its ID
+    // Attempt to find and delete the product by its ID
     await Product.findByIdAndDelete(req.params.id);
 
     // Respond with a success message if the deletion was successful
