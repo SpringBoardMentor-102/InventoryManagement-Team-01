@@ -2,7 +2,7 @@
       [
         {
           "id": "001",
-          "image": "img/a.jpg",
+          "image": "https://www.aptronixindia.com/iphone-14",
           "company": "Apple",
           "item_name": "iPhone",
           "original_price": 100000,
@@ -14,7 +14,7 @@
         },
         {
           "id": "002",
-          "image": "img/b.jpg",
+          "image": "https://www.apple.com/in/shop/product/MMTN2ZM/A/earpods-lightning-connector",
           "company": "Apple",
           "item_name": "Earphone",
           "original_price": 2599,
@@ -26,7 +26,7 @@
         },
         {
           "id": "003",
-          "image": "img/c.jpg",
+          "image": "https://www.vivo.com/in/products/param/x100",
           "company": "vivo",
           "item_name": "phone",
           "original_price": 1599,
@@ -38,7 +38,7 @@
         },
         {
           "id": "004",
-          "image": "img/d.jpg",
+          "image": "https://www.canon-europe.com/cameras/eos-r5/",
           "company": "Canon",
           "item_name": "Camera",
           "original_price": 999,
@@ -50,7 +50,7 @@
         },
         {
           "id": "005",
-          "image": "img/c.jpg",
+          "image": "https://www.vivo.com/in/products/param/y16",
           "company": "vivo",
           "item_name": "phone",
           "original_price": 1399,
@@ -62,7 +62,7 @@
         },
         {
           "id": "006",
-          "image": "img/f.jpg",
+          "image": "https://kdbdeals.com/product/luxurious-rolex-watch-daytona-perpetual-for-men-lt-61/",
           "company": "Rolex",
           "item_name": "watch",
           "original_price": 14995,
@@ -74,9 +74,9 @@
         },
         {
           "id": "007",
-          "image": "img/b.jpg",
+          "image": "https://www.apple.com/in/shop/accessories/all/headphones-speakers",
           "company": "Apple",
-          "item_name": "Earphones",
+          "item_name": "headphones",
           "original_price": 1599,
           "current_price": 639,
           "discount_percentage": 60,
@@ -84,7 +84,7 @@
         },
         {
           "id": "008",
-          "image": "img/a.jpg",
+          "image": "https://www.apple.com/in/shop/buy-iphone/iphone-15-pro/6.7%22-display-512gb-blue-titanium",
           "company": "Apple",
           "item_name": "iPhone",
           "original_price": 100000,
