@@ -484,6 +484,9 @@ main {
   margin-top: 1.4rem;
 }
 
+.search-container{
+  width: 70vw;
+}
 .search-bar {
   display: flex;
   align-items: center;
@@ -868,4 +871,79 @@ main .recent-orders a {
 }
 .item-image{
   width: 100%;
+}
+
+/* styles for search */
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  flex-direction: column;
+  min-height: 80vh;
+  margin-top: 65px;
+  /* border: 2px solid black; */
+}
+
+.search-bar {
+  width: 50vw;
+  border: 2px solid #7d8da1;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+#searching {
+  width: 433px;
+  border: none;
+  font-size: 15px;
+  padding: 8px;
+}
+
+#searching:focus-visible {
+  outline: none;
+}
+
+/* Basic table styling */
+.table-container {
+  width: 60vw;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  /* Adjust spacing as needed */
+}
+
+/* Table header */
+.table-container th {
+  background-color: #f2f2f2;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Table rows */
+.table-container .trows {
+  border-bottom: 1px solid #ddd;
+}
+
+/* Alternate row background color */
+.table-container .trows:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Table cell padding and text alignment */
+.table-container td {
+  padding: 10px;
+  text-align: left;
+}
+
+/* Hover effect on rows */
+.table-container .trows:hover {
+  background-color: #ddd;
+}
+
+/* Styling for last row (optional) */
+.table-container .trows:last-child {
+  border-bottom: none;
 }

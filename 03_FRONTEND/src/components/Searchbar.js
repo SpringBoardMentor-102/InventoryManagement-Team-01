@@ -9,6 +9,7 @@ const SearchBar = () => {
         <button type="button" id="search-btn">
           <span className="material-icons-sharp">search</span>
         </button>
+        
     </div>
   )
 }

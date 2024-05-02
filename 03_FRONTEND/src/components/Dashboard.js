@@ -2,10 +2,11 @@ import React, { useState }  from 'react'
 
 import ProductList from './ProductList';
 import Sidebar from './Sidebar';
+import Search from './Search';
 
 const Dashboard = () => {
   
-
+  
   return (
     <body id="dashboard-page-body">
     <div className="dash-container">
@@ -15,6 +16,7 @@ const Dashboard = () => {
         <main>
         <div>
         <ProductList/>
+        {/* <Search/> */}
         </div>
         </main>
     </div>

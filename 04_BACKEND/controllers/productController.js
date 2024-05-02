@@ -209,10 +209,27 @@ async function deleteProduct(req, res) {
   }
 }
 
+async function searchProduct(req, res) {
+  try {
+    const { name } = req.query;
+
+    const products = await Product.find({ name: { $regex: new RegExp(name, 'i') } });
+
+    if (products.length > 0) {
+      res.json(products);
+    } else {
+      res.status(404).json({ message: "No products found matching the search criteria" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
 module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
   updateProduct,
   deleteProduct,
+  searchProduct
 };
