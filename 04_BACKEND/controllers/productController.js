@@ -1,5 +1,13 @@
 const Product = require("../model/productModel");
 const axios = require("axios");
+const {
+  validateFirstName,
+  validateDescription,
+  validatePrice,
+  validateQuantity,
+  validateStatus,
+  validateCategoryId,
+} = require("./utilities/validators");
 
 async function getAllProducts(req, res) {
   // try {
@@ -58,14 +66,14 @@ async function getAllProducts(req, res) {
 
     // Check if no products were found
     if (products.length === 0) {
-      return res.status(404).json({ msg: "No products found" });
+      return res.status(404).json({ errors: "No products found" });
     }
 
     // Respond with the products in a JSON format
     return res.json({ products });
   } catch (err) {
     // Handle any errors that occur during the aggregation
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ errors: err.message });
   }
 }
 
@@ -76,14 +84,26 @@ async function getAllProducts(req, res) {
  */
 async function getProductById(req, res) {
   try {
-    const product = await Product.findById(req.params.id);
-    if (product) {
-      res.json(product);
-    } else {
-      res.status(404).json({ message: "Product not found" });
+    // Validate if the request parameter 'id' is a valid MongoDB ObjectId
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({ errors: "Invalid product ID" });
     }
+
+    // Find a product by its ID
+    const product = await Product.findById(req.params.id);
+
+    // Check if the product exists
+    if (!product) {
+      // If the product does not exist, respond with a 404 error
+      return res.status(404).json({ errors: "Product not found" });
+    }
+
+   // If the product exists, respond with the product in JSON format
+    return res.json(product);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+
+    // Handle any errors that occur during the database query
+    return res.status(500).json({ errors: err.message });
   }
 }
 
@@ -108,31 +128,59 @@ async function createProduct(req, res) {
   const { name, description, price, quantity, status, categoryId, imageUrl } =
     req.body;
 
-  try {
-    // Create a new product instance using the extracted fields
-    const product = new Product({
-      name,
-      description,
-      price,
-      quantity,
-      status,
-      categoryId,
-      imageUrl,
-    });
-    // Save the new product to the database
-    const newProduct = await product.save();
-    // Return the newly created product as a JSON response with status code 201 (Created)
-    return res.status(201).json(newProduct);
-  } catch (err) {
-    if (err.code === 11000 && err.keyPattern && err.keyPattern.name) {
-      // Duplicate name error
-      return res
-        .status(400)
-        .json({ message: "Product with this name already exists" });
+    try {
+      // Validate the request body fields
+      const validationResponses = {
+        nameResponse: validateFirstName(name),
+        descriptionResponse: validateDescription(description),
+        priceResponse: validatePrice(price),
+        quantityResponse: validateQuantity(quantity),
+        statusResponse: validateStatus(status),
+        categoryIdResponse: validateCategoryId(categoryId),
+        imageUrlResponse: validateImageUrl(imageUrl),
+      };
+  
+      // Check each validation response
+      let returnMessage = "";
+      let isValidationFail = false;
+      for (const key in validationResponses) {
+        let value = validationResponses[key];
+        if (value !== null) {
+          // Add the validation failure message to the final return message if found
+          returnMessage += value.message + " ";
+          isValidationFail = true;
+        }
+      }
+  
+      if (isValidationFail) {
+        // Return a 422 status code when validation failure occurs
+        return res.status(422).json({ errors: returnMessage });
+      }
+  
+      // Create a new product instance using the extracted fields
+      const product = new Product({
+        name,
+        description,
+        price,
+        quantity,
+        status,
+        categoryId,
+        imageUrl,
+      });
+      // Save the new product to the database
+      const newProduct = await product.save();
+      // Return the newly created product as a JSON response with status code 201 (Created)
+      return res.status(201).json(newProduct);
+    } catch (err) {
+      if (err.code === 11000 && err.keyPattern && err.keyPattern.name) {
+        // Duplicate name error
+        return res
+          .status(400)
+          .json({ errors: "Product with this name already exists" });
+      }
+      // For other errors, return a generic error message
+      return res.status(400).json({ errors: err.message });
     }
-    // For other errors, return a generic error message
-    return res.status(400).json({ message: err.message });
-  }
 }
 
 /**
@@ -143,18 +191,27 @@ async function createProduct(req, res) {
  */
 async function updateProduct(req, res) {
   try {
+
+    //  // Validate if the request parameter 'id' is a valid MongoDB ObjectId
+    //  if (!isValidObjectId(req.params.id)) {
+    //   return res.status(400).json({ errors: "Invalid product ID" });
+    // }
+    // Update the product with the provided ID using the request body
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
+     // Check if the product was updated successfully
     if (updatedProduct) {
+      // Respond with the updated product in JSON format
       res.json(updatedProduct);
     } else {
-      res.status(404).json({ message: "Product not found" });
+       // If the product does not exist, respond with a 404 error
+      res.status(404).json({ errors: "Product not found" });
     }
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ errors: err.message });
   }
 }
 
@@ -165,10 +222,18 @@ async function updateProduct(req, res) {
  */
 async function deleteProduct(req, res) {
   try {
+    // Validate if the request parameter 'id' is a valid MongoDB ObjectId
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({ errors: "Invalid product ID" });
+    }
+
+     // Attempt to find and delete the product by its ID
     await Product.findByIdAndDelete(req.params.id);
-    res.json({ message: "Product deleted successfully" });
+
+    // Respond with a success message if the deletion was successful
+    res.json({ errors: "Product deleted successfully" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ errors: err.message });
   }
 }
 
