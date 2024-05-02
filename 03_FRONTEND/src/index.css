@@ -321,7 +321,7 @@ input[type="submit"]:hover {
   margin: 0 auto;
   gap: 1.8rem;
   /* //aside center right  -- division of sections */
-  grid-template-columns: 14rem auto 23rem;
+  grid-template-columns: 14rem 80rem ;
 }
 
 a {
@@ -852,4 +852,20 @@ main .recent-orders a {
   color: #999;
   margin-bottom: 10px;
   text-align: center;
+}
+
+/* product item  */
+.product-container{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 48px;
+  
+}
+.item-container {
+  width: 250px;
+  margin: 10px;
+}
+.item-image{
+  width: 100%;
 }
