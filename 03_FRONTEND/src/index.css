@@ -321,7 +321,7 @@ input[type="submit"]:hover {
   margin: 0 auto;
   gap: 1.8rem;
   /* //aside center right  -- division of sections */
-  grid-template-columns: 14rem 80rem ;
+  grid-template-columns: 14rem 80rem;
 }
 
 a {
@@ -484,18 +484,21 @@ main {
   margin-top: 1.4rem;
 }
 
-.search-container{
+.search-container {
   width: 70vw;
 }
+
 .search-bar {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
   /* margin-left: 600px; */
   position: absolute;
-  left: 50%; /* Center the search bar horizontally */
-  transform: translateX(-50%); /* Center the search bar horizontally */
-  width: 50%; 
+  left: 50%;
+  /* Center the search bar horizontally */
+  transform: translateX(-50%);
+  /* Center the search bar horizontally */
+  width: 50%;
 }
 
 #search-input {
@@ -513,7 +516,7 @@ main {
   padding: 8px;
   border-radius: 0 4px 4px 0;
   cursor: pointer;
-  margin-top:-15px ;
+  margin-top: -15px;
   margin-left: -45px;
 }
 
@@ -858,31 +861,57 @@ main .recent-orders a {
 }
 
 /* product item  */
-.product-container{
-  display:flex;
+.product-container {
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   margin-top: 48px;
-  
+
 }
+
 .item-container {
   width: 250px;
   margin: 10px;
 }
-.item-image{
+
+.item-image {
   width: 100%;
 }
 
-/* styles for search */
+/* ------------------------------------------------ */
+/* styles for search.js */
 
-.search-container {
-  margin-top: 20px;
+.searchpage-container {
+  height: 100vh;
+  width: 100vw;
+  gap: 10px;
+  display: flex;
+}
+
+.sidebar-forSearch {
+  width: 196px;
+  margin-left:13px;
+}
+
+.search-block {
+  width:80vw;
+  margin-top: 11px;
+  position: relative;
 }
 
 .search-bar {
+  position: relative;
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.material-icons-sharp {
+  position: absolute;
+  right: 16px;
+  bottom: 19px;
+  background: none;
 }
 
 #search-input {
@@ -907,6 +936,7 @@ main .recent-orders a {
 }
 
 .table-container {
+  text-align: center;
   width: 100%;
   border-collapse: collapse;
 }
@@ -918,13 +948,15 @@ main .recent-orders a {
 }
 
 .table-container th {
-  background-color: #f2f2f2;
+  background-color: #7380ec;
 }
 
 .trows:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #ebedff;
 }
 
 .trows:nth-child(odd) {
   background-color: #ffffff;
 }
+
+/* ------------------------------------------------ */

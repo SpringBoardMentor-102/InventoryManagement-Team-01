@@ -17,7 +17,7 @@ const Sidebar = () => {
                     <img src={img1} alt=""/>
                     <h2>INFO <span className="danger">SYS</span></h2>
                 </div>
-                <SearchBar/>
+               
                 <div className="close" id="close-btn">
                     <span className="material-icons-sharp">close</span>                
                     </div>
