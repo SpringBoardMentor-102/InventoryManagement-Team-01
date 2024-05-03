@@ -16,7 +16,6 @@ const Dashboard = () => {
         <main>
         <div>
         <ProductList/>
-        {/* <Search/> */}
         </div>
         </main>
     </div>
