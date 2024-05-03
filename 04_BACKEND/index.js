@@ -11,6 +11,7 @@ const connectDB = require("./server.js");
 const users = require("./routes/userRoutes.js");
 const transactions = require("./routes/transactionRoutes.js");
 const products = require("./routes/productRoutes.js");
+const searchs = require("./routes/searchs.js")
 // const emailVerificationRoutes = require("./routes/emailVerificationRoutes");
 
 connectDB();
@@ -24,6 +25,7 @@ app.use("/api/checkout", checkouts);
 app.use("/api/category", categories);
 app.use("/api/transaction", transactions);
 app.use("/api/product", products);
+app.use("/api/search",searchs);
 // app.use("/api", emailVerificationRoutes);
 
 const PORT = process.env.PORT || 5000;
