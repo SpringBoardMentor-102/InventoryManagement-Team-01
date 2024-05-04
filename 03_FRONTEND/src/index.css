@@ -305,8 +305,8 @@ input[type="submit"]:hover {
 
 
 #dashboard-page-body {
-  width: 100vw;
-  height: 100vh;
+  width: 98vw;
+  height: 100%;
   font-family: poppins, sans-serif;
   font-size: 0.88rem;
   background: var(--color-background);
@@ -449,16 +449,10 @@ aside .sidebar a span {
 aside .sidebar a:last-child {
   position: absolute;
   bottom: 2rem;
-  width: 100%;
+  width: 86%;
 }
 
-aside .sidebar a.active {
-  background: var(--color-light);
-  color: var(--color-primary);
-  margin-left: 0;
-}
-
-aside .sidebar a.active:before {
+aside .sidebar a:before {
   content: "";
   width: 6px;
   height: 100%;
@@ -471,7 +465,9 @@ aside .sidebar a.active span {
 }
 
 aside .sidebar a:hover {
+  background: var(--color-light);
   color: var(--color-primary);
+  margin-left: 0;
 }
 
 aside .sidebar a:hover span {
