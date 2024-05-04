@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const product = require("../model/Searchbar"); // Importing the Searchbar model
-const products = require("../model/products.json"); // Importing products data from JSON file
+// const products = require("../model/products.json"); // Importing products data from JSON file
 
 // GET route to fetch products with pagination, filtering, sorting, and searching
 router.get("/products", async (req, res) => {
