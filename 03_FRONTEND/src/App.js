@@ -10,6 +10,7 @@ import NotFound from './components/NotFound';
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import Reg_Config from './components/Reg_Config';
 import Search from './components/Search';
+import Filter from './component/Filter';
 const App = () => {
   return (
 
@@ -26,6 +27,7 @@ const App = () => {
     <Route path='/email_notification'  element={<EmailNotification/>}/>
     <Route path='/search_product'  element={<Search/>}/>
     <Route path='*' element={<NotFound/>}/>
+    <Route path='/Filter' element ={<Filter/>}/>
   </Routes>
 </BrowserRouter>
   )
