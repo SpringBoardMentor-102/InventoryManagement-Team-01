@@ -10,7 +10,7 @@ import NotFound from './components/NotFound';
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import Reg_Config from './components/Reg_Config';
 import Search from './components/Search';
-import Filter from './component/Filter';
+import Filter from './components/Filter';
 const App = () => {
   return (
 
