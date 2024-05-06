@@ -1,10 +1,9 @@
 import React from 'react'
-import img1 from '../images/conf.png';
 import { Link } from 'react-router-dom';
 
+import img1 from '../images/conf.png';
 
-
-const Reg_Config = () => {
+const RegConfig = () => {
   return (
     <div className="container">
     <div className="popup">
@@ -18,4 +17,4 @@ const Reg_Config = () => {
   )
 }
 
-export default Reg_Config
+export default RegConfig
