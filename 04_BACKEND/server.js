@@ -1,13 +1,9 @@
 const mongoose = require("mongoose");
-const config = require("dotenv/config");
-require('dotenv').config({ path: './04_BACKEND/.env' });
+require('dotenv').config()
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    const conn = await mongoose.connect(process.env.MONGO_URL);
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (err) {
     console.log(err);
