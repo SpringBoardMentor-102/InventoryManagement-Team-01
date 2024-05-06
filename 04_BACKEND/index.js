@@ -1,18 +1,16 @@
 const express = require("express");
 var cors = require("cors");
 const bodyParser = require("body-parser");
-const config = require("dotenv/config");
-require("dotenv").config({ path: "./04_BACKEND/.env" });
-const mongoose = require("mongoose");
+require("dotenv").config()
+
+const connectDB = require("./server.js");
 
 const categories = require("./routes/categoriesRoutes.js");
 const checkouts = require("./routes/checkoutRoutes.js");
-const connectDB = require("./server.js");
 const users = require("./routes/userRoutes.js");
 const transactions = require("./routes/transactionRoutes.js");
 const products = require("./routes/productRoutes.js");
 const searchs = require("./routes/searchs.js")
-// const emailVerificationRoutes = require("./routes/emailVerificationRoutes");
 
 connectDB();
 
