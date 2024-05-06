@@ -9,7 +9,7 @@ const Dashboard = () => {
       <main>
         <Search />
         <div>
-          <ProductList />
+          // <ProductList 
         </div>
       </main>
     </div>
