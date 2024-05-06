@@ -12,12 +12,25 @@ function Search() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [sortField, setSortField] = useState("name");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const toggleSortOrder = (field) => {
+    if (field === sortField) {
+      const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+      setSortOrder(newSortOrder);
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+  };
+
+
 
   const handleSearch = async () => {
     try {
       setLoading(true);
-      const url = `${BACKEND_URL}/product/searchProduct?name=${searchQuery}`;
-      console.log("Request URL:", url); // Log the constructed URL
+      const url = `${BACKEND_URL}/product/searchProduct?name=${searchQuery}&sortField=${sortField}&sortOrder=${sortOrder}`;
+      console.log("Request URL:", url);
       const response = await axios.get(url);
       setSearchResults(response.data);
     } catch (error) {
@@ -28,11 +41,11 @@ function Search() {
           console.log("No search results...")
         }
       }
-      // console.error("Error fetching search results:", error);
     } finally {
       setLoading(false);
     }
   };
+
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value); // Update searchQuery state as user types
@@ -61,22 +74,35 @@ function Search() {
             <thead>
               <tr>
                 <th>Product</th>
-                <th>Product Name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Status</th>
+                <th onClick={() => toggleSortOrder("name")}>Product Name</th>
+                <th onClick={() => toggleSortOrder("price")}>Price</th>
+                <th onClick={() => toggleSortOrder("quantity")}>Quantity</th>
+                <th onClick={() => toggleSortOrder("status")}>Status</th>
+
               </tr>
             </thead>
             <tbody>
-              {searchResults.map((product, index) => (
-                <tr key={index} className="trows">
-                  <td><img src={product.imageUrl} alt="Product" style={{ width: '200px', height: '200px' }} /></td>
-                  <td>{product.name}</td>
-                  <td>{product.price}</td>
-                  <td>{product.quantity}</td>
-                  <td>{product.status}</td>
-                </tr>
-              ))}
+              {searchResults
+                .sort((a, b) =>
+                  sortOrder === "asc"
+                    ? String(a[sortField]).localeCompare(String(b[sortField]))
+                    : String(b[sortField]).localeCompare(String(a[sortField]))
+                )
+                .map((product, index) => (
+                  <tr key={index} className="trows">
+                    <td>
+                      <img
+                        src={product.imageUrl}
+                        alt="Product"
+                        style={{ width: "200px", height: "200px" }}
+                      />
+                    </td>
+                    <td>{product.name}</td>
+                    <td>{product.price}</td>
+                    <td>{product.quantity}</td>
+                    <td>{product.status}</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
