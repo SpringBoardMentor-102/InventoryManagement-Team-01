@@ -11,7 +11,7 @@ import Dashboard from './components/Dashboard';
 import ForgotPassword from './components/ForgotPassword';
 import EmailNotification from './components/EmailNotification';
 import NotFound from './components/NotFound';
-import Reg_Config from './components/Reg_Config';
+import RegConfig from './components/RegConfig';
 import Search from './components/Search';
 import Filter from './components/Filter';
 
@@ -24,7 +24,7 @@ const App = () => {
         <Route index element={<SignIn />} />
         <Route path='/signin' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
-        <Route path='/reg_config' element={<Reg_Config />} />
+        <Route path='/reg_config' element={<RegConfig />} />
         <Route path='/reset' element={<Reset />} />
         <Route path="/confirm-email" element={<Confirm />} />
         <Route path='/Dashboard' element={<Dashboard />} />
