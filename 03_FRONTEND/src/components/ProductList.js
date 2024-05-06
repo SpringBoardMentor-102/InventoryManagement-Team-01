@@ -32,7 +32,7 @@ const ProductList = () => {
 <div className='product-container'>
 {products.map(item=>(
     <div className="item-container" key={item._id}>
-      <img className="item-image" src={item.imageUrl} alt="item image" />
+      <img className="item-image" src={item.imageUrl} alt="displayed item" />
       {/* <div className="rating">
         {item.rating.stars} ⭐ | {item.rating.count}
       </div> */}
