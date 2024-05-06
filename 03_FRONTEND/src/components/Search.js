@@ -27,6 +27,12 @@ function Search() {
   };
 
 
+  const handleKeyPress=(event)=>{
+    if(event.key === 'Enter'){
+      handleSearch();
+    }
+  }
+
 
   const handleSearch = async () => {
     if(searchQuery.trim() !==''){
@@ -70,6 +76,7 @@ function Search() {
               placeholder="Search here..."
               value={searchQuery}
               onChange={handleChange} // Call handleChange when input value changes
+              onKeyPress={handleKeyPress}
             />
             <button onClick={handleSearch} className="material-icons-sharp">search</button>
           </div>
