@@ -4,7 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import "../../src/index.css";
-import Sidebar from "./Sidebar";
+import ProductList from "./ProductList";
+
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -14,6 +15,7 @@ function Search() {
   const [loading, setLoading] = useState(false);
   const [sortField, setSortField] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [showResults, setShowResults]=useState(false);
   const toggleSortOrder = (field) => {
     if (field === sortField) {
       const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
@@ -27,15 +29,18 @@ function Search() {
 
 
   const handleSearch = async () => {
+    if(searchQuery.trim() !==''){
     try {
       setLoading(true);
       const url = `${BACKEND_URL}/product/searchProduct?name=${searchQuery}&sortField=${sortField}&sortOrder=${sortOrder}`;
       console.log("Request URL:", url);
       const response = await axios.get(url);
       setSearchResults(response.data);
+      setShowResults(true);
     } catch (error) {
       let response = error.response;
       console.log(response?.status);
+      setShowResults(false);
       if (response) {
         if (response?.status === 404) {
           console.log("No search results...")
@@ -43,6 +48,8 @@ function Search() {
       }
     } finally {
       setLoading(false);
+    }}else{
+      setSearchResults(false);
     }
   };
 
@@ -66,7 +73,7 @@ function Search() {
             />
             <button onClick={handleSearch} className="material-icons-sharp">search</button>
           </div>
-
+          {showResults?(
           <table className="table-container">
             <thead>
               <tr>
@@ -101,7 +108,7 @@ function Search() {
                   </tr>
                 ))}
             </tbody>
-          </table>
+          </table>):(<ProductList/>)}
         </div>
       </div>
     </>
