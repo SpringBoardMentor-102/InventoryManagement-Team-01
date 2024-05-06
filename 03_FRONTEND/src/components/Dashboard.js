@@ -1,25 +1,23 @@
-import React, { useState }  from 'react'
+import React, { useState } from 'react'
 
 import ProductList from './ProductList';
 import Sidebar from './Sidebar';
 import Search from './Search';
 
 const Dashboard = () => {
-  
-  
+
+
   return (
-    <body id="dashboard-page-body">
     <div className="dash-container">
 
-   <Sidebar/>
+      <Sidebar />
 
-        <main>
+      <main>
         <div>
-        <ProductList/>
+          <ProductList />
         </div>
-        </main>
+      </main>
     </div>
-    </body>
   )
 }
 
