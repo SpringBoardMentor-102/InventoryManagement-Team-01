@@ -55,9 +55,6 @@ function Search() {
 
     <>
       <div className="searchpage-container">
-        <div className="sidebar-forSearch">
-          <Sidebar />
-        </div>
         <div className="search-block">
           <div className="search-bar">
             <input
