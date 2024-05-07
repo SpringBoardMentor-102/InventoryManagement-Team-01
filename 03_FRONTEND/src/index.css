@@ -391,11 +391,17 @@ aside {
 }
 
 aside .top {
+  position: fixed;
   /* background: white; */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 1.4rem;
+  top: 26px;
+  z-index: 999;
+}
+aside .top button{
+  position: fixed;
+  top: 26px;
 }
 
 aside .logo {
@@ -419,7 +425,9 @@ aside .sidebar {
   display: flex;
   flex-direction: column;
   height: 86vh;
-  position: relative;
+  position: fixed;
+  width: 12%;
+  top: 76px;
 
 }
 
@@ -469,6 +477,12 @@ aside .sidebar a:hover {
 
 aside .sidebar a:hover span {
   margin-left: 1rem;
+}
+
+aside button{
+  position: fixed;
+  z-index: 999;
+  top: 61px;
 }
 
 /* Main */
@@ -893,7 +907,10 @@ main .recent-orders a {
 } */
 
 .search-bar {
-  position: relative;
+  
+  position: fixed;
+  top: 10px;
+  z-index: 999;
   display: flex;
   align-items: center;
   margin-top: 8px;
@@ -931,6 +948,7 @@ main .recent-orders a {
 .table-container {
   text-align: center;
   width: 94%;
+  margin-top: 4.5%;
   border-collapse: collapse;
 }
 
