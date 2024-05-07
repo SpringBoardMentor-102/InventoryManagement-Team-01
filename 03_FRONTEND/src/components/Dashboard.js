@@ -1,6 +1,6 @@
-import ProductList from './ProductList';
-import Sidebar from './Sidebar';
-import Search from './Search';
+import ProductList from "./ProductList";
+import Sidebar from "./Sidebar";
+import Search from "./Search";
 
 const Dashboard = () => {
   return (
@@ -8,12 +8,10 @@ const Dashboard = () => {
       <Sidebar />
       <main>
         <Search />
-        <div>
-         {/* <ProductList /> */}
-        </div>
+        <div>{/* <ProductList /> */}</div>
       </main>
     </div>
-  )
-}
+  );
+};
 
 export default Dashboard;

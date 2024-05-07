@@ -90,6 +90,7 @@ class userContoller {
 
       // Password is correct, generate JWT token
       const token = generateJWT(user);
+      console.log(token);
 
       // Send the token in response
       return res.status(201).json({ token });
@@ -198,7 +199,7 @@ class userContoller {
       // try saving the new user details if email sent was successful
       await newUser.save();
 
-      res.status(201).send();
+      res.status(201).send("Succesfully created");
     } catch (err) {
       console.error(err);
       res.status(500).send("Internal Server Error");

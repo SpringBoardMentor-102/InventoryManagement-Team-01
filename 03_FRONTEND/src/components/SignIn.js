@@ -78,6 +78,9 @@ function SignIn() {
       })
       .then((response) => {
         console.log("Login Succesfull");
+        // console.log(response.data.token);
+        // Storing token in session storage
+        sessionStorage.setItem("token", response.data.token);
         navigate("/dashboard");
       })
       .catch((error) => {
