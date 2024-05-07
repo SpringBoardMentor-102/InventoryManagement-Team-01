@@ -48,7 +48,9 @@ function Search() {
         //   headers: {
         //     token: token,
         //   },
-        const response = await fetchData("product/getAllProducts");
+        const response = await fetchData(
+          `product/searchProduct?name=${searchQuery}&sortField=${sortField}&sortOrder=${sortOrder}`
+        );
         console.log(response);
 
         setSearchResults(response.data);
