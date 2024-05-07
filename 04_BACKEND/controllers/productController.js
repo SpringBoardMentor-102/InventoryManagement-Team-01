@@ -209,6 +209,61 @@ async function deleteProduct(req, res) {
   }
 }
 
+/**
+ * Controller function for Retrieving products by category name
+ * @param {*} req
+ * @param {*} res
+ * @returns products json
+ */
+async function getProductsByCategory(req, res) {
+  try {
+    const { categoryName } = req.query;
+    if (!categoryName) {
+      return res.status(400).json({ errors: "Category name is required" });
+    }
+
+    const products = await Product.aggregate([
+      {
+        $lookup: {
+          from: "categories",
+          localField: "categoryId",
+          foreignField: "_id",
+          as: "category",
+        },
+      },
+      {
+        $unwind: "$category",
+      },
+      {
+        $match: {
+          "category.categoryName": categoryName,
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          description: 1,
+          price: 1,
+          quantity: 1,
+          status: 1,
+          category: "$category.categoryName",
+          imageUrl: 1,
+          createdAt: { $ifNull: ["$createdAt", null] },
+          updatedAt: { $ifNull: ["$updatedAt", null] },
+        },
+      },
+    ]);
+
+    if (products.length === 0) {
+      return res.status(404).json({ errors: "No products found for this category" });
+    }
+
+    return res.json({ products });
+  } catch (err) {
+    return res.status(500).json({ errors: err.message });
+  }
+}
+
 async function searchProduct(req, res) {
   try {
     const { name } = req.query;
@@ -231,5 +286,6 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
-  searchProduct
+  searchProduct,
+  getProductsByCategory
 };
