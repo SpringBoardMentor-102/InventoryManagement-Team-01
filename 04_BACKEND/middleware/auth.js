@@ -2,7 +2,8 @@ const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
   //taking token from headers
-  const authHeader = req.headers.token;
+  const authHeader = req.headers.authorization;
+  console.log("token is", authHeader);
 
   // checking if token is null or undefined
 
@@ -15,8 +16,11 @@ const authMiddleware = (req, res, next) => {
 
   console.log("token is", authHeader);
 
+  //splitting token
+  const token = authHeader.split(" ")[1];
+
   //verify token
-  jwt.verify(authHeader, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
       return res.status(401).json({
         status: 401,

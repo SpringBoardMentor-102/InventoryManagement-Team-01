@@ -6,6 +6,7 @@ import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import "../../src/index.css";
 import ProductList from "./ProductList";
+import fetchData from "../utilities/validators/apputils";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -39,14 +40,17 @@ function Search() {
     if (searchQuery.trim() !== "") {
       try {
         setLoading(true);
-        const url = `${BACKEND_URL}/product/searchProduct?name=${searchQuery}&sortField=${sortField}&sortOrder=${sortOrder}`;
-        console.log("Request URL:", url);
-        // sending token in request header
-        const response = await axios.get(url, {
-          headers: {
-            token: token,
-          },
-        });
+        // const response = await fetchData("product/getAllProducts")
+        // const url = `${BACKEND_URL}/product/searchProduct?name=${searchQuery}&sortField=${sortField}&sortOrder=${sortOrder}`;
+        // console.log("Request URL:", url);
+        // // sending token in request header
+        // const response = await axios.get(url, {
+        //   headers: {
+        //     token: token,
+        //   },
+        const response = await fetchData("product/getAllProducts");
+        console.log(response);
+
         setSearchResults(response.data);
         setShowResults(true);
       } catch (error) {

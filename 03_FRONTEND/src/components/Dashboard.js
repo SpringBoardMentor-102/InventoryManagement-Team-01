@@ -4,7 +4,6 @@ import Search from "./Search";
 import React, { useEffect, useState } from "react";
 import fetchData from "../utilities/validators/apputils";
 
-
 const Dashboard = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);

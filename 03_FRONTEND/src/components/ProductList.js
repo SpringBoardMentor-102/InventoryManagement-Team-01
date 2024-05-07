@@ -1,29 +1,38 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import fetchData from "../utilities/validators/apputils";
+
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    console.log(token);
-    const apiUrl = "http://localhost:5000/api/product/getAllProducts";
-    const fetchData = async () => {
+    // const token = sessionStorage.getItem("token");
+    // console.log(token);
+    // const apiUrl = "http://localhost:5000/api/product/getAllProducts";
+    const fetchDatas = async () => {
       try {
-        const response = await axios.get(apiUrl, {
-          headers: {
-            token: token,
-          },
-        });
-        setProducts(response.data.products);
-        setLoading(false);
+        // const response = await axios.get(apiUrl, {
+        //   headers: {
+        //     token: token,
+        //   },
+        // });
+        const response = await fetchData("product/getAllProducts");
+        console.log(response);
+        if (response !== null) {
+          setProducts(response.data.products);
+          setLoading(false);
+        } else {
+          setError("UnAuthorized");
+          setLoading(false);
+        }
       } catch (error) {
         setError(error.message);
         setLoading(false);
       }
     };
-    fetchData();
+    fetchDatas();
   }, []);
   if (loading) {
     return <div> loading...</div>;
