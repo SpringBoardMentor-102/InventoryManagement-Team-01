@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import "../../src/index.css";
 import ProductList from "./ProductList";
@@ -91,10 +92,38 @@ function Search() {
               <thead>
                 <tr>
                   <th>Product</th>
-                  <th onClick={() => toggleSortOrder("name")}>Product Name</th>
-                  <th onClick={() => toggleSortOrder("price")}>Price</th>
-                  <th onClick={() => toggleSortOrder("quantity")}>Quantity</th>
-                  <th onClick={() => toggleSortOrder("status")}>Status</th>
+                  <th onClick={() => toggleSortOrder("name")}>
+                    Product Name
+                    {sortField === "name" && (
+                      <FontAwesomeIcon
+                        icon={sortOrder === "asc" ? faArrowUp : faArrowDown}
+                      />
+                    )}
+                  </th>
+                  <th onClick={() => toggleSortOrder("price")}>
+                    Price
+                    {sortField === "price" && (
+                      <FontAwesomeIcon
+                        icon={sortOrder === "asc" ? faArrowUp : faArrowDown}
+                      />
+                    )}
+                  </th>
+                  <th onClick={() => toggleSortOrder("quantity")}>
+                    Quantity
+                    {sortField === "quantity" && (
+                      <FontAwesomeIcon
+                        icon={sortOrder === "asc" ? faArrowUp : faArrowDown}
+                      />
+                    )}
+                  </th>
+                  <th onClick={() => toggleSortOrder("status")}>
+                    Status
+                    {sortField === "status" && (
+                      <FontAwesomeIcon
+                        icon={sortOrder === "asc" ? faArrowUp : faArrowDown}
+                      />
+                    )}
+                  </th>
                 </tr>
               </thead>
               <tbody>
