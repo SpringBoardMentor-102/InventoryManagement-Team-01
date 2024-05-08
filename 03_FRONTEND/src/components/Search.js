@@ -134,11 +134,22 @@ function Search() {
               </thead>
               <tbody>
                 {searchResults
-                  .sort((a, b) =>
-                    sortOrder === "asc"
-                      ? String(a[sortField]).localeCompare(String(b[sortField]))
-                      : String(b[sortField]).localeCompare(String(a[sortField]))
-                  )
+                  .sort((a, b) => {
+                    if (sortField === "status") {
+                      const statusOrder = { available: 1, out_of_stock: 2 };
+                      return sortOrder === "asc" ? statusOrder[a[sortField]] - statusOrder[b[sortField]] : statusOrder[b[sortField]] - statusOrder[a[sortField]];
+                    } else if (sortField === "price" || sortField === "quantity") {
+                      return sortOrder === "asc" ? a[sortField] - b[sortField] : b[sortField] - a[sortField];
+                    } else {
+                      const valueA = typeof a[sortField] === "string" ? a[sortField].toLowerCase() : a[sortField];
+                      const valueB = typeof b[sortField] === "string" ? b[sortField].toLowerCase() : b[sortField];
+                      if (typeof valueA === "string" && typeof valueB === "string") {
+                        return sortOrder === "asc" ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+                      } else {
+                        return 0;
+                      }
+                    }
+                  })
                   .map((product, index) => (
                     <tr key={index} className="trows">
                       <td>
@@ -154,6 +165,7 @@ function Search() {
                       <td>{product.status}</td>
                     </tr>
                   ))}
+
               </tbody>
             </table>
           ) : (
