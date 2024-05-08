@@ -264,21 +264,25 @@ async function getProductsByCategory(req, res) {
   }
 }
 
+//Function for searching product
 async function searchProduct(req, res) {
   try {
-    const { name } = req.query;
+    let { name } = req.query;
+    name = name.trim();
 
     const products = await Product.find({ name: { $regex: new RegExp(name, 'i') } });
 
     if (products.length > 0) {
       res.json(products);
     } else {
-      res.status(404).json({ message: "No products found matching the search criteria" });
+      // Send an empty array as response to indicate no products found
+      res.json([]);
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 }
+
 
 module.exports = {
   getAllProducts,
