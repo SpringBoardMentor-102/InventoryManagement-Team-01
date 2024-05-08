@@ -1,5 +1,5 @@
 // external dependencies
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -16,13 +16,24 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
+
+  useEffect(() => {
+    // enable button after 5 seconds
+    const timer = setTimeout(() => {
+      setButtonDisabled(false);
+    }, 60000);
+
+    // Clear timer on component unmount
+    return () => clearTimeout(timer);
+  }, [buttonDisabled]);
 
   /** This is a helper function to clear all the errors on the UI screen
    */
   const clearErrors = () => {
     setEmailError("");
   };
-
   /** Helper function to validate the input sent by the user
    *
    * @returns {Boolean} true if validation is success, false otherwise
@@ -57,6 +68,8 @@ const ForgotPassword = () => {
       console.log("form validation fails.");
       return;
     }
+    // Disable button during API call
+    setButtonDisabled(true)
 
     // validation was successful, attempting to make a call to the backend
 
@@ -65,7 +78,10 @@ const ForgotPassword = () => {
       .then((response) => {
         // Reset Password link Sent successfull
         console.log(response);
+
+
         alert("Reset Link sent successfully, Please check you mail");
+
       })
       .catch((error) => {
         let response = error.response;
@@ -115,10 +131,11 @@ const ForgotPassword = () => {
           </div>
 
           <input
-            className="submit-button"
+            className={`submit-button ${buttonDisabled ? 'disabled-button' : ''} `}
             type="button"
             value="Reset Password"
             onClick={emailVerification}
+            disabled={buttonDisabled}
           />
           <div className="links" style={{ clear: "both", textAlign: "center" }}>
             <p>

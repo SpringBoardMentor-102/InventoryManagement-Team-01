@@ -68,6 +68,13 @@ body {
   /* Center the container horizontally */
 }
 
+/* styles for the disabled button */
+.disabled-button {
+  background-color: #ccc !important; 
+  color: #666 !important; 
+  cursor: not-allowed !important; 
+}
+
 
 h1 {
   font-size: 24px;
