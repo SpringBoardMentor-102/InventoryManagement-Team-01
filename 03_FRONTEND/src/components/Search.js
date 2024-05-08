@@ -68,7 +68,8 @@ function Search() {
         setLoading(false);
       }
     } else {
-      setSearchResults(false);
+      setSearchResults([]);
+      setShowResults(false);
     }
   };
 
@@ -93,7 +94,8 @@ function Search() {
               search
             </button>
           </div>
-          {showResults ? (
+         {loading && <p>Loading...</p>}
+          {showResults && searchResults.length > 0 && (
             <table className="table-container">
               <thead>
                 <tr>
@@ -168,13 +170,18 @@ function Search() {
 
               </tbody>
             </table>
-          ) : (
-            <ProductList />
           )}
+          {showResults && searchResults.length === 0 && 
+          <table className="table-container">
+            <th>No such product found.</th>
+          </table>
+          }
+          {!showResults && <ProductList />}
         </div>
       </div>
     </>
   );
 }
+
 
 export default Search;
