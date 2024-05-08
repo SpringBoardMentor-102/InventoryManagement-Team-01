@@ -1,13 +1,31 @@
 // Filter.js
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import Search from './Search';
 import ProductList from './ProductList';
+import { fetchData } from '../../utilities/validators/apputils';
 // import './Search.css';
 
 const Filter = ({ products }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([...products]);
 
+  useEffect(() => {
+    const fetchFilteredProducts = async () => {
+      try {
+        const response = await fetchData(`/search_product?term=${searchTerm}`);
+        setFilteredProducts(response);
+      } catch (error) {
+        console.error('Error fetching filtered products:', error);
+      }
+    };
+
+    if (searchTerm.trim() !== '') {
+      fetchFilteredProducts();
+    } else {
+      setFilteredProducts([]);
+    }
+  }, [searchTerm]);
+  
   const handleSearch = (searchTerm) => {
     setSearchTerm(searchTerm);
     const filtered = products.filter(product =>

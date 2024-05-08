@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaCheckCircle } from 'react-icons/fa';
+import  { fetchDataUnprotected } from "../../utilities/validators/apputils"
 
 // Getting the path from environment variable
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -24,7 +25,7 @@ const Confirm = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
     console.log(token);
-      const response = await axios.get(`${BACKEND_URL}/users/confirm-email?token=${token}`);
+      const response = await fetchDataUnprotected(`/users/confirm-email?token=${token}`);
       console.log(response.data);
       setIsConfirmed(true);
       setTimeout(() => {

@@ -4,9 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import "../../src/index.css";
+import "../../index.css";
 import ProductList from "./ProductList";
-import fetchData from "../utilities/validators/apputils";
+import { fetchData } from "../../utilities/validators/apputils";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 

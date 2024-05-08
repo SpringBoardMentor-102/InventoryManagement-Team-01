@@ -1,0 +1,98 @@
+ 
+      [
+        {
+          "id": "001",
+          "image": "https://w7.pngwing.com/pngs/378/624/png-transparent-iphone-14-thumbnail.png",
+          "company": "Apple",
+          "item_name": "iPhone",
+          "original_price": 100000,
+          "current_price": 30000,
+          "discount_percentage": 42,
+          "return_period": 14,
+          "delivery_date": "10 Oct 2023",
+          "rating": { "stars": 4.5, "count": 1400 }
+        },
+        {
+          "id": "002",
+          "image": "https://w7.pngwing.com/pngs/229/801/png-transparent-headphones-apple-earbuds-lightning-headphones-electronics-electronic-device-audio-equipment.png",
+          "company": "Apple",
+          "item_name": "Earphone",
+          "original_price": 2599,
+          "current_price": 1507,
+          "discount_percentage": 42,
+          "return_period": 14,
+          "delivery_date": "10 Oct 2023",
+          "rating": { "stars": 4.3, "count": 24 }
+        },
+        {
+          "id": "003",
+          "image": "https://in-exstatic-vivofs.vivo.com/gdHFRinHEMrj3yPG/1691143309971/e7b0ded5760a09f10efb38967388ec0a.png",
+          "company": "vivo",
+          "item_name": "phone",
+          "original_price": 1599,
+          "current_price": 495,
+          "discount_percentage": 69,
+          "return_period": 14,
+          "delivery_date": "10 Oct 2023",
+          "rating": { "stars": 4.1, "count": 249 }
+        },
+        {
+          "id": "004",
+          "image": "https://toppng.com/uploads/preview/rofessional-video-camera-png-transparent-image-canon-eos-c100-mark-iii-11563642208kraisdd4v2.png",
+          "company": "Canon",
+          "item_name": "Camera",
+          "original_price": 999,
+          "current_price": 999,
+          "discount_percentage": 0,
+          "return_period": 14,
+          "delivery_date": "10 Oct 2023",
+          "rating": { "stars": 5, "count": 10 }
+        },
+        {
+          "id": "005",
+          "image": "https://asia-exstatic-vivofs.vivo.com/PSee2l50xoirPK7y/1692845789974/fff1712895cf005af41bea955ac6972a.png",
+          "company": "vivo",
+          "item_name": "phone",
+          "original_price": 1399,
+          "current_price": 489,
+          "discount_percentage": 65,
+          "return_period": 14,
+          "delivery_date": "10 Oct 2023",
+          "rating": { "stars": 4.2, "count": 3500 }
+        },
+        {
+          "id": "006",
+          "image": "https://kdbdeals.com/wp-content/uploads/2023/09/476e5163-98ec-4d56-bc4c-f856e7066f64.jpg",
+          "company": "Rolex",
+          "item_name": "watch",
+          "original_price": 14995,
+          "current_price": 14995,
+          "discount_percentage": 0,
+          "return_period": 14,
+          "delivery_date": "10 Oct 2023",
+          "rating": { "stars": 0, "count": 0 }
+        },
+        {
+          "id": "007",
+          "image": "https://atlas-content-cdn.pixelsquid.com/stock-images/airpods-max-headphones-silver-Mxa0GLC-600.jpg",
+          "company": "Apple",
+          "item_name": "headphones",
+          "original_price": 1599,
+          "current_price": 639,
+          "discount_percentage": 60,
+          "rating": { "stars": 4.2, "count": 388 }
+        },
+        {
+          "id": "008",
+          "image": "https://www.pngmart.com/files/15/Apple-iPhone-12-Transparent-Images-PNG.png",
+          "company": "Apple",
+          "item_name": "iPhone",
+          "original_price": 100000,
+          "current_price": 30000,
+          "discount_percentage": 50,
+          "return_period": 14,
+          "delivery_date": "10 Oct 2023",
+          "rating": { "stars": 4.2, "count": 5200 }
+        }
+      ]
+    

@@ -3,17 +3,17 @@ import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Internal Component Imports
-import SignIn from './components/SignIn'
-import Reset from './components/Reset'
-import Confirm from './components/Confirm'
-import SignUp from './components/SignUp';
-import Dashboard from './components/Dashboard';
-import ForgotPassword from './components/ForgotPassword';
-import EmailNotification from './components/EmailNotification';
-import NotFound from './components/NotFound';
-import RegConfig from './components/RegConfig';
-import Search from './components/Search';
-import Filter from './components/Filter';
+import SignIn from './components/unprotected/SignIn'
+import Reset from './components/protected/Reset'
+import Confirm from './components/unprotected/Confirm'
+import SignUp from './components/unprotected/SignUp';
+import Dashboard from './components/protected/Dashboard';
+import ForgotPassword from './components/unprotected/ForgotPassword';
+import EmailNotification from './components/unprotected/EmailNotification';
+import NotFound from './components/unprotected/NotFound';
+import RegConfig from './components/unprotected/RegConfig';
+import Search from './components/protected/Search';
+import Filter from './components/protected/Filter';
 
 // create an app to render routes
 const App = () => {
