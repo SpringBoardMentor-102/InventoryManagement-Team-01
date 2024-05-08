@@ -316,8 +316,8 @@ input[type="submit"]:hover {
   display: grid;
   width: 100vw;
   margin: 0 auto;
-  gap: 1.8rem;
-  grid-template-columns: 14rem 93rem;
+  gap: 3vw;
+  grid-template-columns: 15vw 80vw;
   padding: 20px;
 }
 
@@ -426,7 +426,7 @@ aside .sidebar {
   flex-direction: column;
   height: 86vh;
   position: fixed;
-  width: 12%;
+  width: 15vw;
   top: 76px;
 
 }
@@ -991,7 +991,8 @@ main .recent-orders a {
 .table-container th,
 .table-container td {
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #7d8da1;
+  background-color: white;
 }
 
 .table-container th {
