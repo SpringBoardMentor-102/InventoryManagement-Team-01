@@ -9,6 +9,7 @@ const {
   validateCategoryId,
   validateImageUrl,
 } = require("./utilities/validators/producModelValidators");
+const { isValidObjectId } = require("mongoose");
 
 /**
  * Controller function for Getting all product
@@ -255,7 +256,9 @@ async function getProductsByCategory(req, res) {
     ]);
 
     if (products.length === 0) {
-      return res.status(404).json({ errors: "No products found for this category" });
+      return res
+        .status(404)
+        .json({ errors: "No products found for this category" });
     }
 
     return res.json({ products });
@@ -270,7 +273,9 @@ async function searchProduct(req, res) {
     let { name } = req.query;
     name = name.trim();
 
-    const products = await Product.find({ name: { $regex: new RegExp(name, 'i') } });
+    const products = await Product.find({
+      name: { $regex: new RegExp(name, "i") },
+    });
 
     if (products.length > 0) {
       res.json(products);
@@ -283,7 +288,6 @@ async function searchProduct(req, res) {
   }
 }
 
-
 module.exports = {
   getAllProducts,
   getProductById,
@@ -291,5 +295,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   searchProduct,
-  getProductsByCategory
+  getProductsByCategory,
 };
