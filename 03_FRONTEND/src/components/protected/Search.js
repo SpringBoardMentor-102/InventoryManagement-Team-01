@@ -1,22 +1,20 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+
 import "../../index.css";
 import ProductList from "./ProductList";
 import { fetchData } from "../../utilities/validators/apputils";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-
 function Search() {
+
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sortField, setSortField] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
   const [showResults, setShowResults] = useState(false);
+
   const toggleSortOrder = (field) => {
     if (field === sortField) {
       const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
@@ -35,19 +33,10 @@ function Search() {
 
   const handleSearch = async () => {
     // Taking token from session storage
-    const token = sessionStorage.getItem("token");
 
     if (searchQuery.trim() !== "") {
       try {
         setLoading(true);
-        // const response = await fetchData("product/getAllProducts")
-        // const url = `${BACKEND_URL}/product/searchProduct?name=${searchQuery}&sortField=${sortField}&sortOrder=${sortOrder}`;
-        // console.log("Request URL:", url);
-        // // sending token in request header
-        // const response = await axios.get(url, {
-        //   headers: {
-        //     token: token,
-        //   },
         const response = await fetchData(
           `product/searchProduct?name=${searchQuery}&sortField=${sortField}&sortOrder=${sortOrder}`
         );
