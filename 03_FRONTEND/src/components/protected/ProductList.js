@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { fetchData } from "../../utilities/validators/apputils";
+import { Link } from "react-router-dom";
+
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -45,23 +47,21 @@ const ProductList = () => {
     <div className="product-container">
       {products.map((item) => (
         <div className="item-container" key={item._id}>
+        <Link to={`/product/${item._id}`}>
           <img
             className="item-image"
             src={item.imageUrl}
             alt="displayed item"
           />
-          {/* <div className="rating">
-        {item.rating.stars} ⭐ | {item.rating.count}
-      </div> */}
         <div className="details-container" >
             <div className="company-name">{item.name}</div>
             <div className="item-name">{item.description}</div>
             <div className="price">
               <span className="current-price">Rs {item.price}</span>
-              {/* <span className="original-price">Rs {item.original_price}</span>
-             <span className="discount">({item.discount_percentage}% OFF)</span> */}
+            
             </div>
           </div>  
+          </Link>
         </div>
       ))}
     </div>
