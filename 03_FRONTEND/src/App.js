@@ -13,7 +13,6 @@ import EmailNotification from './components/unprotected/EmailNotification';
 import NotFound from './components/unprotected/NotFound';
 import RegConfig from './components/unprotected/RegConfig';
 import Search from './components/protected/Search';
-import Filter from './components/protected/Filter';
 
 // create an app to render routes
 const App = () => {
@@ -31,7 +30,6 @@ const App = () => {
         <Route path='/forgot' element={<ForgotPassword />} />
         <Route path='/email_notification' element={<EmailNotification />} />
         <Route path='/search_product' element={<Search />} />
-        <Route path='/Filter' element={<Filter />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
