@@ -25,7 +25,7 @@ const Confirm = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
     console.log(token);
-      const response = await fetchDataUnprotected(`/users/confirm-email?token=${token}`);
+      const response = await fetchDataUnprotected(`users/confirm-email?token=${token}`);
       console.log(response.data);
       setIsConfirmed(true);
       setTimeout(() => {
