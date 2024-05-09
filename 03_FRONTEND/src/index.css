@@ -1015,3 +1015,92 @@ main .recent-orders a {
 }
 
 /* ------------------------------------------------ */
+
+
+
+
+/* productdetail  */
+
+#product-container{
+  position: relative;
+  margin: auto;
+  overflow: hidden;
+  width: 90vw;
+  height: 90vh;
+  background: rgb(229, 232, 235);
+  box-shadow: 5px 5px 15px rgba(pink, .5);
+  border-radius: 10px;
+}
+.product-name{
+  font-size: 2.2em;
+  letter-spacing: 11.5px;
+  top: 0px;
+}
+.product-images{
+ width: 50%;
+ height: 100%;
+ display: flex;
+ /* align-items: center; */
+ background: rgb(239, 246, 217);
+  /* margin-top: 0px;  */
+  
+} 
+.back{
+  font-size: 15px;
+  display: flex;
+  float: right;
+  padding-right: 516px;
+  margin-top: 24px;
+  border: none;
+  color: black;
+}
+.back  :hover{
+color: grey;
+}
+ .product{
+  position: absolute;
+  width: 47%;
+  height: 100%;
+  top: 20%;
+  left: 52%;
+}
+
+.buttons{
+  padding: 10px;
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  margin: -1px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: white;
+  cursor: pointer;
+
+  
+}
+.buttons :hover {
+  background: rgb(205, 201, 201);
+  color: black;
+  transition: all .4s ease-in-out;
+}
+
+.desc{
+  text-transform: none;
+  letter-spacing: 0;
+  margin-bottom: 17px;
+  color: black;
+  font-size: 14px;
+  line-height: 1.6em;
+  margin-right: 25px;
+  text-align: justify;
+  font-family: 'Courier New', Courier, monospace;
+
+}
+.add{
+  width: 200px;
+  color: white;
+  font-weight: bold;
+  height: 50px;
+  background-color: black;
+}
