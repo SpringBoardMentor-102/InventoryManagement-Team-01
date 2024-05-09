@@ -13,7 +13,7 @@ import EmailNotification from './components/unprotected/EmailNotification';
 import NotFound from './components/unprotected/NotFound';
 import RegConfig from './components/unprotected/RegConfig';
 import Search from './components/protected/Search';
-import Filter from './components/protected/Filter';
+// import Filter from './components/protected/Filter';
 import ProductList from './components/protected/ProductList';
 import ProductDetail from './components/protected/ProductDetail';
 
@@ -33,7 +33,7 @@ const App = () => {
          <Route path='/forgot' element={<ForgotPassword />} />
         <Route path='/email_notification' element={<EmailNotification />} />
         <Route path='/search_product' element={<Search />} />
-        <Route path='/Filter' element={<Filter />} />
+        // <Route path='/Filter' element={<Filter />} />
         <Route path='*' element={<NotFound />} />
         <Route path='/' exact element={<ProductList/>}/>
         <Route path='/product/:id' element={<ProductDetail/>}/>
