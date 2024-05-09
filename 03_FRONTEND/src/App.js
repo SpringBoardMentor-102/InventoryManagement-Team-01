@@ -31,15 +31,12 @@ const App = () => {
         <Route path='/reset' element={<Reset />} />
         <Route path="/confirm-email" element={<Confirm />} />
         <Route path='/Dashboard' element={<Dashboard />} />
-<<<<<<< HEAD
         <Route path='/AdminDashboard' element={<AdminDashboard />} />
         <Route path='/forgot' element={<ForgotPassword />} />
-=======
          <Route path='/forgot' element={<ForgotPassword />} />
->>>>>>> f0a724db1974b01c0aa7ab8050256ef976a825d8
         <Route path='/email_notification' element={<EmailNotification />} />
         <Route path='/search_product' element={<Search />} />
-        // <Route path='/Filter' element={<Filter />} />
+         {/* <Route path='/Filter' element={<Filter />} /> */}
         <Route path='*' element={<NotFound />} />
         <Route path='/' exact element={<ProductList/>}/>
         <Route path='/product/:id' element={<ProductDetail/>}/>
