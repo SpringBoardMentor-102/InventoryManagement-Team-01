@@ -8,6 +8,7 @@ import Reset from './components/protected/Reset'
 import Confirm from './components/unprotected/Confirm'
 import SignUp from './components/unprotected/SignUp';
 import Dashboard from './components/protected/Dashboard';
+import AdminDashboard from './components/protected/AdminDashboard';
 import ForgotPassword from './components/unprotected/ForgotPassword';
 import EmailNotification from './components/unprotected/EmailNotification';
 import NotFound from './components/unprotected/NotFound';
@@ -27,6 +28,7 @@ const App = () => {
         <Route path='/reset' element={<Reset />} />
         <Route path="/confirm-email" element={<Confirm />} />
         <Route path='/Dashboard' element={<Dashboard />} />
+        <Route path='/AdminDashboard' element={<AdminDashboard />} />
         <Route path='/forgot' element={<ForgotPassword />} />
         <Route path='/email_notification' element={<EmailNotification />} />
         <Route path='/search_product' element={<Search />} />
