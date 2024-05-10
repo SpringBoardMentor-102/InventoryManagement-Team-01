@@ -4,10 +4,26 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
+
+
 const ProductDetail = () => {
   const {id} =  useParams();
   console.log(id);
+  
   const [product,setProduct]=useState([]);
+const [value ,setValue]=useState(0);
+
+  const setDecrease =()=>{
+    value >1 ? setValue(value -1): setValue(0);
+  };
+  const setIncrease=()=>{
+    value < product.quantity ? setValue(value + 1): setValue(product.quantity);
+  };
+
+  const addToCart=()=>{
+    value < product.quantity ? setValue(value + 1): setValue(product.quantity);
+
+  }
     const token =sessionStorage.getItem("token");
     useEffect(()=>{
 axios.get(`http://localhost:5000/api/product/GetProducts/${id}`,{
@@ -26,6 +42,7 @@ axios.get(`http://localhost:5000/api/product/GetProducts/${id}`,{
 if(!product) return <div>loading...</div>
   return (
 <>
+{/* <Sidebar/> */}
     <div id="product-container">
     <div className='back'><FontAwesomeIcon icon={faArrowLeft}/><Link to="/Dashboard">Back to Dashboard </Link></div>
   <div className="product-images">
@@ -39,7 +56,14 @@ if(!product) return <div>loading...</div>
     <h2>DESCRIPTION</h2>
     <p className="desc">{product.description}</p>
     <div className="buttons">
-      <button className="add">Add to Cart</button>
+    <Link>
+      <button onClick={addToCart} className="add">Add to Cart</button>
+    </Link>
+    </div>
+    <div className="change-button">
+      <button onClick={setDecrease} className="minus">-</button>
+      <button className='value'>{value}</button>
+      <button onClick={setIncrease} className='plus'>+</button>
     </div>
   </div>
 </div></>
