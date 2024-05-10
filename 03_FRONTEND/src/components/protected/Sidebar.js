@@ -53,6 +53,10 @@ const Sidebar = () => {
                         <span className="material-icons-sharp">history</span>
                         <h3>History</h3>
                     </a>
+                   <Link to="/checkout" className={activeLink === '/checkout' ? "active" : ""}>
+                        <span className="material-icons-sharp">add_shopping_cart</span>
+                        <h3>Checkout</h3>
+                    </Link>
                     <a href="/help">
                         <span className="material-icons-sharp">manage_accounts</span>
                         <h3>Help Center</h3>
