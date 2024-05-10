@@ -1,9 +1,8 @@
-
 // external dependencies
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { fetchDataUnprotected } from "../../utilities/validators/apputils"; 
+import { fetchDataUnprotected } from "../../utilities/apputils";
 
 // internal dependencies
 import { validateEmail } from "../../utilities/validators";
@@ -63,36 +62,38 @@ const ForgotPassword = () => {
     // validation was successful, attempting to make a call to the backend
 
     try {
-      const response = await fetchDataUnprotected(`/users/forget-password?email=${email}`);
+      const response = await fetchDataUnprotected(
+        `/users/forget-password?email=${email}`
+      );
       // Reset Password link Sent successfull
       console.log(response);
       alert("Reset Link sent successfully, Please check you mail");
-    } catch(error) {
-        let response = error.response;
-        if (response) {
-          console.log(response.status);
+    } catch (error) {
+      let response = error.response;
+      if (response) {
+        console.log(response.status);
 
-          if (response.status === 422) {
-            // 422 when validation failure happens,
-            console.error("Validation failure: ", response.data.errors);
-            setErrorMessage("Validation failure: ", response.data.errors);
-          } else if (response.status === 500) {
-            // 500 when unknown error occurs
-            console.error("Internal Server Error", response.data.errors);
-            setErrorMessage("Internal Server Error", response.data.errors);
-          } else if (response.status === 404) {
-            console.error("User Not Found", response.data.errors);
-            setErrorMessage("User Not Found", response.data.errors);
-          } else {
-            // UNKOWN CASE
-            console.error("CRAZY STUFF", response.data.errors);
-            setErrorMessage("CRAZY STUFF", response.data.errors);
-          }
+        if (response.status === 422) {
+          // 422 when validation failure happens,
+          console.error("Validation failure: ", response.data.errors);
+          setErrorMessage("Validation failure: ", response.data.errors);
+        } else if (response.status === 500) {
+          // 500 when unknown error occurs
+          console.error("Internal Server Error", response.data.errors);
+          setErrorMessage("Internal Server Error", response.data.errors);
+        } else if (response.status === 404) {
+          console.error("User Not Found", response.data.errors);
+          setErrorMessage("User Not Found", response.data.errors);
         } else {
-          console.log("Backend not working");
-          setErrorMessage("Internal Server Error");
+          // UNKOWN CASE
+          console.error("CRAZY STUFF", response.data.errors);
+          setErrorMessage("CRAZY STUFF", response.data.errors);
         }
-      };
+      } else {
+        console.log("Backend not working");
+        setErrorMessage("Internal Server Error");
+      }
+    }
   };
 
   return (
@@ -136,4 +137,3 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
-

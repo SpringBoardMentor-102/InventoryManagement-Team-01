@@ -141,6 +141,7 @@ const SignUp = () => {
 
     console.log("making a call..");
     // validation was successful, attempting to make a call to the backend
+
     await axios
       .post(`${BACKEND_URL}/users/register`, {
         firstName: firstName,

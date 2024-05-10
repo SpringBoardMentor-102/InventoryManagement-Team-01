@@ -80,10 +80,26 @@ async function getProductById(req, res) {
     }
 
     // Find a product by its ID
-    const product = await Product.findById(req.params.id);
+    // const product = await Product.findById(req.params.id);
+    const payload = await Product.findById(req.params.id).populate(
+      "categoryId",
+      "categoryName"
+    );
+    const product = {
+      _id: payload._id,
+      name: payload.name,
+      description: payload.description,
+      price: payload.price,
+      quantity: payload.quantity,
+      status: payload.status,
+      category: payload.categoryId.categoryName,
+      imageUrl: payload.imageUrl,
+      createdAt: payload.createdAt,
+      updatedAt: payload.updatedAt,
+    };
 
     // Check if the product exists
-    if (!product) {
+    if (!product || product.length === 0) {
       // If the product does not exist, respond with a 404 error
       return res.status(404).json({ errors: "Product not found" });
     }

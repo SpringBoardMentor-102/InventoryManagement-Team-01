@@ -36,12 +36,9 @@
   --box-shadow: 0 2rem 3rem var(--color-light);
 }
 
-
-
 html {
   font-size: 14px;
 }
-
 
 body {
   font-family: sans-serif;
@@ -56,7 +53,6 @@ body {
   overflow-x: hidden;
 }
 
-
 .container {
   background-color: #fff;
   padding: 50px 30px;
@@ -70,11 +66,10 @@ body {
 
 /* styles for the disabled button */
 .disabled-button {
-  background-color: #ccc !important; 
-  color: #666 !important; 
-  cursor: not-allowed !important; 
+  background-color: #ccc !important;
+  color: #666 !important;
+  cursor: not-allowed !important;
 }
-
 
 h1 {
   font-size: 24px;
@@ -106,7 +101,6 @@ p {
   background-color: #e1e1e1;
 }
 
-
 #form h1 {
   color: #0f2027;
   text-align: center;
@@ -137,7 +131,6 @@ input[type="text"] {
   background-color: #fff;
   color: #333;
 }
-
 
 .input-control input:focus {
   outline: 0;
@@ -195,9 +188,7 @@ body.dark-mode {
   top: 20px;
   right: 20px;
   cursor: pointer;
-
 }
-
 
 .navbar-toggle ion-icon {
   font-size: 30px;
@@ -211,7 +202,6 @@ body.dark-mode {
   position: relative;
 } */
 
-
 /* .navbar-toggle .toggle-icon::before {
   top: -10px;
 }
@@ -219,7 +209,6 @@ body.dark-mode {
 .navbar-toggle .toggle-icon::after {
   bottom: -10px;
 } */
-
 
 .submit-button {
   background-color: #007bff;
@@ -230,7 +219,6 @@ body.dark-mode {
   cursor: pointer;
   margin: 0 auto;
   display: block;
-
 }
 
 #new-password-error {
@@ -247,7 +235,6 @@ body.dark-mode {
   font-size: 15px;
   color: red;
 }
-
 
 /* CSS for Sign_up Page*/
 
@@ -306,7 +293,6 @@ input[type="submit"]:hover {
   background: none;
   color: blue;
 }
-
 
 #dashboard-page-body {
   width: 98vw;
@@ -406,7 +392,7 @@ aside .top {
   top: 26px;
   z-index: 999;
 }
-aside .top button{
+aside .top button {
   position: fixed;
   top: 26px;
 }
@@ -435,7 +421,6 @@ aside .sidebar {
   position: fixed;
   width: 15vw;
   top: 76px;
-
 }
 
 aside h3 {
@@ -486,7 +471,7 @@ aside .sidebar a:hover span {
   margin-left: 1rem;
 }
 
-aside button{
+aside button {
   position: fixed;
   z-index: 999;
   top: 61px;
@@ -557,7 +542,7 @@ main .insights {
   gap: 1.6rem;
 }
 
-main .insights>div {
+main .insights > div {
   background: var(--color-white);
   padding: var(--card-padding);
   border-radius: var(--card-border-radius);
@@ -567,11 +552,11 @@ main .insights>div {
   width: 22rem;
 }
 
-main .insights>div:hover {
+main .insights > div:hover {
   box-shadow: none;
 }
 
-main .insights>div span {
+main .insights > div span {
   background: var(--color-primary);
   padding: 0.5rem;
   border-radius: 50%;
@@ -579,15 +564,15 @@ main .insights>div span {
   font-size: 2rem;
 }
 
-main .insights>div.expenses span {
+main .insights > div.expenses span {
   background: var(--color-danger);
 }
 
-main .insights>div.income span {
+main .insights > div.income span {
   background: var(--color-success);
 }
 
-main .insights>div .middle {
+main .insights > div .middle {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -602,7 +587,7 @@ main .insights .progress {
   position: relative;
   width: 92px;
   height: 92px;
-  border-radius: 50%
+  border-radius: 50%;
 }
 
 main .insights svg {
@@ -682,8 +667,8 @@ main table tbody td {
 
 main table tbody tr:last-child td {
   padding: 10px;
-    border: 1px solid #7d8da1;
-    background-color: white;
+  border: 1px solid #7d8da1;
+  background-color: white;
 }
 
 main .recent-orders a {
@@ -889,12 +874,19 @@ main .recent-orders a {
 
 .item-container {
   width: 200px;
-  height: 340px;
+  /* height: 340px; */
   background-color: white;
-  border-radius: 5px
+  border-radius: 5px;
 }
-.details-container{
-  padding:10px
+.details-container {
+  padding: 10px;
+}
+
+/* category class */
+.category {
+  margin: 4px;
+  font-weight: 550;
+  font-size: 1.2rem;
 }
 
 .item-image {
@@ -905,7 +897,7 @@ main .recent-orders a {
   margin: auto;
   padding: 5px;
 }
-.item-name{
+.item-name {
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
@@ -913,12 +905,12 @@ main .recent-orders a {
   margin: 5px;
   text-align: left;
 }
-.price{
+.price {
   margin: 4px;
   font-weight: bold;
   font-size: 1.2rem;
 }
-.company-name{
+.company-name {
   margin: 4px 6px 4px 6px;
   font-weight: bold;
   font-size: 1.2rem;
@@ -950,7 +942,6 @@ main .recent-orders a {
 } */
 
 .search-bar {
-  
   position: fixed;
   top: 10px;
   z-index: 999;
@@ -1016,36 +1007,32 @@ main .recent-orders a {
 
 /* ------------------------------------------------ */
 
-
-
-
 /* productdetail  */
 
-#product-container{
+#product-container {
   position: relative;
   margin: auto;
   overflow: hidden;
   width: 90vw;
   height: 90vh;
   background: rgb(229, 232, 235);
-  box-shadow: 5px 5px 15px rgba(pink, .5);
+  box-shadow: 5px 5px 15px rgba(pink, 0.5);
   border-radius: 10px;
 }
-.product-name{
+.product-name {
   font-size: 2.2em;
   letter-spacing: 11.5px;
   top: 0px;
 }
-.product-images{
- width: 50%;
- height: 100%;
- display: flex;
- /* align-items: center; */
- background: rgb(239, 246, 217);
+.product-images {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  /* align-items: center; */
+  background: rgb(239, 246, 217);
   /* margin-top: 0px;  */
-  
-} 
-.back{
+}
+.back {
   font-size: 15px;
   display: flex;
   float: right;
@@ -1054,10 +1041,10 @@ main .recent-orders a {
   border: none;
   color: black;
 }
-.back  :hover{
-color: grey;
+.back :hover {
+  color: grey;
 }
- .product{
+.product {
   position: absolute;
   width: 47%;
   height: 100%;
@@ -1065,7 +1052,7 @@ color: grey;
   left: 52%;
 }
 
-.buttons{
+.buttons {
   padding: 10px;
   display: inline-block;
   outline: 0;
@@ -1076,16 +1063,14 @@ color: grey;
   letter-spacing: 1px;
   color: white;
   cursor: pointer;
-
-  
 }
 .buttons :hover {
   background: rgb(205, 201, 201);
   color: black;
-  transition: all .4s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 
-.desc{
+.desc {
   text-transform: none;
   letter-spacing: 0;
   margin-bottom: 17px;
@@ -1094,10 +1079,9 @@ color: grey;
   line-height: 1.6em;
   margin-right: 25px;
   text-align: justify;
-  font-family: 'Courier New', Courier, monospace;
-
+  font-family: "Courier New", Courier, monospace;
 }
-.add{
+.add {
   width: 200px;
   color: white;
   font-weight: bold;
@@ -1105,26 +1089,26 @@ color: grey;
   background-color: black;
 }
 
-.change-button{
+.change-button {
   display: inline-block;
-padding-left: 158px;
+  padding-left: 158px;
 }
 
-.minus{
+.minus {
   height: 35px;
-    width: 44px;
+  width: 44px;
   background-color: black;
   color: white;
   font-size: 12px;
 }
-.value{
+.value {
   height: 35px;
   width: 44px;
   background-color: white;
 }
-.plus{
+.plus {
   height: 35px;
-    width: 44px;
+  width: 44px;
   background-color: black;
   color: white;
 }

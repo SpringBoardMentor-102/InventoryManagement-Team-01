@@ -1,13 +1,16 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { fetchData } from "../../utilities/validators/apputils";
-import { Link } from "react-router-dom";
 
+import { Link } from "react-router-dom";
+import { fetchData } from "../../utilities/apputils";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const capitalizeFirstLetter = (text) => {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  };
 
   useEffect(() => {
     // const token = sessionStorage.getItem("token");
@@ -47,20 +50,23 @@ const ProductList = () => {
     <div className="product-container">
       {products.map((item) => (
         <div className="item-container" key={item._id}>
-        <Link to={`/product/${item._id}`}>
-          <img
-            className="item-image"
-            src={item.imageUrl}
-            alt="displayed item"
-          />
-        <div className="details-container" >
-            <div className="company-name">{item.name}</div>
-            <div className="item-name">{item.description}</div>
-            <div className="price">
-              <span className="current-price">Rs {item.price}</span>
-            
+          <Link to={`/product/${item._id}`}>
+            <img
+              className="item-image"
+              src={item.imageUrl}
+              alt="displayed item"
+            />
+            <div className="details-container">
+              <div className="company-name">{item.name}</div>
+              <div className="item-name">{item.description}</div>
+              {/* Added categories  */}
+              <div className="category">
+                {capitalizeFirstLetter(item.category)}
+              </div>
+              <div className="price">
+                <span className="current-price">Rs {item.price}</span>
+              </div>
             </div>
-          </div>  
           </Link>
         </div>
       ))}
