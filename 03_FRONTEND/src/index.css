@@ -1104,3 +1104,27 @@ color: grey;
   height: 50px;
   background-color: black;
 }
+
+.change-button{
+  display: inline-block;
+padding-left: 158px;
+}
+
+.minus{
+  height: 35px;
+    width: 44px;
+  background-color: black;
+  color: white;
+  font-size: 12px;
+}
+.value{
+  height: 35px;
+  width: 44px;
+  background-color: white;
+}
+.plus{
+  height: 35px;
+    width: 44px;
+  background-color: black;
+  color: white;
+}
