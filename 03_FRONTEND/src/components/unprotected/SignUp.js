@@ -46,9 +46,6 @@ const SignUp = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
   const [errorMessage, setErrorMessage] = useState("");
-  // ?? I am not sure what this is!!
-  const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
-  const [isSignUpSuccessError, setIsSignUpSuccessError] = useState(false);
 
   /** This is a helper function to clear all the errors on the UI screen
    */
