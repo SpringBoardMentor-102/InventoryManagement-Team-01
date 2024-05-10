@@ -226,7 +226,7 @@ const SignUp = () => {
           value={lastName}
           aria-label="Last Name"
           onChange={(e) => setLastName(e.target.value)}
-          autoComplete="off"
+          autoComplete="on"
         />
         <div id="lastnameError" className="error_sign_up">
           {lastnameError}
