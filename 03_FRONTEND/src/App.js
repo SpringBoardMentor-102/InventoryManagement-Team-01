@@ -21,6 +21,7 @@ import Checkout from './components/protected/Checkout';
 
 // create an app to render routes
 const App = () => {
+  
 
   return (
     <BrowserRouter>

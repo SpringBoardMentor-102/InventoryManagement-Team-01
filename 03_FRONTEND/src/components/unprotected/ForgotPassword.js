@@ -58,9 +58,8 @@ const ForgotPassword = () => {
     // validation was successful, attempting to make a call to the backend
 
     try {
-      const response = await fetchDataUnprotected(
-        `/users/forget-password?email=${email}`
-      );
+      const method = 'post';
+      const response = await fetchDataUnprotected(method, `users/forget-password`,{email:email});
       // Reset Password link Sent successfull
       console.log(response);
       alert("Reset Link sent successfully, Please check you mail");
