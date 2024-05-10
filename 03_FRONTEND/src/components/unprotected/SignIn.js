@@ -139,7 +139,7 @@ function SignIn() {
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              autoComplete="off"
+              autoComplete="on"
             />
             <div id="emailError" className="error_sign_up">
               {emailError}
