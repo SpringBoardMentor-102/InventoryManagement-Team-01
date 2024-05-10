@@ -17,6 +17,7 @@ import Search from './components/protected/Search';
 // import Filter from './components/protected/Filter';
 import ProductList from './components/protected/ProductList';
 import ProductDetail from './components/protected/ProductDetail';
+import Checkout from './components/protected/Checkout';
 
 // create an app to render routes
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
          <Route path='/forgot' element={<ForgotPassword />} />
         <Route path='/email_notification' element={<EmailNotification />} />
         <Route path='/search_product' element={<Search />} />
+        <Route path ='/checkout' element={<Checkout/>}/>
          {/* <Route path='/Filter' element={<Filter />} /> */}
         <Route path='*' element={<NotFound />} />
         <Route path='/' exact element={<ProductList/>}/>
