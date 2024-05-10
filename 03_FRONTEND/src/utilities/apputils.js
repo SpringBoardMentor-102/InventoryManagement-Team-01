@@ -2,12 +2,13 @@ import axios from "axios";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-//function Used by Unprotected Routes
-const fetchDataUnprotected = async (endpoint) => {
-  const token = "token";
+
+//function Used by Unprotected Routes 
+const fetchDataUnprotected = async (method,endpoint,param) => {
+  const token = ("token");
   console.log(token);
   try {
-    const response = await axios.get(`${BACKEND_URL}/${endpoint}`, {
+    const response = await axios[method](`${BACKEND_URL}/${endpoint}`, param, {
       headers: {
         authorization: `Bearer ${token}`,
       },
@@ -19,6 +20,7 @@ const fetchDataUnprotected = async (endpoint) => {
     return null;
   }
 };
+
 
 // function Used by Protected Routes
 const fetchData = async (endpoint) => {
