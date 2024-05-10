@@ -11,7 +11,7 @@ router.get(
   authMiddleware,
   productController.getProductById
 );
-router.post("/createProduct", authMiddleware, productController.createProduct);
+router.post("/createProduct", productController.createProduct);
 router.put(
   "/updateProduct/:id",
   authMiddleware,
