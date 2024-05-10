@@ -16,6 +16,7 @@ import RegConfig from './components/unprotected/RegConfig';
 import Search from './components/protected/Search';
 // import Filter from './components/protected/Filter';
 import ProductList from './components/protected/ProductList';
+import TransactionHistory from './components/protected/TransactionHistory';
 import ProductDetail from './components/protected/ProductDetail';
 import Checkout from './components/protected/Checkout';
 
@@ -39,6 +40,7 @@ const App = () => {
         <Route path='/search_product' element={<Search />} />
         <Route path ='/checkout' element={<Checkout/>}/>
          {/* <Route path='/Filter' element={<Filter />} /> */}
+         <Route path ='/history' element={<TransactionHistory/>}/>
         <Route path='*' element={<NotFound />} />
         <Route path='/' exact element={<ProductList/>}/>
         <Route path='/product/:id' element={<ProductDetail/>}/>
