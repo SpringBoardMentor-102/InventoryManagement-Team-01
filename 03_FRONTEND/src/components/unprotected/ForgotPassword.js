@@ -1,14 +1,10 @@
 // external dependencies
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { fetchDataUnprotected } from "../../utilities/apputils";
 
 // internal dependencies
 import { validateEmail } from "../../utilities/validators";
-
-// getting the path from environment variable
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 /** React component, representing the Forgot Password view of the application
  */
