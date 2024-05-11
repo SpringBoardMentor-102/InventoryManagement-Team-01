@@ -8,6 +8,7 @@ import {
   validateConfirmPassword,
   validatePassword,
 } from "../../utilities/validators";
+import { fetchData } from "../../utilities/apputils";
 
 // getting the path from environment variable
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -81,7 +82,7 @@ const Reset = () => {
     const token = urlParams.get("token");
     console.log(token);
 
-    axios
+    /*axios
       .post(`${BACKEND_URL}/users/reset-password`, {
         token: token,
         newPassword: password,
@@ -125,7 +126,39 @@ const Reset = () => {
           console.log("Backend not working");
           setErrorMessage("Internal Server Error");
         }
-      });
+      });*/
+      try {
+        const response = await fetchData(`users/reset-password?token=${token}`, 'post', { newPassword: password });
+        console.log(response.data);
+        alert("Password reset successfully");
+        setPasswordResetSuccess(true);
+      } catch (error) {
+        if (error.response) {
+          const { status, data } = error.response;
+          if (status === 422) {
+            console.error("Validation failure: ", data.errors);
+            setErrorMessage("Validation failure: ", data.errors);
+          } else if (status === 401) {
+            console.error("Invalid or expired token", data.errors);
+            setErrorMessage("Invalid or expired token", data.errors);
+          } else if (status === 500) {
+            console.error("Internal Server Error", data.errors);
+            setErrorMessage("Internal Server Error", data.errors);
+          } else if (status === 400) {
+            console.error("Password Match", data.errors);
+            setErrorMessage(
+              "New password must be different from the previous password",
+              data.errors
+            );
+          } else {
+            console.error("CRAZY STUFF", data.errors);
+            setErrorMessage("CRAZY STUFF", data.errors);
+          }
+        } else {
+          console.log("Backend not working");
+          setErrorMessage("Internal Server Error");
+        }
+      }
   };
 
   return (
