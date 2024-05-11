@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 import { Link } from "react-router-dom";
@@ -12,32 +11,24 @@ const ProductList = () => {
     return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
-  useEffect(() => {
-    // const token = sessionStorage.getItem("token");
-    // console.log(token);
-    // const apiUrl = "http://localhost:5000/api/product/getAllProducts";
-    const fetchDatas = async () => {
-      try {
-        // const response = await axios.get(apiUrl, {
-        //   headers: {
-        //     token: token,
-        //   },
-        // });
-        const response = await fetchData("product/getAllProducts");
-        console.log(response);
-        if (response !== null) {
-          setProducts(response.data.products);
-          setLoading(false);
-        } else {
-          setError("UnAuthorized");
-          setLoading(false);
-        }
-      } catch (error) {
-        setError(error.message);
+  const fetchProducts = async () => {
+    try {
+      const response = await fetchData("get", "product/getAllProducts");
+      console.log(response);
+      if (response !== null) {
+        setProducts(response.data.products);
+        setLoading(false);
+      } else {
+        setError("UnAuthorized");
         setLoading(false);
       }
-    };
-    fetchDatas();
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchProducts();
   }, []);
   if (loading) {
     return <div> loading...</div>;

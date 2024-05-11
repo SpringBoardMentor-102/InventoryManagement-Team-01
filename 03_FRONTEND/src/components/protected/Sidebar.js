@@ -50,10 +50,10 @@ const Sidebar = () => {
                         <span className="material-icons-sharp">details</span>
                         <h3>Product</h3>
                     </a>
-                    <a href="/history" className={activeLink === '/history' ? "active" : ""}>
+                    <Link to="/history" className={activeLink === '/history' ? "active" : ""}>
                         <span className="material-icons-sharp">history</span>
                         <h3>History</h3>
-                    </a>
+                    </Link>
                    <Link to="/checkout" className={activeLink === '/checkout' ? "active" : ""}>
                         <span className="material-icons-sharp">add_shopping_cart</span>
                         <h3>Checkout</h3>

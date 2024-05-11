@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchDataUnprotected } from "../../utilities/apputils";
+import {jwtDecode, jwtdecode} from "jwt-decode";
 
 // Internal dependencies
 import { validateEmail, validatePassword } from "../../utilities/validators";
@@ -82,7 +83,17 @@ function SignIn() {
       });
       console.log("Login Successful");
       sessionStorage.setItem("token", response.data.token);
-      navigate("/dashboard");
+      const role = jwtDecode(response.data.token).user.roles;
+
+      if(role === 0){
+        navigate("/dashboard", { replace: true });
+      }
+      else if(role === 1){
+        navigate("/AdminDashboard", {replace: true});
+      }
+      
+
+
     } catch (error) {
       let response = error.response;
       if (response) {
