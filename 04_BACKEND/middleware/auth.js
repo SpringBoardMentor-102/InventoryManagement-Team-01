@@ -1,30 +1,29 @@
 const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
-  //taking token from headers
+  // Taking token from headers
   const authHeader = req.headers.authorization;
-  console.log("token is", authHeader);
+  console.log("Token is", authHeader);
 
-  // checking if token is null or undefined
-
+  // Checking if token is null or undefined
   if (authHeader === null || authHeader === undefined) {
     return res.status(401).json({
       status: 401,
-      message: "UnAuthorized",
+      message: "Unauthorized",
     });
   }
 
-  console.log("token is", authHeader);
+  console.log("Token is", authHeader);
 
-  //splitting token
+  // Splitting token
   const token = authHeader.split(" ")[1];
 
-  //verify token
+  // Verify token
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
       return res.status(401).json({
         status: 401,
-        message: "UnAuthorized",
+        message: "Unauthorized",
       });
     } else {
       req.user = user;
@@ -34,3 +33,4 @@ const authMiddleware = (req, res, next) => {
 };
 
 module.exports = authMiddleware;
+
