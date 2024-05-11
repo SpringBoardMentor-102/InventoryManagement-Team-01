@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { fetchData } from "../../utilities/apputils";
@@ -10,14 +9,14 @@ const ProductDetail = () => {
   console.log(id);
 
   const [product, setProduct] = useState([]);
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
 
   const capitalizeFirstLetter = (text = "abc") => {
     return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
   const setDecrease = () => {
-    value > 1 ? setValue(value - 1) : setValue(0);
+    value > 1 ? setValue(value - 1) : setValue(1);
   };
   const setIncrease = () => {
     value < product.quantity ? setValue(value + 1) : setValue(product.quantity);
@@ -29,7 +28,7 @@ const ProductDetail = () => {
   const token = sessionStorage.getItem("token");
   const fetchProduct = async () => {
     try {
-      const response = await fetchData(`product/GetProducts/${id}`);
+      const response = await fetchData("get", `product/GetProducts/${id}`);
       console.log(response);
       if (response !== null) {
         setProduct(response.data);
@@ -41,19 +40,6 @@ const ProductDetail = () => {
     }
   };
   useEffect(() => {
-    //  await  axios
-    //     .get(`http://localhost:5000/api/product/GetProducts/${id}`, {
-    //       headers: {
-    //         authorization: `Bearer ${token}`,
-    //       },
-    //     })
-
-    //     .then((response) => {
-    //       setProduct(response.data);
-    //     })
-    //     .catch((error) => {
-    //       console.error("error", error);
-    //     });
     fetchProduct();
   }, [id]);
   if (!product) return <div>loading...</div>;

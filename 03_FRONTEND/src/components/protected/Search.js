@@ -37,6 +37,7 @@ function Search() {
       try {
         setLoading(true);
         const response = await fetchData(
+          "get",
           `product/searchProduct?name=${searchQuery}&sortField=${sortField}&sortOrder=${sortOrder}`
         );
         console.log(response);
