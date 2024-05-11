@@ -128,31 +128,42 @@ const Reset = () => {
         }
       });*/
       try {
-        const response = await fetchData(`users/reset-password?token=${token}`, 'post', { newPassword: password });
+        const response = await fetchData("post", "users/reset-password", {
+          token: token,
+          newPassword: password,
+        });
+  
         console.log(response.data);
         alert("Password reset successfully");
         setPasswordResetSuccess(true);
+        // navigate("/dashboard");
       } catch (error) {
         if (error.response) {
-          const { status, data } = error.response;
-          if (status === 422) {
-            console.error("Validation failure: ", data.errors);
-            setErrorMessage("Validation failure: ", data.errors);
-          } else if (status === 401) {
-            console.error("Invalid or expired token", data.errors);
-            setErrorMessage("Invalid or expired token", data.errors);
-          } else if (status === 500) {
-            console.error("Internal Server Error", data.errors);
-            setErrorMessage("Internal Server Error", data.errors);
-          } else if (status === 400) {
-            console.error("Password Match", data.errors);
-            setErrorMessage(
-              "New password must be different from the previous password",
-              data.errors
-            );
-          } else {
-            console.error("CRAZY STUFF", data.errors);
-            setErrorMessage("CRAZY STUFF", data.errors);
+          const response = error.response;
+          switch (response.status) {
+            case 422:
+              console.error("Validation failure: ", response.data.errors);
+              setErrorMessage("Validation failure: ", response.data.errors);
+              break;
+            case 401:
+              console.error("Invalid or expired token", response.data.errors);
+              setErrorMessage("Invalid or expired token", response.data.errors);
+              break;
+            case 500:
+              console.error("Internal Server Error", response.data.errors);
+              setErrorMessage("Internal Server Error", response.data.errors);
+              break;
+            case 400:
+              console.error("Password Match", response.data.errors);
+              setErrorMessage(
+                "New password must be different from the previous password",
+                response.data.errors
+              );
+              break;
+            default:
+              console.error("CRAZY STUFF", response.data.errors);
+              setErrorMessage("CRAZY STUFF", response.data.errors);
+              break;
           }
         } else {
           console.log("Backend not working");
