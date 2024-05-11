@@ -487,19 +487,6 @@ main {
   width: 70vw;
 }
 
-.search-bar {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  /* margin-left: 600px; */
-  position: absolute;
-  left: 50%;
-  /* Center the search bar horizontally */
-  transform: translateX(-50%);
-  /* Center the search bar horizontally */
-  width: 50%;
-}
-
 #search-input {
   padding: 10px 20px 10px 30px;
   border: 1px solid #ccc;
@@ -942,13 +929,14 @@ main .recent-orders a {
 } */
 
 .search-bar {
-  position: fixed;
-  top: 10px;
-  z-index: 999;
   display: flex;
   align-items: center;
-  margin-top: 8px;
-  margin-bottom: 12px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50vw;
+  display: flex;
+  align-items: center;
 }
 
 .material-icons-sharp {

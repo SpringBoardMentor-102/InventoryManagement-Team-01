@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faArrowDown, faDisplay } from "@fortawesome/free-solid-svg-icons";
 
 import "../../index.css";
 import ProductList from "./ProductList";
@@ -70,19 +70,28 @@ function Search() {
     <>
       <div className="searchpage-container">
         <div className="search-block">
-          <div className="search-bar">
-            <input
-              type="text"
-              id="search-input"
-              placeholder="Search here..."
-              value={searchQuery}
-              onChange={handleChange} // Call handleChange when input value changes
-              onKeyPress={handleKeyPress}
-            />
-            <button onClick={handleSearch} className="material-icons-sharp">
-              search
-            </button>
+          <div style={{ display: "flex", position: "fixed", top: "10px" }}>
+
+            <div style={{ width: "60vw" }}>
+              <div className="search-bar">
+                <input
+                  type="text"
+                  id="search-input"
+                  placeholder="Search here..."
+                  value={searchQuery}
+                  onChange={handleChange} // Call handleChange when input value changes
+                  onKeyPress={()=>handleKeyPress}
+                />
+                <button onClick={handleSearch} className="material-icons-sharp">
+                  search
+                </button>
+              </div>
+            </div>
+            <div style={{ marginTop: "10px" }}>
+              filter
+            </div>
           </div>
+
           {loading && <p>Loading...</p>}
           {showResults && searchResults.length > 0 && (
             <table className="table-container">
