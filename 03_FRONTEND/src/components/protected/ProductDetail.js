@@ -7,12 +7,10 @@ import { fetchData } from "../../utilities/apputils";
 import { useNavigate } from "react-router-dom";
 
 const ProductDetail = () => {
+  const token = localStorage.getItem("token");
 
-  const token = sessionStorage.getItem("token");
-  
   const { id } = useParams();
-  const navigate = useNavigate(); 
-
+  const navigate = useNavigate();
 
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState([]);
@@ -53,7 +51,7 @@ const ProductDetail = () => {
   const handleAddToCart = (productData) => {
     // Add the selected product to the list of selected products
     console.log("Added to cart: ", productData);
-    navigate('/checkout', { state: { products: [productData]} });
+    navigate("/checkout", { state: { products: [productData] } });
   };
 
   const handleRemoveFromCart = () => {
@@ -82,7 +80,7 @@ const ProductDetail = () => {
           <h2>DESCRIPTION</h2>
           <p className="desc">{product.description}</p>
           <div className="buttons">
-            <button onClick={()=>handleAddToCart(product)} className="add">
+            <button onClick={() => handleAddToCart(product)} className="add">
               Add to Cart
             </button>
             <button onClick={handleRemoveFromCart} className="remove">
@@ -90,11 +88,17 @@ const ProductDetail = () => {
             </button>
           </div>
           <div className="change-button">
-            <button onClick={() => setQuantity(prev => Math.max(prev - 1, 1))} className="minus">
+            <button
+              onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
+              className="minus"
+            >
               -
             </button>
             <button className="value">{quantity}</button>
-            <button onClick={() => setQuantity(prev => prev + 1)} className="plus">
+            <button
+              onClick={() => setQuantity((prev) => prev + 1)}
+              className="plus"
+            >
               +
             </button>
           </div>

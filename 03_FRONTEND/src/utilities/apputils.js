@@ -22,7 +22,7 @@ const fetchDataUnprotected = async (method, endpoint, param) => {
 
 // function Used by Protected Routes
 const fetchData = async (method, endpoint, body) => {
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   console.log(token);
   try {
     const response = await axios[method](
