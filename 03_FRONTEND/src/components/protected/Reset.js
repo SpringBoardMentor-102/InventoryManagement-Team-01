@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchData } from "./your-fetchData-file"; // Import fetchData function from your file
+import { fetchData } from "../../utilities/apputils";
+
+
+//internal dependencies
+import {
+  validateConfirmPassword,
+  validatePassword,
+} from "../../utilities/validators";
 
 const Reset = () => {
   const navigate = useNavigate();
