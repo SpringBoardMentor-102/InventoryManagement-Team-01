@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchDataUnprotected } from "../../utilities/apputils";
-import {jwtDecode, jwtdecode} from "jwt-decode";
+import { jwtDecode, jwtdecode } from "jwt-decode";
 
 // Internal dependencies
 import { validateEmail, validatePassword } from "../../utilities/validators";
@@ -74,26 +74,21 @@ function SignIn() {
     console.log("making a call..");
     // validation was successful, attempting to make a call to the backend
 
-
     try {
-      const method= 'post';
+      const method = "post";
       const response = await fetchDataUnprotected(method, `users/login`, {
         email: email,
         password: password,
       });
       console.log("Login Successful");
-      sessionStorage.setItem("token", response.data.token);
+      localStorage.setItem("token", response.data.token);
       const role = jwtDecode(response.data.token).user.roles;
 
-      if(role === 0){
+      if (role === 0) {
         navigate("/dashboard", { replace: true });
+      } else if (role === 1) {
+        navigate("/AdminDashboard", { replace: true });
       }
-      else if(role === 1){
-        navigate("/AdminDashboard", {replace: true});
-      }
-      
-
-
     } catch (error) {
       let response = error.response;
       if (response) {
@@ -119,7 +114,6 @@ function SignIn() {
         setErrorMessage("Internal Server Error");
       }
     }
-
   };
 
   return (
