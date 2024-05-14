@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import OrderSummary from "./OrderSummary";
 import { fetchData } from "../../utilities/apputils";
+import { useNavigate } from "react-router-dom";
 
 const ProductDetail = () => {
-  const { id } = useParams();
-  console.log(id);
 
+  const token = sessionStorage.getItem("token");
+  
+  const { id } = useParams();
+  const navigate = useNavigate(); 
+
+
+  const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState([]);
   const [value, setValue] = useState(1);
 
@@ -25,7 +32,6 @@ const ProductDetail = () => {
   const addToCart = () => {
     value < product.quantity ? setValue(value + 1) : setValue(product.quantity);
   };
-  const token = sessionStorage.getItem("token");
   const fetchProduct = async () => {
     try {
       const response = await fetchData("get", `product/GetProducts/${id}`);
@@ -39,20 +45,33 @@ const ProductDetail = () => {
       console.error("error", error);
     }
   };
+
   useEffect(() => {
     fetchProduct();
   }, [id]);
-  if (!product) return <div>loading...</div>;
+
+  const handleAddToCart = (productData) => {
+    // Add the selected product to the list of selected products
+    console.log("Added to cart: ", productData);
+    navigate('/checkout', { state: { products: [productData]} });
+  };
+
+  const handleRemoveFromCart = () => {
+    // Remove the selected product from the list of selected products
+    console.log("Removed from cart:", product);
+  };
+
+  if (!product) return <div>Loading...</div>;
+
   return (
     <>
-      {/* <Sidebar/> */}
       <div id="product-container">
         <div className="back">
           <FontAwesomeIcon icon={faArrowLeft} />
-          <Link to="/Dashboard">Back to Dashboard </Link>
+          <Link to="/Dashboard">Back to Dashboard</Link>
         </div>
         <div className="product-images">
-          <img src={product.imageUrl} />
+          <img src={product.imageUrl} alt={product.name} />
         </div>
 
         <div className="product">
@@ -63,18 +82,19 @@ const ProductDetail = () => {
           <h2>DESCRIPTION</h2>
           <p className="desc">{product.description}</p>
           <div className="buttons">
-            <Link>
-              <button onClick={addToCart} className="add">
-                Add to Cart
-              </button>
-            </Link>
+            <button onClick={()=>handleAddToCart(product)} className="add">
+              Add to Cart
+            </button>
+            <button onClick={handleRemoveFromCart} className="remove">
+              Remove from Cart
+            </button>
           </div>
           <div className="change-button">
-            <button onClick={setDecrease} className="minus">
+            <button onClick={() => setQuantity(prev => Math.max(prev - 1, 1))} className="minus">
               -
             </button>
-            <button className="value">{value}</button>
-            <button onClick={setIncrease} className="plus">
+            <button className="value">{quantity}</button>
+            <button onClick={() => setQuantity(prev => prev + 1)} className="plus">
               +
             </button>
           </div>
