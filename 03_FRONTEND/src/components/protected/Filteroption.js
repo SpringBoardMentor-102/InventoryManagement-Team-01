@@ -12,9 +12,10 @@ const Filteroption = () => {
   const [selectedPriceRange, setSelectedPriceRange] = useState([0, maxPrice]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [color, setColor] = useState([]);
-
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedRating, setSelectedRating] = useState(0);
+  const[name,setname] =useState([]);
+  const[selectedname, setSelectedname]=useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +26,9 @@ const Filteroption = () => {
        //Fetch color
        const colorResponse = await axios.get('http://api.AllProducts.com/color')
        setColor(colorResponse.data);
-      
+      // Ftech name
+       const nameResponse= await axios.get('http://api.AllProducts.com/name');
+       setname(nameResponse.data);
        
 
         const productsResponse = await axios.get('https://api.AllProducts.com/products');
@@ -52,11 +55,14 @@ const Filteroption = () => {
       const priceMatch = product.price >= selectedPriceRange[0] && product.price <= selectedPriceRange[1];
       const colorMatch = selectedColor === '' || product.color === selectedColor;
       const ratingMatch = product.rating >= selectedRating;
-      return categoryMatch && priceMatch&& colorMatch&&ratingMatch;
+       // Case-insensitive name match
+      
+      const nameMatch = product.name.toLowerCase().includes(selectedname.toLowerCase());
+      return categoryMatch && priceMatch&& colorMatch&&ratingMatch&& nameMatch;
     });
 
     setFilteredProducts(filtered);
-  }, [selectedcategory, selectedPriceRange]);
+  }, [selectedcategory, selectedPriceRange, selectedColor, selectedRating,selectedname]);
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -74,6 +80,9 @@ const Filteroption = () => {
   };
   const handleRatingChange = (newValue) => {
     setSelectedRating(newValue);
+  };
+  const handleNameChange=(name)=>{
+    setSelectedname(name);
   };
 
 
@@ -128,6 +137,15 @@ const Filteroption = () => {
               onChange={(e) => setSelectedRating([selectedRating[0], parseInt(e.target.value)])}
             />
           </div>
+          { /* name dropdown*/}
+          <select onChange={(e) => handleNameChange(e.target.value)}>
+            <option value="">Name</option>
+            {color.map((name, index) => (
+              <option key={index} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
 
 
         </div>
