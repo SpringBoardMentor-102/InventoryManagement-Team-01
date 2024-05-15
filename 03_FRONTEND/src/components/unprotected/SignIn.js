@@ -1,15 +1,14 @@
 // external dependencies
-import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchDataUnprotected } from "../../utilities/apputils";
-import { jwtDecode, jwtdecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 // Internal dependencies
 import { validateEmail, validatePassword } from "../../utilities/validators";
 
 // getting the path from environment variable
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+// const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 /** React component, representing the Sign-in view of the application
  */
