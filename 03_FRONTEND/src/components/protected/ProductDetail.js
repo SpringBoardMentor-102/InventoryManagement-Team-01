@@ -1,39 +1,49 @@
+// external dependencies 
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import OrderSummary from "./OrderSummary";
+
+// internal dependency
 import { fetchData } from "../../utilities/apputils";
-import { useNavigate } from "react-router-dom";
 
+// declaration of product detail component 
 const ProductDetail = () => {
-  const token = localStorage.getItem("token");
 
+
+//   extracting query params 
   const { id } = useParams();
-  const navigate = useNavigate();
+   
 
-  const [quantity, setQuantity] = useState(1);
-  const [product, setProduct] = useState([]);
-  const [value, setValue] = useState(1);
+//intializing the component state
+const [cartQuantity, setCartQuantity] = useState(0);
+const [product, setProduct] = useState([]);
 
+// helper function to capitalize the first capitalizeFirstLetter,for better presentation 
   const capitalizeFirstLetter = (text = "abc") => {
     return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
+//   other helper function 
+
+//handler code for decrementing the quantity 
   const setDecrease = () => {
-    value > 1 ? setValue(value - 1) : setValue(1);
+    if (cartQuantity > 0) {
+        setCartQuantity(cartQuantity - 1)
+        }
   };
+  //handler code for incrementing  the quantity 
   const setIncrease = () => {
-    value < product.quantity ? setValue(value + 1) : setValue(product.quantity);
+    if (cartQuantity < product.quantity) {
+        setCartQuantity(cartQuantity + 1)
+    }
   };
 
-  const addToCart = () => {
-    value < product.quantity ? setValue(value + 1) : setValue(product.quantity);
-  };
+  // when ID changes, call the backend and fetch the product details of this new product ID
+  useEffect(() => {
   const fetchProduct = async () => {
     try {
       const response = await fetchData("get", `product/GetProducts/${id}`);
-      console.log(response);
       if (response !== null) {
         setProduct(response.data);
       } else {
@@ -44,19 +54,36 @@ const ProductDetail = () => {
     }
   };
 
-  useEffect(() => {
     fetchProduct();
   }, [id]);
 
   const handleAddToCart = (productData) => {
     // Add the selected product to the list of selected products
     console.log("Added to cart: ", productData);
-    navigate("/checkout", { state: { products: [productData] } });
+
+
+    // [ {quantity: 7, product: { _id: "343433535346" }}, {quantity: 2, product: { _id: "085604804860" }} ]
+
+    // get the cart list from session storage
+
+    // if the cart list doesnt exist, create it and get it from the session storage (empty list)
+
+    // add this item to the cart (THIS)
+
+    // else the list was not empty 
+
+    // check if this item already exists in the cart
+
+    // if it doesnt exist, add this (THIS)
+
+    // if it does exist, remove old entry and add new entry
+
+
   };
 
   const handleRemoveFromCart = () => {
     // Remove the selected product from the list of selected products
-    console.log("Removed from cart:", product);
+    console.log("Removed from cart:", cartQuantity);
   };
 
   if (!product) return <div>Loading...</div>;
@@ -80,25 +107,20 @@ const ProductDetail = () => {
           <h2>DESCRIPTION</h2>
           <p className="desc">{product.description}</p>
           <div className="buttons">
-            <button onClick={() => handleAddToCart(product)} className="add">
+            <button onClick={()=>handleAddToCart(product)} className="add">
               Add to Cart
             </button>
-            <button onClick={handleRemoveFromCart} className="remove">
+            <span> </span>
+            <button onClick={handleRemoveFromCart} className="add">
               Remove from Cart
             </button>
           </div>
           <div className="change-button">
-            <button
-              onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
-              className="minus"
-            >
+            <button onClick={setDecrease} className="minus">
               -
             </button>
-            <button className="value">{quantity}</button>
-            <button
-              onClick={() => setQuantity((prev) => prev + 1)}
-              className="plus"
-            >
+            <button className="value">{cartQuantity}</button>
+            <button onClick={setIncrease} className="plus">
               +
             </button>
           </div>
