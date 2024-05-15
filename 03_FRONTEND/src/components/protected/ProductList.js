@@ -7,7 +7,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const capitalizeFirstLetter = (text) => {
+  const capitalizeFirstLetter = (text = "abc") => {
     return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
@@ -52,7 +52,7 @@ const ProductList = () => {
               <div className="item-name">{item.description}</div>
               {/* Added categories  */}
               <div className="category">
-                {capitalizeFirstLetter(item.category)}
+                {capitalizeFirstLetter(item.categoryId?.categoryName)}
               </div>
               <div className="price">
                 <span className="current-price">Rs {item.price}</span>
