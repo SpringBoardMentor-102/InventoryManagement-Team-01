@@ -1,177 +1,80 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-// import Slider from 'react-slider';
-import "../../index.css";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // importing axios
+import { fetchData } from '../../utilities/apputils';
 
-const Filteroption = () => {
+const FilterComponent = ({ handleFilter ,getCategory }) => {
+  const [selectedOption, setSelectedOption] = useState('');
+  const [categories, setCategories] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [category, setcategory] = useState([]);
-  const [maxPrice, setMaxPrice] = useState(0);
-  const [selectedcategory, setSelectedcategory] = useState("");
-  const [selectedPriceRange, setSelectedPriceRange] = useState([0, maxPrice]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [color, setColor] = useState([]);
-  const [selectedColor, setSelectedColor] = useState("");
-  const [selectedRating, setSelectedRating] = useState(0);
-  const [name, setname] = useState([]);
-  const [selectedname, setSelectedname] = useState(0);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCategories = async () => {
       try {
-        // Fetch categories
-        const categoryResponse = await axios.get(
-          "https://api.Allproducts.com/category"
+        const response = await fetchData(
+          "get",
+          `category/getallcategory`
         );
-        setcategory(categoryResponse.data);
-        //Fetch color
-        const colorResponse = await axios.get(
-          "http://api.AllProducts.com/color"
-        );
-        setColor(colorResponse.data);
-        // Ftech name
-        const nameResponse = await axios.get("http://api.AllProducts.com/name");
-        setname(nameResponse.data);
+        setCategories(response.data);
 
-        const productsResponse = await axios.get(
-          "https://api.AllProducts.com/products"
-        );
-        const products = productsResponse.data;
 
-        // Determine the maximum price from the fetched products
-        const prices = products.map((product) => product.price);
-        const maxPrice = Math.max(...prices);
-        setMaxPrice(maxPrice);
-
-        // Set initial filtered products with all fetched products
-        setFilteredProducts(products);
+        console.log("responce of api",response);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching categories:', error);
       }
     };
 
-    fetchData();
-  }, []);
-  useEffect(() => {
-    // Filter products based on selected category and price range
-    const filtered = filteredProducts.filter((product) => {
-      const categoryMatch =
-        selectedcategory === "" || product.category === selectedcategory;
-      const priceMatch =
-        product.price >= selectedPriceRange[0] &&
-        product.price <= selectedPriceRange[1];
-      const colorMatch =
-        selectedColor === "" || product.color === selectedColor;
-      const ratingMatch = product.rating >= selectedRating;
-      // Case-insensitive name match
-
-      const nameMatch = product.name
-        .toLowerCase()
-        .includes(selectedname.toLowerCase());
-      return (
-        categoryMatch && priceMatch && colorMatch && ratingMatch && nameMatch
-      );
-    });
-
-    setFilteredProducts(filtered);
-  }, [
-    selectedcategory,
-    selectedPriceRange,
-    selectedColor,
-    selectedRating,
-    selectedname,
-  ]);
+    fetchCategories();
+  }, []); // Empty dependency array 
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
-  const handlecategory = (category) => {
-    console.log(`Selected category: ${category}`);
-    setSelectedcategory(category);
-    setShowDropdown(false); // Close dropdown after selection
-  };
-  const handlePriceRangeChange = (newValue) => {
-    setSelectedPriceRange(newValue);
-  };
-  const handleColorChange = (color) => {
-    setSelectedColor(color);
-  };
-  const handleRatingChange = (newValue) => {
-    setSelectedRating(newValue);
-  };
-  const handleNameChange = (name) => {
-    setSelectedname(name);
+
+  const handleOptionChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedOption(selectedValue);
+    console.log("selected value===", selectedValue);
+    // handleFilter(selectedValue);
+    getCategory(selectedValue);
+    
   };
 
   return (
     <div>
-      <h2 onClick={toggleDropdown}>Filter</h2>
+      <button onClick={toggleDropdown} style={{fontSize: "16px",
+    fontWeight: "bold"}}>Filter</button>
       {showDropdown && (
-        <div className="dropdown">
-          {/* Category dropdown */}
-          <select onChange={(e) => handlecategory(e.target.value)}>
-            <option value="">category</option>
-            {category.map((category, index) => (
-              <option key={index} value={category}>
-                {category}
-              </option>
+        <select value={selectedOption} onChange={handleOptionChange}>
+          <option value="">Select Filter</option>
+          <optgroup label="Price">
+            <option value="low">Price :Low</option>
+            <option value="medium">Price :Medium</option>
+            <option value="high">Price :High</option>
+          </optgroup>
+          <optgroup label="Category">
+            {categories?.map((item,index)=>
+            (
+              <option key={item._id} value={item._id}>{item.categoryName}</option>
             ))}
-          </select>
-          <div className="price-slider">
-            <h3>price</h3>
-
-            <input
-              type="range"
-              name="selectedPriceRange"
-              min={0}
-              max={maxPrice}
-              step={10}
-              value={selectedPriceRange[1]}
-              onChange={(e) =>
-                setSelectedPriceRange([
-                  selectedPriceRange[0],
-                  parseInt(e.target.value),
-                ])
-              }
-            />
-          </div>
-          {/* color dropdown*/}
-          <select onChange={(e) => handleColorChange(e.target.value)}>
-            <option value="">Color</option>
-            {color.map((color, index) => (
-              <option key={index} value={color}>
-                {color}
-              </option>
-            ))}
-          </select>
-          {/*rating slider*/}
-          <div className="rating-slider">
-            <h3> Ratings</h3>
-            <input
-              type="range"
-              name="selectedrating"
-              min={0}
-              max={5}
-              step={1}
-              value={selectedRating[1]}
-              onChange={(e) =>
-                setSelectedRating([selectedRating[0], parseInt(e.target.value)])
-              }
-            />
-          </div>
-          {/* name dropdown*/}
-          <select onChange={(e) => handleNameChange(e.target.value)}>
-            <option value="">Name</option>
-            {color.map((name, index) => (
-              <option key={index} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
-        </div>
+            
+            {/* <option value="6634e46151121271c7232e10">Mobile phones</option>
+            <option value="6634e46851121271c7232e13">Watch</option> */}
+          </optgroup>
+          <optgroup label="Availability">
+            <option value="available">Available</option>
+            <option value="out-of-stock">Out of Stock</option>
+          </optgroup>
+          <optgroup label="Rating">
+            <option value="1">Rating 1</option>
+            <option value="2">Rating 2</option>
+            <option value="3">Rating 3</option>
+            <option value="4">Rating 4</option>
+            <option value="5">Rating 5</option>
+          </optgroup>
+        </select>
       )}
     </div>
   );
 };
 
-export default Filteroption;
+export default FilterComponent;
