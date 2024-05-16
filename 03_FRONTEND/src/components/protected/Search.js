@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 
@@ -8,18 +8,18 @@ import { fetchData } from "../../utilities/apputils";
 import Filteroption from "./Filteroption";
 import { useStateWithCallbackLazy } from 'use-state-with-callback';
 
-const Search=()=> {
+const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [originalSearchResult, setOriginalSearchResult] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [saveCategoryId, setSaveCategoryId ] = useState("");
-  const [searchFilterResults,setSearchFilterResults] = useState([]);
+  const [saveCategoryId, setSaveCategoryId] = useState("");
+  const [searchFilterResults, setSearchFilterResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sortField, setSortField] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
   const [showResults, setShowResults] = useState(false);
   //product state
-  const [originalProducts,setOriginalProducts] =useState([]);
+  const [originalProducts, setOriginalProducts] = useState([]);
   const [products, setProducts] = useState([]);
   const [loadingProduct, setLoadingProduct] = useState(true);
   const [error, setError] = useState(null);
@@ -28,12 +28,12 @@ const Search=()=> {
   const fetchProducts = async () => {
     try {
       const response = await fetchData("get", "product/getAllProducts");
-      console.log("product list----",response);
+      console.log("product list----", response);
       if (response !== null) {
         setProducts(response.data.products);
         setOriginalProducts(response.data.products);
         setLoadingProduct(false);
-       
+
       } else {
         setError("UnAuthorized");
         setLoadingProduct(false);
@@ -44,11 +44,11 @@ const Search=()=> {
     }
   };
 
-  
-  useEffect( () => {
+
+  useEffect(() => {
     fetchProducts();
 
-  } , []);
+  }, []);
 
   const toggleSortOrder = (field) => {
     if (field === sortField) {
@@ -76,19 +76,19 @@ const Search=()=> {
           "get",
           `product/searchProduct?name=${searchQuery}&sortField=${sortField}&sortOrder=${sortOrder}`
         );
-        console.log("searched products ***********",response);
-        console.log("saveCategoryId",saveCategoryId);
+        // console.log("searched products ***********", response);
+        // console.log("saveCategoryId", saveCategoryId);
         setOriginalSearchResult(response.data);
 
 
 
         setShowResults(true);
-        if (saveCategoryId==""){
+        if (saveCategoryId == "") {
           setSearchResults(response.data);
-        
+
         }
-       
-        
+
+
 
       } catch (error) {
 
@@ -125,41 +125,38 @@ const Search=()=> {
     setSearchQuery(e.target.value); // Update searchQuery state as user types
   };
 
-  useEffect(()=>{
+  useEffect(() => {
 
-  if(showResults){
-    if (saveCategoryId){
-      getCategory(saveCategoryId);    
+    if (showResults) {
+      if (saveCategoryId) {
+        getCategory(saveCategoryId);
+      }
     }
-  }
-   
-  },[showResults])
 
-  const getCategory=(categoryId)=>{
+  }, [showResults])
 
-    console.log("product filter result &&&&&",showResults);
-    console.log("category data in serach==", categoryId);
+  const getCategory = (categoryId) => {
+
+    // console.log("product filter result &&&&&",showResults);
+    // console.log("category data in serach==", categoryId);
     let filtered;
     setSaveCategoryId(categoryId);
 
-    if (showResults){
-    filtered = originalSearchResult?.filter(product => product?.categoryId === categoryId );
-    console.log("filtered result",filtered,searchResults);
-    setSearchResults(filtered);
-    // setSearchFilterResults(filtered);
-    setShowResults(true);
-    }else{
-filtered = originalProducts?.filter(product => product?.categoryId?._id === categoryId );
-    console.log("product filter result",filtered,originalProducts);
-    setProducts(filtered);
-    setShowResults(false);
+    if (showResults) {
+      filtered = originalSearchResult?.filter(product => product?.categoryId === categoryId);
+      // console.log("filtered result",filtered,searchResults);
+      setSearchResults(filtered);
+      // setSearchFilterResults(filtered);
+      setShowResults(true);
+    } else {
+      filtered = originalProducts?.filter(product => product?.categoryId?._id === categoryId);
+      // console.log("product filter result",filtered,originalProducts);
+      setProducts(filtered);
+      setShowResults(false);
 
     }
-
-
-
   }
-// =================================================================================
+
   return (
     <>
       <div className="searchpage-container">
@@ -174,7 +171,7 @@ filtered = originalProducts?.filter(product => product?.categoryId?._id === cate
                   placeholder="Search here..."
                   value={searchQuery}
                   onChange={handleChange} // Call handleChange when input value changes
-                  onKeyPress={()=>handleKeyPress}
+                  onKeyPress={() => handleKeyPress}
                 />
                 <button onClick={handleSearch} className="material-icons-sharp">
                   search
@@ -272,7 +269,7 @@ filtered = originalProducts?.filter(product => product?.categoryId?._id === cate
                           style={{ width: "200px", height: "200px" }}
                         />
                       </td>
-                      <td>{product.name} {product.categoryId}</td>
+                      <td>{product.name}</td>
                       <td>{product.price}</td>
                       <td>{product.quantity}</td>
                       <td>{product.status}</td>
@@ -286,7 +283,7 @@ filtered = originalProducts?.filter(product => product?.categoryId?._id === cate
               <th>No such product found.</th>
             </table>
           )}
-          {!showResults && <ProductList products={products} error={error} loading={loadingProduct}/>}
+          {!showResults && <ProductList products={products} error={error} loading={loadingProduct} />}
         </div>
       </div>
     </>

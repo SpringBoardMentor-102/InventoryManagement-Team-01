@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // importing axios
 import { fetchData } from '../../utilities/apputils';
 
-const FilterComponent = ({ handleFilter ,getCategory }) => {
+const FilterComponent = ({ handleFilter, getCategory }) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [categories, setCategories] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -17,9 +17,9 @@ const FilterComponent = ({ handleFilter ,getCategory }) => {
         setCategories(response.data);
 
 
-        console.log("responce of api",response);
+        // console.log("responce of api",response);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        // console.error('Error fetching categories:', error);
       }
     };
 
@@ -33,16 +33,18 @@ const FilterComponent = ({ handleFilter ,getCategory }) => {
   const handleOptionChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedOption(selectedValue);
-    console.log("selected value===", selectedValue);
+    // console.log("selected value===", selectedValue);
     // handleFilter(selectedValue);
     getCategory(selectedValue);
-    
+
   };
 
   return (
     <div>
-      <button onClick={toggleDropdown} style={{fontSize: "16px",
-    fontWeight: "bold"}}>Filter</button>
+      <button onClick={toggleDropdown} style={{
+        fontSize: "16px",
+        fontWeight: "bold"
+      }}>Filter</button>
       {showDropdown && (
         <select value={selectedOption} onChange={handleOptionChange}>
           <option value="">Select Filter</option>
@@ -52,11 +54,11 @@ const FilterComponent = ({ handleFilter ,getCategory }) => {
             <option value="high">Price :High</option>
           </optgroup>
           <optgroup label="Category">
-            {categories?.map((item,index)=>
+            {categories?.map((item, index) =>
             (
               <option key={item._id} value={item._id}>{item.categoryName}</option>
             ))}
-            
+
             {/* <option value="6634e46151121271c7232e10">Mobile phones</option>
             <option value="6634e46851121271c7232e13">Watch</option> */}
           </optgroup>

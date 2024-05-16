@@ -35,10 +35,7 @@ const ProductList = ({products,error,loading}) => {
   //   fetchProducts();
 
   // } , []);
-
-
-
-
+  
   if (loading) {
     return <div> loading...</div>;
   }
