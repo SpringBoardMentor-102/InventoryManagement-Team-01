@@ -58,7 +58,22 @@ const ProductDetail = () => {
     // Add the selected product to the list of selected products
     console.log("Added to cart: ", productData);
 
-    // [ {quantity: 7, product: { _id: "343433535346" }}, {quantity: 2, product: { _id: "085604804860" }} ] // get the cart list from session storage // if the cart list doesnt exist, create it and get it from the session storage (empty list) // add this item to the cart (THIS) // else the list was not empty // check if this item already exists in the cart // if it doesnt exist, add this (THIS) // if it does exist, remove old entry and add new entry
+    // get the cart from localStorage or create an empty array
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Check if the product already exists in the cart
+    const existsIndex = cart.findIndex(item => item.product._id === productData._id);
+
+      if (existsIndex !== -1) {
+        // Update quantity if product already exists
+        cart[existsIndex].quantity += cartQuantity;
+      } else {
+        // Add the product to the cart if it doesn't exist
+        cart.push({ product: productData, quantity: cartQuantity });
+      }
+
+    // Save the updated cart back to localStorage 
+    localStorage.setItem('cart', JSON.stringify(cart));
   };
 
   const handleRemoveFromCart = () => {
