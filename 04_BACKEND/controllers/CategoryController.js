@@ -4,69 +4,119 @@ const Category = require("../model/categories.js");
 /** Class containing all the controllers (as methods) for the /category path
  */
 class CategoryController {
-
   /** Controller method to handle adding a new category
    * @param {Object} req the request object recieved from client
    * @param {Object} res the response object to be modified and sent out
-   * // TODO: make sure every case returns a different number, 200, 201, 400, 401 etc
+   * @returns
+   *  422 when Category name cannot be empty,
+   *  409 when Category already exist,
+   *  400 when Category Name is a mandatory field,
+   *  500 when Internal Server error occurs,
+   *  200 when Category succesfully Added
    */
   static async addCategory(req, res) {
     try {
+      // Check if categoryName is provided in the request body
       if (req.body.categoryName) {
+        // Find if category with the same name already exists
         const foundCategory = await Category.findOne({
           categoryName: req.body.categoryName,
         });
+        // Check if categoryName is empty
         if (!req.body.categoryName) {
-          return res.status(400).send("Category name cannot be empty");
+          return res.status(422).send("Category name cannot be empty");
         }
+        // If category already exists, return 409 Conflict status
         if (foundCategory) {
           return res.status(409).send("Category already exist");
         } else {
           try {
-            await Category.create({
+            // Create a new category
+            const response = await Category.create({
               categoryName: req.body.categoryName,
             });
-            return res.status(200).send("succesfully Added"); 
-            // TODO: send the newly created category object also in response
+            // Return success message and the created category
+            return res
+              .status(200)
+              .json({ message: "Category successfully Added", response });
           } catch (error) {
-            console.log(error)
-            return res.status(400).send("Something Went Wrong");
+            console.log(error);
+            return res.status(500).send("Internal Server Error");
           }
         }
       } else {
+        // Return 400 Bad Request status if categoryName is not provided
         return res.status(400).send("Category Name is a mandatory field");
       }
     } catch (error) {
+      // Return 500 Internal Server Error status for any other errors
       return res.status(500).send("Internal Server Error");
     }
   }
 
+  /** Controller method to get all category
+   * @param {Object} req the request object recieved from client
+   * @param {Object} res the response object to be modified and sent out
+   * @returns
+   *  404 when No Categories Found ,
+   *  500 when Internal Server error occurs,
+   *  200 when Categories succesfully fetched
+   */
   static async allCategories(req, res) {
     try {
+      // Find all categories
       const categories = await Category.find();
+      // Check if no categories are found
       if (categories.length == 0) {
-        return res.status(404).send("No Categories Found Please add one");
+        // Return 404 Not Found status if no categories are found
+        return res.status(404).send("No Categories Found. Please add one");
       } else {
+        // Return 200 OK status with the list of categories
         return res.status(200).send(categories);
       }
     } catch (error) {
-      return res.status(500).send("Server Error");
+      // Return 500 Internal Server Error status for any other errors
+      return res.status(500).send("Internal Server Error");
     }
   }
 
+  /** Controller method to get category
+   * @param {Object} req the request object recieved from client
+   * @param {Object} res the response object to be modified and sent out
+   * @returns
+   *  404 when Invalid Category Id ,
+   *  500 when Internal Server error occurs,
+   *  200 when Category succesfully fetched
+   */
   static async getCategory(req, res) {
     try {
+      // Find category by ID
       const category = await Category.findById(req.params.id);
+      // Check if category is not found
       if (!category) {
+        // Return 404 Not Found status if category is not found
         return res.status(404).send("Invalid Category Id");
       } else {
+        // Return 200 OK status with the found category
         return res.status(200).send(category);
       }
     } catch (error) {
-      return res.status(500).send("Server Error");
+      // Return 500 Internal Server Error status for any other errors
+      return res.status(500).send("Internal Server error");
     }
   }
 
+  /** Controller method to update category
+   * @param {Object} req the request object recieved from client
+   * @param {Object} res the response object to be modified and sent out
+   * @returns
+   *  40 when Category ID is required,
+   *  422 when Category not found,
+   *  400 when Category name cannot be empty,
+   *  409 Category name already exists
+   *  500 when Internal Server error occurs,
+   *  200 when Category succesfully updated
+   */
   static async updateCategory(req, res) {
     try {
       const { id } = req.params;
@@ -74,13 +124,13 @@ class CategoryController {
 
       // Check if category ID is provided
       if (!id) {
-        return res.status(400).send("Category ID is required");
+        return res.status(404).send("Category ID is required");
       }
 
       // Check if category with provided ID exists
       const category = await Category.findById(id);
       if (!category) {
-        return res.status(404).send("Category not found");
+        return res.status(422).send("Category not found");
       }
 
       // Check if categoryName is provided and not empty
@@ -99,22 +149,33 @@ class CategoryController {
 
       // Update category with new name
       category.categoryName = categoryName;
-      await category.save();
-
-      return res.status(200).send("Category updated successfully");
+      const response = await category.save();
+      // Return success message and the updated category
+      return res
+        .status(200)
+        .json({ message: "Category updated successfully", response });
     } catch (error) {
-      console.error(error);
+      //Return 500 Internal Server Error status for any other errors
       return res.status(500).send("Internal Server Error");
     }
   }
 
+  /** Controller method to delete category
+   * @param {Object} req the request object recieved from client
+   * @param {Object} res the response object to be modified and sent out
+   * @returns
+   *  409 when Category ID is required,
+   *  404 when Category not found,
+   *  500 when Internal Server error occurs,
+   *  200 when Category deleted successfully
+   */
   static async deleteCategory(req, res) {
     try {
       const { id } = req.params;
 
       // Check if category ID is provided
       if (!id) {
-        return res.status(400).send("Category ID is required");
+        return res.status(409).send("Category ID is required");
       }
 
       // Check if category with provided ID exists
@@ -128,28 +189,45 @@ class CategoryController {
 
       return res.status(200).send("Category deleted successfully");
     } catch (error) {
-      console.error(error);
+      //Return 500 Internal Server Error status for any other errors
       return res.status(500).send("Internal Server Error");
     }
   }
 
-  static async getCategoriesByName(req, res) {
+  /** Controller method to get category by name
+   * @param {Object} req the request object recieved from client
+   * @param {Object} res the response object to be modified and sent out
+   * @returns
+   *  409 when Category name is required,
+   *  404 No categories found with the given name,
+   *  500 when Internal Server error occurs,
+   *  200 when Category succesfully Fetched
+   */
+  static async getCategoryByName(req, res) {
     try {
+      // Extract categoryName from query parameters
       const { categoryName } = req.query;
+      // Check if categoryName is not provided
       if (!categoryName) {
-        return res.status(400).send("Category name is required");
+        // Return 409 Conflict status if categoryName is not provided
+        return res.status(409).send("Category name is required");
       }
 
+      // Find categories that match the given categoryName (case-insensitive)
       const categories = await Category.find({
         categoryName: { $regex: new RegExp(categoryName, "i") },
       });
 
+      // Check if no categories are found
       if (categories.length === 0) {
+        // Return 404 Not Found status if no categories are found
         return res.status(404).send("No categories found with the given name");
       }
 
+      // Return 200 OK status with the found categories
       return res.status(200).send(categories);
     } catch (error) {
+      // Log the error and return 500 Internal Server Error status for any other errors
       console.error(error);
       return res.status(500).send("Internal Server Error");
     }
