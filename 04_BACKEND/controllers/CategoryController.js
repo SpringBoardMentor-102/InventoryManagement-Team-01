@@ -1,36 +1,43 @@
-
-
+// dependencies
 const Category = require("../model/categories.js");
+
+/** Class containing all the controllers (as methods) for the /category path
+ */
 class CategoryController {
+
+  /** Controller method to handle adding a new category
+   * @param {Object} req the request object recieved from client
+   * @param {Object} res the response object to be modified and sent out
+   * // TODO: make sure every case returns a different number, 200, 201, 400, 401 etc
+   */
   static async addCategory(req, res) {
     try {
-      console.log(req.body);
       if (req.body.categoryName) {
-        const name = await Category.findOne({
+        const foundCategory = await Category.findOne({
           categoryName: req.body.categoryName,
         });
         if (!req.body.categoryName) {
           return res.status(400).send("Category name cannot be empty");
         }
-        if (name) {
+        if (foundCategory) {
           return res.status(409).send("Category already exist");
         } else {
           try {
             await Category.create({
               categoryName: req.body.categoryName,
             });
-            return res.status(200).send("succesfully Added");
+            return res.status(200).send("succesfully Added"); 
+            // TODO: send the newly created category object also in response
           } catch (error) {
+            console.log(error)
             return res.status(400).send("Something Went Wrong");
-            console.log(error);
           }
         }
       } else {
-        return res.status(400).send("Incomplete Data");
+        return res.status(400).send("Category Name is a mandatory field");
       }
     } catch (error) {
       return res.status(500).send("Internal Server Error");
-      console.log(error);
     }
   }
 
@@ -59,31 +66,6 @@ class CategoryController {
       return res.status(500).send("Server Error");
     }
   }
-
-  // static async updateCategory(req, res) {
-  //   try {
-  //     const category = await Category.findById(req.params.id);
-  //     if (!category) {
-  //       return res.status(404).send("Invalid Category Id");
-  //     } else {
-  //       const name = await Category.findOne({
-  //         categoryName: req.body.categoryName?.toLowerCase(),
-  //       });
-  //       console.log(name);
-  //       if (name) {
-  //         return res.status(409).send("Name Already exist");
-  //       } else {
-  //         await Category.findByIdAndUpdate(req.params.id, {
-  //           categoryName: req.body.categoryName,
-  //         });
-  //         return res.status(200).send("Updated succesfully");
-  //       }
-  //     }
-  //   } catch (error) {
-  //     return res.status(500).send("Internal Server Error");
-  //     console.log(error);
-  //   }
-  // }
 
   static async updateCategory(req, res) {
     try {
@@ -125,20 +107,6 @@ class CategoryController {
       return res.status(500).send("Internal Server Error");
     }
   }
-
-  // static async deleteCategory(req, res) {
-  //   try {
-  //     const category = await Category.findById(req.params.id);
-  //     if (!category) {
-  //       return res.status(404).send("Invalid Category Id");
-  //     } else {
-  //       await Category.deleteOne({ _id: req.params.id });
-  //       return res.status(200).send("Successfully deleted");
-  //     }
-  //   } catch (error) {
-  //     return res.status(500).send("Server Error");
-  //   }
-  // }
 
   static async deleteCategory(req, res) {
     try {
@@ -186,7 +154,6 @@ class CategoryController {
       return res.status(500).send("Internal Server Error");
     }
   }
-
 }
 
 module.exports = CategoryController;
