@@ -60,7 +60,7 @@ class CategoryController {
    * @returns
    *  404 when No Categories Found ,
    *  500 when Internal Server error occurs,
-   *  200 when Category succesfully Added
+   *  200 when Categories succesfully fetched
    */
   static async allCategories(req, res) {
     try {
@@ -86,7 +86,7 @@ class CategoryController {
    * @returns
    *  404 when Invalid Category Id ,
    *  500 when Internal Server error occurs,
-   *  200 when Category succesfully Added
+   *  200 when Category succesfully fetched
    */
   static async getCategory(req, res) {
     try {
@@ -115,7 +115,7 @@ class CategoryController {
    *  400 when Category name cannot be empty,
    *  409 Category name already exists
    *  500 when Internal Server error occurs,
-   *  200 when Category succesfully Added
+   *  200 when Category succesfully updated
    */
   static async updateCategory(req, res) {
     try {
@@ -201,7 +201,7 @@ class CategoryController {
    *  409 when Category name is required,
    *  404 No categories found with the given name,
    *  500 when Internal Server error occurs,
-   *  200 when Category succesfully Added
+   *  200 when Category succesfully Fetched
    */
   static async getCategoryByName(req, res) {
     try {
