@@ -6,7 +6,6 @@ import "../../index.css";
 import ProductList from "./ProductList";
 import { fetchData } from "../../utilities/apputils";
 import Filteroption from "./Filteroption";
-import { useStateWithCallbackLazy } from 'use-state-with-callback';
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
