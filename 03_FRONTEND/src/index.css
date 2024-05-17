@@ -1271,3 +1271,38 @@ display: flex;
   height: 6vh;
   padding-left: 34px;
 }
+
+/* Temporary code */
+@media screen and (max-width: 768px) {
+  .sidebar a {
+    justify-content: center;
+    padding: 10px;
+  }
+  
+  .sidebar span.material-icons-sharp {
+    margin-right: 0;
+  }
+  
+  .sidebar h3 {
+    display: none; /* Hide the text on smaller screens */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar a {
+    justify-content: center;
+    padding: 10px;
+  }
+  
+  .sidebar span.material-icons-sharp {
+    margin-right: 0;
+  }
+  
+  .sidebar h3 {
+    display: none; /* Hide the text on smaller screens */
+  }
+  
+  .sidebar a.active {
+    border-left-color: transparent; /* Remove blue border from active link on smaller screens */
+  }
+}
