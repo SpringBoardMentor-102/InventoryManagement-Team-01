@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchData } from "../../utilities/apputils";
+import { fetchData, fetchDataUnprotected } from "../../utilities/apputils";
 
 
 //internal dependencies
@@ -52,7 +52,7 @@ const Reset = () => {
     console.log(token);
 
     try {
-      const response = await fetchData("post", "users/reset-password", {
+      const response = await fetchDataUnprotected("post", "users/reset-password", {
         token: token,
         newPassword: password,
       });
@@ -62,34 +62,29 @@ const Reset = () => {
       setPasswordResetSuccess(true);
       // navigate("/dashboard");
     } catch (error) {
-      if (error.response) {
-        const response = error.response;
-        switch (response.status) {
-          case 422:
-            console.error("Validation failure: ", response.data.errors);
-            setErrorMessage("Validation failure: ", response.data.errors);
-            break;
-          case 401:
-            console.error("Invalid or expired token", response.data.errors);
-            setErrorMessage("Invalid or expired token", response.data.errors);
-            break;
-          case 500:
-            console.error("Internal Server Error", response.data.errors);
-            setErrorMessage("Internal Server Error", response.data.errors);
-            break;
-          case 400:
-            console.error("Password Match", response.data.errors);
-            setErrorMessage(
-              "New password must be different from the previous password",
-              response.data.errors
-            );
-            break;
-          default:
-            console.error("CRAZY STUFF", response.data.errors);
-            setErrorMessage("CRAZY STUFF", response.data.errors);
-            break;
-        }
+      let response = error.response;
+      if (response) {
+        console.log(response?.status);
+        if (response?.status === 422) {
+          console.error("Validation failure: ", response.data.errors);
+          setErrorMessage("Validation failure: ", response.data.errors);
+        } else if (response?.status === 401) {
+          console.error("Invalid or expired token", response.data.errors);
+          setErrorMessage("Invalid or expired token", response.data.errors);
+        } else if (response?.status === 500) {
+          console.error("Internal Server Error", response.data.errors);
+          setErrorMessage("Internal Server Error", response.data.errors);
+        } else if (response?.status === 400) {
+          console.error("Password Match", response.data.errors);
+          setErrorMessage(
+            "New password must be different from the previous password",
+            response.data.errors
+          );
       } else {
+        console.error("CRAZY STUFF", response.data.errors);
+        setErrorMessage("CRAZY STUFF", response.data.errors);
+      }
+     } else {
         console.log("Backend not working");
         setErrorMessage("Internal Server Error");
       }
