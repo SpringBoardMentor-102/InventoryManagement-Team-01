@@ -7,12 +7,22 @@ import ProductList from "./ProductList";
 import { fetchData } from "../../utilities/apputils";
 import Filteroption from "./Filteroption";
 
+
+// Search component
 const Search = () => {
+  // State variables
   const [searchQuery, setSearchQuery] = useState("");
   const [originalSearchResult, setOriginalSearchResult] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [saveCategoryId, setSaveCategoryId] = useState("");
-  const [searchFilterResults, setSearchFilterResults] = useState([]);
+  //usefull for some features don't delete 
+  const [saveCategoryId, setSaveCategoryId] = useState(false);
+  const [prevFilterOption, setPrevFilterOption] = useState({
+    "price": "",
+    "category": "",
+    "availablity": ""
+
+  });
+
   const [loading, setLoading] = useState(false);
   const [sortField, setSortField] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
@@ -23,11 +33,10 @@ const Search = () => {
   const [loadingProduct, setLoadingProduct] = useState(true);
   const [error, setError] = useState(null);
 
-
+  // Function to fetch products for dashboard products
   const fetchProducts = async () => {
     try {
       const response = await fetchData("get", "product/getAllProducts");
-      console.log("product list----", response);
       if (response !== null) {
         setProducts(response.data.products);
         setOriginalProducts(response.data.products);
@@ -43,12 +52,13 @@ const Search = () => {
     }
   };
 
-
+  // useEffect hook to fetch products on component mount
   useEffect(() => {
     fetchProducts();
 
   }, []);
 
+  // Function to toggle sort order
   const toggleSortOrder = (field) => {
     if (field === sortField) {
       const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
@@ -59,6 +69,7 @@ const Search = () => {
     }
   };
 
+  // Function to handle key press event
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       handleSearch();
@@ -75,43 +86,22 @@ const Search = () => {
           "get",
           `product/searchProduct?name=${searchQuery}&sortField=${sortField}&sortOrder=${sortOrder}`
         );
-        // console.log("searched products ***********", response);
-        // console.log("saveCategoryId", saveCategoryId);
+
         setOriginalSearchResult(response.data);
-
-
-
         setShowResults(true);
-        if (saveCategoryId == "") {
-          setSearchResults(response.data);
-
-        }
-
-
+        setSearchResults(response.data);
 
       } catch (error) {
 
         let response = error.response;
-        console.log(response?.status);
         setShowResults(false);
         if (response) {
           if (response?.status === 404) {
-            console.log("No search results...");
           }
         }
       } finally {
         setLoading(false);
       }
-
-      // //testing category api
-      // try{
-      //   const response2 = await fetchData(
-      //     "get",
-      //     ""
-      //   );
-      // }catch(error){
-
-      // }
 
     } else {
       setSearchResults([]);
@@ -120,37 +110,36 @@ const Search = () => {
     }
   };
 
+  // Function to handle input change
   const handleChange = (e) => {
-    setSearchQuery(e.target.value); // Update searchQuery state as user types
+    setSearchQuery(e.target.value);
   };
 
-  useEffect(() => {
 
+  // Function to get products by category
+  const getCategory = (filterCriteria) => {
+    let filteredProducts;
+    setSaveCategoryId(true);
+
+    setPrevFilterOption(filterCriteria)
+    // filter for  serach
     if (showResults) {
-      if (saveCategoryId) {
-        getCategory(saveCategoryId);
-      }
-    }
 
-  }, [showResults])
 
-  const getCategory = (categoryId) => {
+      filteredProducts = originalSearchResult?.filter(product => filterCriteria?.category === "" ? true : (product?.categoryId === filterCriteria?.category));
+      filteredProducts = filteredProducts?.filter(product => filterCriteria?.availablity === "" ? true : (product?.status === filterCriteria?.availablity));
+      filteredProducts = filteredProducts?.filter(product => filterCriteria?.price === "" ? true : (product?.price <= Number(filterCriteria?.price)));
 
-    // console.log("product filter result &&&&&",showResults);
-    // console.log("category data in serach==", categoryId);
-    let filtered;
-    setSaveCategoryId(categoryId);
-
-    if (showResults) {
-      filtered = originalSearchResult?.filter(product => product?.categoryId === categoryId);
-      // console.log("filtered result",filtered,searchResults);
-      setSearchResults(filtered);
-      // setSearchFilterResults(filtered);
+      setSearchResults(filteredProducts);
       setShowResults(true);
+
     } else {
-      filtered = originalProducts?.filter(product => product?.categoryId?._id === categoryId);
-      // console.log("product filter result",filtered,originalProducts);
-      setProducts(filtered);
+      // for dashboard filter
+      filteredProducts = originalProducts?.filter(product => filterCriteria?.category === "" ? true : (product?.categoryId?._id === filterCriteria.category));
+      filteredProducts = filteredProducts?.filter(product => filterCriteria?.availablity === "" ? true : (product?.status === filterCriteria.availablity));
+      filteredProducts = filteredProducts?.filter(product => filterCriteria?.price === "" ? true : (product?.price <= Number(filterCriteria.price)));
+
+      setProducts(filteredProducts);
       setShowResults(false);
 
     }
@@ -169,7 +158,7 @@ const Search = () => {
                   id="search-input"
                   placeholder="Search here..."
                   value={searchQuery}
-                  onChange={handleChange} // Call handleChange when input value changes
+                  onChange={handleChange}
                   onKeyPress={() => handleKeyPress}
                 />
                 <button onClick={handleSearch} className="material-icons-sharp">
@@ -184,7 +173,7 @@ const Search = () => {
           </div>
 
           {loading && <p>Loading...</p>}
-          {showResults && searchResults.length > 0 && (
+          {showResults && (searchResults?.length > 0) && (
             <table className="table-container">
               <thead>
                 <tr>

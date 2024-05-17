@@ -1,79 +1,139 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // importing axios
 import { fetchData } from '../../utilities/apputils';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
+
+// FilterComponent functional component
 const FilterComponent = ({ handleFilter, getCategory }) => {
+  // State variables using useState hook
   const [selectedOption, setSelectedOption] = useState('');
   const [categories, setCategories] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const [selectedFilterOption, setSelectedFilterOption] = useState(
+    {
+      "price": "",
+      "category": "",
+      "availablity": ""
+
+    }
+  );
+
+
+  // useEffect hook to fetch categories when component mounts
   useEffect(() => {
+    // Function to fetch categories
     const fetchCategories = async () => {
       try {
+        // Fetch categories from API
         const response = await fetchData(
           "get",
           `category/getallcategory`
         );
         setCategories(response.data);
-
-
-        // console.log("responce of api",response);
       } catch (error) {
-        // console.error('Error fetching categories:', error);
+        // Handle errors if any
       }
     };
-
+    // Call fetchCategories function
     fetchCategories();
-  }, []); // Empty dependency array 
+  }, []);  // Empty dependency array
 
+  // Function to toggle dropdown visibility
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
 
-  const handleOptionChange = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedOption(selectedValue);
-    // console.log("selected value===", selectedValue);
-    // handleFilter(selectedValue);
-    getCategory(selectedValue);
 
+  // Price = Function to handle option change
+  const handleFilterOptionChange = (filedName, event) => {
+
+    const value = event.target.value;
+
+    let updatedFilter;
+    if (filedName === "price") {
+
+      updatedFilter = { ...selectedFilterOption, price: value };
+      setSelectedFilterOption(updatedFilter);
+
+    }
+    if (filedName === "category") {
+
+      updatedFilter = { ...selectedFilterOption, category: value };
+      setSelectedFilterOption(updatedFilter);
+
+    } if (filedName === "availablity") {
+
+      updatedFilter = { ...selectedFilterOption, availablity: value };
+      setSelectedFilterOption(updatedFilter);
+
+    }
   };
 
-  return (
-    <div>
-      <button onClick={toggleDropdown} style={{
-        fontSize: "16px",
-        fontWeight: "bold"
-      }}>Filter</button>
-      {showDropdown && (
-        <select value={selectedOption} onChange={handleOptionChange}>
-          <option value="">Select Filter</option>
-          <optgroup label="Price">
-            <option value="low">Price :Low</option>
-            <option value="medium">Price :Medium</option>
-            <option value="high">Price :High</option>
-          </optgroup>
-          <optgroup label="Category">
-            {categories?.map((item, index) =>
-            (
-              <option key={item._id} value={item._id}>{item.categoryName}</option>
-            ))}
+  useEffect(() => {
+    getCategory(selectedFilterOption);
 
-            {/* <option value="6634e46151121271c7232e10">Mobile phones</option>
-            <option value="6634e46851121271c7232e13">Watch</option> */}
-          </optgroup>
-          <optgroup label="Availability">
-            <option value="available">Available</option>
-            <option value="out-of-stock">Out of Stock</option>
-          </optgroup>
-          <optgroup label="Rating">
-            <option value="1">Rating 1</option>
-            <option value="2">Rating 2</option>
-            <option value="3">Rating 3</option>
-            <option value="4">Rating 4</option>
-            <option value="5">Rating 5</option>
-          </optgroup>
-        </select>
+  }, [selectedFilterOption])
+
+  return (
+    <div
+
+    >
+      <button onClick={toggleDropdown}
+        style={{
+          fontSize: "16px",
+          fontWeight: "bold"
+        }}
+
+      ><FontAwesomeIcon icon={faFilter} /> Filter </button>
+      {showDropdown && (
+        <div className='filter' >
+          
+          <div> Select Filter</div>
+          <select style={{
+            backgroundColor: "#f5f5f5"
+          }} value={selectedFilterOption.price} onChange={(event) => handleFilterOptionChange("price", event)}>
+            <lable >Select Price</lable>
+            <optgroup label="price"
+
+            >
+              {/* <option value="">Select Price</option> */}
+              <option value=""></option>
+              <option value={500}>less than 500</option>
+              <option value={1000}>less than 1000</option>
+              <option value={10000}>less than 10000</option>
+              <option value={50000}>less than 50000</option>
+              <option value={100000}>less than 100000</option>
+            </optgroup>
+          </select>
+          <lable >Select Category</lable>
+
+          <select style={{
+            backgroundColor: "#f5f5f5"
+          }} value={selectedFilterOption.category} onChange={(event) => handleFilterOptionChange("category", event)}>
+            <optgroup label="category">
+              <option value=""></option>
+              {categories?.map((item, index) =>
+              (
+                <option key={item._id} value={item._id}>{item.categoryName}</option>
+              ))}
+
+            </optgroup>
+          </select>
+          <lable >Select Availablity</lable>
+          <select style={{
+            backgroundColor: "#f5f5f5"
+          }} value={selectedFilterOption.availablity} onChange={(event) => handleFilterOptionChange("availablity", event)}>
+
+            <optgroup label="availablity">
+              <option value="">All</option>
+              <option value="available">Available</option>
+              <option value="out_of_stock">Out of Stock</option>
+            </optgroup>
+          </select>
+
+        </div>
       )}
     </div>
   );

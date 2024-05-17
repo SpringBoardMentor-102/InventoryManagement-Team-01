@@ -56,7 +56,6 @@ const ProductDetail = () => {
 
   const handleAddToCart = (productData) => {
     // Add the selected product to the list of selected products
-    console.log("Added to cart: ", productData);
 
     // get the cart from localStorage or create an empty array
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -78,7 +77,6 @@ const ProductDetail = () => {
 
   const handleRemoveFromCart = () => {
     // Remove the selected product from the list of selected products
-    console.log("Removed from cart:", cartQuantity);
   };
 
   if (!product) return <div>Loading...</div>;

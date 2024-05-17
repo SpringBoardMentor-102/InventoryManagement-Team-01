@@ -928,6 +928,14 @@ main .recent-orders a {
   position: relative;
 } */
 
+.filter{
+display: flex;
+flex-direction: column;
+border: 1px solid grey;
+padding: 10px;
+background-color: white;
+border-radius: 8px;
+}
 .search-bar {
   display: flex;
   align-items: center;
