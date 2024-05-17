@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faShoppingCart, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
 const Checkout = () => {
@@ -15,25 +15,25 @@ const Checkout = () => {
 
   ]);
 
-  
-  
+
+
 
   return (<>
-<div style={{marginBottom:"13px"}}>
-          <FontAwesomeIcon icon={faArrowLeft} />
-          <Link to="/Dashboard">Back to Dashboard </Link>
-        </div>
-    <div className="checkout-container">
-  
-      <div className="items-container">
-      <div className='checkout-heading'>Shopping Cart <FontAwesomeIcon icon={faShoppingCart}/></div>
-      <hr className='horizontal-line'></hr>
-    <div className='row-header'>
-      <div className='cell-product'>Product</div>
-      <div className='cell-name'>Name</div>
-      <div className='cell-price'>Price</div>
-      <div className='cell-quantity'>Quantity</div>
+    <div style={{ marginBottom: "13px" }}>
+      <FontAwesomeIcon icon={faArrowLeft} />
+      <Link to="/Dashboard">Back to Dashboard </Link>
     </div>
+    <div className="checkout-container">
+
+      <div className="items-container">
+        <div className='checkout-heading'>Shopping Cart <FontAwesomeIcon icon={faShoppingCart} /></div>
+        <hr className='horizontal-line'></hr>
+        <div className='row-header'>
+          <div className='cell-product'>Product</div>
+          <div className='cell-name'>Name</div>
+          <div className='cell-price'>Price</div>
+          <div className='cell-quantity'>Quantity</div>
+        </div>
 
         {items.map(item => (
           <div key={item.id} className="check-name">
@@ -43,38 +43,14 @@ const Checkout = () => {
               <p className='checkout-price'>${item.price}</p>
               <p className='checkout-quantity'>{item.quantity}</p>
             </div>
-           <FontAwesomeIcon icon={faTrash}/>
           </div>
         ))}
-<div className='cancel'>
-<button className='back-btn'>Back</button>
-        <button className='cancel-btn'>Cancel order</button>
-</div>
-       
-      </div>
-      <div className='right-container'>
-
-      <div className="total-container">
-        <h2 className='order-heading'>Order Summery</h2>
-        <p>Discount : </p>
-        <p>Delivery : </p>
-        <p>Tax : </p>
-        <p>Total : </p>
-      </div>
-        <div className='payment'>
-        <h2 className='order-heading'>Payment Method</h2>
-        <div className='payment-img'>
-          <img className='pi' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7wEa5uopKH5xGOx_oQ7C8v_VZ5Gx2cVoPHlEMX1ifDxSQgS9xClEJNMua4TbXumt2q58&usqp=CAU' alt='payment logo'/>
-          <img className='pi' src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Mastercard_2019_logo.svg/1200px-Mastercard_2019_logo.svg.png' alt='payment logo'/>
-          <img className='pi' src='https://logowik.com/content/uploads/images/857_visa.jpg' alt='payment logo'/>
-          <img className='pi' src='https://logos-world.net/wp-content/uploads/2020/08/Bitcoin-Logo.png' alt='payment logo'/>
+        <div className='cancel'>
+          <Link to="/Dashboard"><button className='cancel-btn'>Back to Dashboard</button> </Link>
         </div>
-        <button className="checkout-btn">Checkout</button>
-
-        </div>
+      </div>
     </div>
-      </div>
-    </>
+  </>
   );
 };
 
