@@ -983,6 +983,7 @@ main .recent-orders a {
 
 .table-container th {
   background-color: #7380ec;
+  color: white;
 }
 
 .trows:nth-child(even) {

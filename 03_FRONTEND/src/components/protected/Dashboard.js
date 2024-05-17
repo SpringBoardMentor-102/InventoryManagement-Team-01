@@ -10,9 +10,7 @@ const Dashboard = () => {
       <main>
         <Search />
       </main>
-      <aside>
-        <Filteroption/>
-      </aside>
+     
     </div>
   );
 };

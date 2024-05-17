@@ -21,5 +21,11 @@ router.delete(
   authMiddleware,
   CategoryController.deleteCategory
 );
+//get category by name
+router.get(
+  "/getCategoryByName",
+  authMiddleware,
+  CategoryController.getCategoryByName
+);
 
 module.exports = router;
