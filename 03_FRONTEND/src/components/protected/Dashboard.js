@@ -1,5 +1,6 @@
 import Sidebar from "./Sidebar";
 import Search from "./Search";
+import Filteroption from "./Filteroption";
 
 const Dashboard = () => {
 
@@ -9,6 +10,7 @@ const Dashboard = () => {
       <main>
         <Search />
       </main>
+     
     </div>
   );
 };

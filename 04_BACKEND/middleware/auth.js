@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const authMiddleware = (req, res, next) => {
   // Taking token from headers
   const authHeader = req.headers.authorization;
-  console.log("Token is", authHeader);
+  // console.log("Token is", authHeader);
 
   // Checking if token is null or undefined
   if (authHeader === null || authHeader === undefined) {
@@ -13,7 +13,7 @@ const authMiddleware = (req, res, next) => {
     });
   }
 
-  console.log("Token is", authHeader);
+  // console.log("Token is", authHeader);
 
   // Splitting token
   const token = authHeader.split(" ")[1];
@@ -33,4 +33,3 @@ const authMiddleware = (req, res, next) => {
 };
 
 module.exports = authMiddleware;
-

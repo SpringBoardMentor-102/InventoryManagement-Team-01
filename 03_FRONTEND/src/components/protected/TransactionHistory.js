@@ -1,51 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { fetchData } from "../../utilities/apputils";
 
-
 function TransactionHistory() {
     const [transactions, setTransactions] = useState([]);
-    const [userId, setUserId] = useState('6632693cb22fe2179329a4ba');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
     useEffect(() => {
+        const userId = localStorage.getItem("userId"); 
         async function fetchTransactions() {
-            //         try {
-
-            //             const response = await fetch(`${BACKEND_URL}/getTransaction/?userId=${userId}`);
-            //             console.log(response);
-            //             if (!response.ok) {
-            //                 throw new Error('Failed to fetch transactions');
-            //             }
-            //             const data = await response.json();
-            //             setTransactions(data.transactions);
-            //         } catch (error) {
-            //             console.error('Error fetching transactions:', error);
-            //         }
-            //     }
-
-
-            //     fetchTransactions();
-            // }, [userId]);
-
-            //Other method to fetch data 
             try {
-                const response = await fetchData('/transaction/getTransaction/?userId=${userId}');
+                const response = await fetchData("get", `transaction/getTransactions?userId=${userId}`); 
                 console.log(response);
-                // if (response !== null) {
-                    setTransactions(response.data.transaction);
+                if (response.data.transaction) {
+                    setTransactions(response.data.transaction); 
                     setLoading(false);
-                // } else {
-                //     setError("UnAuthorized");
-                //     setLoading(false);
-                // }
+                } else {
+                    setError("No transactions found.");
+                    setLoading(false);
+                }
             } catch (error) {
                 setError(error.message);
                 setLoading(false);
             }
-        };
-        fetchTransactions();
+        }
+
+        if (userId) {
+            fetchTransactions();
+        } else {
+            setLoading(false); 
+        }
     }, []);
 
     if (loading) {

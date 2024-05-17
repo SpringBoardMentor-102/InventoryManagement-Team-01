@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import { fetchDataUnprotected } from "../../utilities/apputils";
 
-// Getting the path from environment variable
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Confirm = () => {
   const navigate = useNavigate();
-  const { token } = useParams(); // Extracting token from URL params
 
   const [tokenError, setTokenError] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
@@ -42,6 +38,7 @@ const Confirm = () => {
       }
     }
   };
+  console.log();
 
   return (
     <>

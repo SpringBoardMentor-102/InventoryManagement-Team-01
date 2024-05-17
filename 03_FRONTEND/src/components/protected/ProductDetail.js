@@ -1,64 +1,84 @@
+// external dependencies
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import OrderSummary from "./OrderSummary";
+
+// internal dependency
 import { fetchData } from "../../utilities/apputils";
-import { useNavigate } from "react-router-dom";
 
+// declaration of product detail component
 const ProductDetail = () => {
-
-  const token = sessionStorage.getItem("token");
-  
+  //   extracting query params
   const { id } = useParams();
-  const navigate = useNavigate(); 
 
-
-  const [quantity, setQuantity] = useState(1);
+  //intializing the component state
+  const [cartQuantity, setCartQuantity] = useState(0);
   const [product, setProduct] = useState([]);
-  const [value, setValue] = useState(1);
 
+  // helper function to capitalize the first capitalizeFirstLetter,for better presentation
   const capitalizeFirstLetter = (text = "abc") => {
     return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
-  const setDecrease = () => {
-    value > 1 ? setValue(value - 1) : setValue(1);
-  };
-  const setIncrease = () => {
-    value < product.quantity ? setValue(value + 1) : setValue(product.quantity);
-  };
+  //   other helper function
 
-  const addToCart = () => {
-    value < product.quantity ? setValue(value + 1) : setValue(product.quantity);
+  //handler code for decrementing the quantity
+  const setDecrease = () => {
+    if (cartQuantity > 0) {
+      setCartQuantity(cartQuantity - 1);
+    }
   };
-  const fetchProduct = async () => {
-    try {
-      const response = await fetchData("get", `product/GetProducts/${id}`);
-      console.log(response);
-      if (response !== null) {
-        setProduct(response.data);
-      } else {
-        console.error("error", "UnAuthorized");
-      }
-    } catch (error) {
-      console.error("error", error);
+  //handler code for incrementing  the quantity
+  const setIncrease = () => {
+    if (cartQuantity < product.quantity) {
+      setCartQuantity(cartQuantity + 1);
     }
   };
 
+  // when ID changes, call the backend and fetch the product details of this new product ID
   useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetchData("get", `product/GetProducts/${id}`);
+        if (response !== null) {
+          setProduct(response.data);
+        } else {
+          console.error("error", "UnAuthorized");
+        }
+      } catch (error) {
+        console.error("error", error);
+      }
+    };
+
     fetchProduct();
   }, [id]);
 
   const handleAddToCart = (productData) => {
     // Add the selected product to the list of selected products
     console.log("Added to cart: ", productData);
-    navigate('/checkout', { state: { products: [productData]} });
+
+    // get the cart from localStorage or create an empty array
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Check if the product already exists in the cart
+    const existsIndex = cart.findIndex(item => item.product._id === productData._id);
+
+      if (existsIndex !== -1) {
+        // Update quantity if product already exists
+        cart[existsIndex].quantity += cartQuantity;
+      } else {
+        // Add the product to the cart if it doesn't exist
+        cart.push({ product: productData, quantity: cartQuantity });
+      }
+
+    // Save the updated cart back to localStorage 
+    localStorage.setItem('cart', JSON.stringify(cart));
   };
 
   const handleRemoveFromCart = () => {
     // Remove the selected product from the list of selected products
-    console.log("Removed from cart:", product);
+    console.log("Removed from cart:", cartQuantity);
   };
 
   if (!product) return <div>Loading...</div>;
@@ -76,25 +96,28 @@ const ProductDetail = () => {
 
         <div className="product">
           <p className="product-name">{product.name}</p>
-          <h3>Category: {capitalizeFirstLetter(product.category)}</h3>
+          <h3>
+            Category: {capitalizeFirstLetter(product.categoryId?.categoryName)}
+          </h3>
           <h3>Price : ₹ {product.price}</h3>
           <h3>Quantity : {product.quantity}</h3>
           <h2>DESCRIPTION</h2>
           <p className="desc">{product.description}</p>
           <div className="buttons">
-            <button onClick={()=>handleAddToCart(product)} className="add">
+            <button onClick={() => handleAddToCart(product)} className="add">
               Add to Cart
             </button>
-            <button onClick={handleRemoveFromCart} className="remove">
+            <span> </span>
+            <button onClick={handleRemoveFromCart} className="add">
               Remove from Cart
             </button>
           </div>
           <div className="change-button">
-            <button onClick={() => setQuantity(prev => Math.max(prev - 1, 1))} className="minus">
+            <button onClick={setDecrease} className="minus">
               -
             </button>
-            <button className="value">{quantity}</button>
-            <button onClick={() => setQuantity(prev => prev + 1)} className="plus">
+            <button className="value">{cartQuantity}</button>
+            <button onClick={setIncrease} className="plus">
               +
             </button>
           </div>
