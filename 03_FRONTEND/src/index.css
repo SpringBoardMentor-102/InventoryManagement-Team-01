@@ -928,6 +928,14 @@ main .recent-orders a {
   position: relative;
 } */
 
+.filter{
+display: flex;
+flex-direction: column;
+border: 1px solid grey;
+padding: 10px;
+background-color: white;
+border-radius: 8px;
+}
 .search-bar {
   display: flex;
   align-items: center;
@@ -1271,4 +1279,39 @@ display: flex;
   width: 6vw;
   height: 6vh;
   padding-left: 34px;
+}
+
+/* Temporary code */
+@media screen and (max-width: 768px) {
+  .sidebar a {
+    justify-content: center;
+    padding: 10px;
+  }
+  
+  .sidebar span.material-icons-sharp {
+    margin-right: 0;
+  }
+  
+  .sidebar h3 {
+    display: none; /* Hide the text on smaller screens */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar a {
+    justify-content: center;
+    padding: 10px;
+  }
+  
+  .sidebar span.material-icons-sharp {
+    margin-right: 0;
+  }
+  
+  .sidebar h3 {
+    display: none; /* Hide the text on smaller screens */
+  }
+  
+  .sidebar a.active {
+    border-left-color: transparent; /* Remove blue border from active link on smaller screens */
+  }
 }
