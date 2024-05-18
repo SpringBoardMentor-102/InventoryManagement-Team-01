@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const Checkout = () => {
   const [items, setItems] = useState([]); // Use an empty array initially
-  const navigate = useNavigate();// for navigation
+  const navigate = useNavigate(); // for navigation
+
   useEffect(() => {
     const fetchCartItems = () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -13,15 +14,15 @@ const Checkout = () => {
     };
     fetchCartItems();
   }, []);
-      
-  const handleImageClick = (productData) => {
-    navigate(`/product/${productData}`);
+
+  const handleImageClick = (productId) => {
+    navigate(`/product/${productId}`);
   };
 
   return (
     <>
       <Link to="/Dashboard" className="back-to-dashboard-btn">
-      <FontAwesomeIcon icon={faArrowLeft} /> Back to Dashboard
+        <FontAwesomeIcon icon={faArrowLeft} /> Back to Dashboard
       </Link>
 
       <div className="checkout-container">
@@ -42,22 +43,23 @@ const Checkout = () => {
           ) : (
             items.map((item) => (
               <div key={item.product._id} className="check-name">
-                <img className="img-checkout" src={item.product.imageUrl} alt={item.product.name}
-                onClick={() => handleImageClick(item.product._id)}
-                style={{ cursor: 'pointer' }} />
-                <div className="item-details">
-                  <p className="checkout-name">{item.product.name}</p>
-                  <p className="checkout-price">${item.product.price}</p>
-                  <p className="checkout-quantity">{item.quantity}</p>
-                </div>
+                <img
+                  className="img-checkout"
+                  src={item.product.imageUrl}
+                  alt={item.product.name}
+                  onClick={() => handleImageClick(item.product._id)}
+                />
+                <p className="checkout-name">{item.product.name}</p>
+                <p className="checkout-price">${item.product.price}</p>
+                <p className="checkout-quantity">{item.quantity}</p>
               </div>
             ))
           )}
-          <button className="checkout-btn">Checkout</button>
         </div>
         <div className="total-container">
           <h2>Total</h2>
           {/* Add your total calculation and display here */}
+          <button className="checkout-btn">Checkout</button>
         </div>
       </div>
     </>
