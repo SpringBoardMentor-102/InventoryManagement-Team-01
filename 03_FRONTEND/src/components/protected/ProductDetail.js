@@ -75,9 +75,21 @@ const ProductDetail = () => {
     localStorage.setItem('cart', JSON.stringify(cart));
   };
 
-  const handleRemoveFromCart = () => {
+  const handleRemoveFromCart = (productData) => {
     // Remove the selected product from the list of selected products
+    
+    // Get the cart from localStorage or create an empty array
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Filter out the product to be removed
+    const updatedCart = cart.filter(item => item.product._id !== productData._id);
+
+    // Save the updated cart back to localStorage
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+   
   };
+  
 
   if (!product) return <div>Loading...</div>;
 
@@ -106,7 +118,7 @@ const ProductDetail = () => {
               Add to Cart
             </button>
             <span> </span>
-            <button onClick={handleRemoveFromCart} className="add">
+            <button onClick={()=>handleRemoveFromCart(product)} className="add">
               Remove from Cart
             </button>
           </div>

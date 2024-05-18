@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
@@ -8,6 +8,7 @@ import { faArrowLeft, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const Checkout = () => {
   const [items, setItems] = useState([]); // Use an empty array initially
+  const navigate = useNavigate();// for navigation
   useEffect(() => {
     const fetchCartItems = () => {
       // get the cart from localStorage or create an empty array
@@ -17,6 +18,10 @@ const Checkout = () => {
     };
     fetchCartItems();
   }, []);
+      
+  const handleImageClick = (productData) => {
+    navigate(`/product/${productData}`);
+  };
 
   return (
     <>
@@ -42,7 +47,9 @@ const Checkout = () => {
           ) : (
             items.map((item) => (
               <div key={item.product._id} className="check-name">
-                <img className="img-checkout" src={item.product.imageUrl} alt={item.product.name} />
+                <img className="img-checkout" src={item.product.imageUrl} alt={item.product.name}
+                onClick={() => handleImageClick(item.product._id)}
+                style={{ cursor: 'pointer' }} />
                 <div className="item-details">
                   <p className="checkout-name">{item.product.name}</p>
                   <p className="checkout-price">${item.product.price}</p>
