@@ -1,19 +1,14 @@
-
 import React, { useState, useEffect } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-
-
 
 const Checkout = () => {
   const [items, setItems] = useState([]); // Use an empty array initially
   const navigate = useNavigate();// for navigation
   useEffect(() => {
     const fetchCartItems = () => {
-      // get the cart from localStorage or create an empty array
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      console.log(cart);
       setItems(cart);
     };
     fetchCartItems();
@@ -25,16 +20,16 @@ const Checkout = () => {
 
   return (
     <>
-      <div style={{ marginBottom: "13px" }}>
-        <FontAwesomeIcon icon={faArrowLeft} />
-        <Link to="/Dashboard">Back to Dashboard </Link>
-      </div>
+      <Link to="/Dashboard" className="back-to-dashboard-btn">
+      <FontAwesomeIcon icon={faArrowLeft} /> Back to Dashboard
+      </Link>
+
       <div className="checkout-container">
         <div className="items-container">
           <div className="checkout-heading">
-            Shopping Cart <FontAwesomeIcon icon={faShoppingCart} />
+            <span>Shopping Cart</span> <FontAwesomeIcon icon={faShoppingCart} />
           </div>
-          <hr className="horizontal-line"></hr>
+          <hr className="horizontal-line" />
           <div className="row-header">
             <div className="cell-product">Product</div>
             <div className="cell-name">Name</div>
@@ -58,14 +53,11 @@ const Checkout = () => {
               </div>
             ))
           )}
-          <div className="cancel">
-            <Link to="/Dashboard">
-              <button className="cancel-btn">Back to Dashboard</button>
-            </Link>
-            <div>
-              <button className="checkout-btn">Checkout</button>
-            </div>
-          </div>
+          <button className="checkout-btn">Checkout</button>
+        </div>
+        <div className="total-container">
+          <h2>Total</h2>
+          {/* Add your total calculation and display here */}
         </div>
       </div>
     </>
@@ -73,4 +65,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-

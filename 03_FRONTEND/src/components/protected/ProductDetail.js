@@ -13,7 +13,7 @@ const ProductDetail = () => {
   const { id } = useParams();
 
   //intializing the component state
-  const [cartQuantity, setCartQuantity] = useState(0);
+  const [cartQuantity, setCartQuantity] = useState(1);
   const [product, setProduct] = useState([]);
 
   // helper function to capitalize the first capitalizeFirstLetter,for better presentation

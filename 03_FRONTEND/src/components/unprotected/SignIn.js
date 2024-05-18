@@ -8,7 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import { validateEmail, validatePassword } from "../../utilities/validators";
 
 // getting the path from environment variable
-// const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 /** React component, representing the Sign-in view of the application
  */
