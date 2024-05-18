@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const Checkout = () => {
-  const [items, setItems] = useState([]); // Use an empty array initially
-  const navigate = useNavigate(); // for navigation
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     const fetchCartItems = () => {
@@ -14,15 +13,24 @@ const Checkout = () => {
     };
     fetchCartItems();
   }, []);
+  const handleCheckout = () => {
+    
+    alert("Are you sure you want to checkout?");
 
-  const handleImageClick = (productId) => {
-    navigate(`/product/${productId}`);
+    // Clear cart data after successful checkout (or handle errors gracefully)
+    try {
+      localStorage.removeItem("cart");
+      setItems([]); // Update state for immediate UI reflection
+    } catch (error) {
+      console.error("Error clearing cart:", error);
+      // Implement error handling (e.g., display an error message)
+    }
   };
 
   return (
     <>
       <Link to="/Dashboard" className="back-to-dashboard-btn">
-        <FontAwesomeIcon icon={faArrowLeft} /> Back to Dashboard
+      <FontAwesomeIcon icon={faArrowLeft} /> Back to Dashboard
       </Link>
 
       <div className="checkout-container">
@@ -43,23 +51,16 @@ const Checkout = () => {
           ) : (
             items.map((item) => (
               <div key={item.product._id} className="check-name">
-                <img
-                  className="img-checkout"
-                  src={item.product.imageUrl}
-                  alt={item.product.name}
-                  onClick={() => handleImageClick(item.product._id)}
-                />
-                <p className="checkout-name">{item.product.name}</p>
-                <p className="checkout-price">${item.product.price}</p>
-                <p className="checkout-quantity">{item.quantity}</p>
+                <img className="img-checkout" src={item.product.imageUrl} alt={item.product.name} />
+                <div className="checkout-name">{item.product.name}</div>
+                <div className="checkout-price">${item.product.price}</div>
+                <div className="checkout-quantity">{item.quantity}</div>
               </div>
             ))
           )}
-        </div>
-        <div className="total-container">
-          <h2>Total</h2>
-          {/* Add your total calculation and display here */}
-          <button className="checkout-btn">Checkout</button>
+          <button className="checkout-btn" onClick={handleCheckout}>
+            Checkout
+          </button>
         </div>
       </div>
     </>
