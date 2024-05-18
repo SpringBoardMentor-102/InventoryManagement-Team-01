@@ -62,6 +62,15 @@ async function handlegetTransactionByID(req, res) {
 
 async function handleUpdatesTransactions(req, res) {
   try {
+
+    // if (!req.user || req.user.role !== 'admin') {
+    //   return res.status(403).json({ message: "Insufficient permissions" });
+    // }
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid order ID" });
+    }
+
     // Convert itemId string to ObjectId
     req.body.items = req.body.items.map((item) => ({
       ...item,
@@ -90,6 +99,15 @@ async function handleUpdatesTransactions(req, res) {
 }
 async function handleDeleteTransaction(req, res) {
   try {
+
+    // if (!req.user || req.user.role !== 'admin') {
+    //   return res.status(403).json({ message: "Insufficient permissions" });
+    // }
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid order ID" });
+    }
+
     const deletedTransaction = await Transaction.findByIdAndDelete(
       req.params.id
     );
