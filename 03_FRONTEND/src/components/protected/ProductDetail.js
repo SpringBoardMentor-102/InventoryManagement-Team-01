@@ -82,11 +82,20 @@ const ProductDetail = () => {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     // Filter out the product to be removed
-    const updatedCart = cart.filter(item => item.product._id !== productData._id);
+ const existsIndex = cart.findIndex(item => item.product._id === productData._id);
+    // Filter out the product to be removed
+    if(existsIndex !== 0){
+      if(cart[existsIndex].quantity>1){
+        //decrement 1 quantity from the cart
+        cart[existsIndex].quantity -=cartQuantity;
+        localStorage.setItem('cart', JSON.stringify(cart));
+      }else{
+        const updatedCart = cart.filter(item => item.product._id !== productData._id);
+        // Save the updated cart back to localStorage
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
 
-    // Save the updated cart back to localStorage
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
-
+      }
+    }
    
   };
   
