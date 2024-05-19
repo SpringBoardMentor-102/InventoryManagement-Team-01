@@ -20,6 +20,8 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    // Remove user data from localStorage
+    localStorage.removeItem("user");
     navigate("/signin");
   };
 

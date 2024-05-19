@@ -1,11 +1,14 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
-const OrderSummary = ({ selectedProducts }) => {
+const OrderSummary = () => {
+  const location = useLocation();
+  const selectedProducts = location.state?.selectedProducts || [];
 
-  console.log("print the data ====================",selectedProducts );
+  console.log("Selected products are :", selectedProducts);
   // Calculate total quantity and total price
   const totalQuantity = selectedProducts?.reduce((total, item) => total + item.quantity, 0);
-  const totalPrice = selectedProducts?.reduce((total, item) => total + item.price * item.quantity, 0);
+  const totalPrice = selectedProducts?.reduce((total, item) => total + item.product.price * item.quantity, 0);
 
   return (
     <div className="order-summary">
@@ -15,8 +18,8 @@ const OrderSummary = ({ selectedProducts }) => {
           <div key={index} className="item">
             <img src={item.imageUrl} alt={item.name} className="product-image" />
             <div className="product-details">
-              <p className="product-name">{item.name}</p>
-              <p className="product-price">Price: ₹{item.price}</p>
+              <p className="product-name">{item.product.name}</p>
+              <p className="product-price">Price: ₹{item.product.price}</p>
               <p className="product-quantity">Quantity: {item.quantity}</p>
             </div>
           </div>
@@ -24,7 +27,7 @@ const OrderSummary = ({ selectedProducts }) => {
       </div>
       <div className="total">
         <p>Total Quantity: {totalQuantity}</p>
-        <p>Total Price: ₹{totalPrice}</p>
+        <p>Total Price: ₹{totalPrice.toFixed(2)}</p>
       </div>
     </div>
   );

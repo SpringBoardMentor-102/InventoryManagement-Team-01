@@ -19,6 +19,7 @@ import ProductList from './components/protected/ProductList';
 import TransactionHistory from './components/protected/TransactionHistory';
 import ProductDetail from './components/protected/ProductDetail';
 import Checkout from './components/protected/Checkout';
+import OrderSummary from './components/protected/OrderSummary';
 
 // create an app to render routes
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
         <Route path='/email_notification' element={<EmailNotification />} />
         <Route path='/search_product' element={<Search />} />
         <Route path ='/checkout' element={<Checkout/>}/>
+        <Route path ='/order-summary' element={<OrderSummary/>}/>
          {/* <Route path='/Filter' element={<Filter />} /> */}
          <Route path ='/history' element={<TransactionHistory/>}/>
         <Route path='*' element={<NotFound />} />
