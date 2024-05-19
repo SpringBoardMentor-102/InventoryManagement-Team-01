@@ -8,7 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import { validateEmail, validatePassword } from "../../utilities/validators";
 
 // getting the path from environment variable
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+// const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 /** React component, representing the Sign-in view of the application
  */
@@ -80,7 +80,11 @@ function SignIn() {
         password: password,
       });
       console.log("Login Successful");
-      localStorage.setItem("token", response.data.token);
+      // Store token and user data in localStorage
+      const { token, user } = response.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      
       const role = jwtDecode(response.data.token).user.roles;
 
       if (role === 0) {
