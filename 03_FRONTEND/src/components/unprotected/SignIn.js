@@ -84,7 +84,7 @@ function SignIn() {
       const { token, user } = response.data;
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
-      
+
       const role = jwtDecode(response.data.token).user.roles;
 
       if (role === 0) {
@@ -93,6 +93,7 @@ function SignIn() {
         navigate("/AdminDashboard", { replace: true });
       }
     } catch (error) {
+      console.log(error);
       let response = error.response;
       if (response) {
         console.log(response.status);

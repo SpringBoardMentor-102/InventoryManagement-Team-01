@@ -164,8 +164,8 @@ const SignUp = () => {
         if (response) {
           if (response?.status === 422) {
             // 422 when validation failure happens,
-            console.error("Validation failure: ", response.data.errors);
-            setErrorMessage("Validation failure: ", response.data.errors);
+            console.error("Validation failure: ", response.data.error);
+            setErrorMessage("Validation failure: ", response.data.error);
           } else if (response?.status === 409) {
             // 409 when registration is incomplete
             navigate("/email_notification");

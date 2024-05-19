@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchDataUnprotected } from "../../utilities/apputils";
 
-
 //internal dependencies
 import {
   validateConfirmPassword,
@@ -52,10 +51,14 @@ const Reset = () => {
     console.log(token);
 
     try {
-      const response = await fetchDataUnprotected("post", "users/reset-password", {
-        token: token,
-        newPassword: password,
-      });
+      const response = await fetchDataUnprotected(
+        "post",
+        "users/reset-password",
+        {
+          token: token,
+          newPassword: password,
+        }
+      );
 
       console.log(response.data);
       alert("Password reset successfully");
@@ -80,11 +83,11 @@ const Reset = () => {
             "New password must be different from the previous password",
             response.data.errors
           );
+        } else {
+          console.error("CRAZY STUFF", response.data.errors);
+          setErrorMessage("CRAZY STUFF", response.data.errors);
+        }
       } else {
-        console.error("CRAZY STUFF", response.data.errors);
-        setErrorMessage("CRAZY STUFF", response.data.errors);
-      }
-     } else {
         console.log("Backend not working");
         setErrorMessage("Internal Server Error");
       }

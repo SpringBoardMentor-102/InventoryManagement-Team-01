@@ -41,7 +41,7 @@ class userContoller {
     // starting validation on the backend
     isDebuggingOn
       ? console.log(
-          "Request params recieved email, password, firstName, lastName, phone, roles, city: ",
+          "Request params recieved email, password : ",
           email,
           password
         )
@@ -73,24 +73,26 @@ class userContoller {
 
       // If user not found, return error
       if (!user) {
-        return res.status(403).send("Invalid email or password");
+        return res.status(403).json({ errors: "Invalid email or password" });
       }
 
       // If user has not verified email yet, return error
       if (!user.isEmailVerified) {
-        return res.status(401).send("User needs to verify the email");
+        return res
+          .status(401)
+          .json({ errors: "User needs to verify the email" });
       }
 
       // Compare the provided password with the hashed password in the database
       const passwordMatch = await bcrypt.compare(password, user.password);
 
       if (!passwordMatch) {
-        return res.status(403).send("Invalid email or password");
+        return res.status(403).json({ errors: "Invalid email or password" });
       }
 
       // Password is correct, generate JWT token
       const token = generateJWT(user);
-      console.log(token);
+      // console.log(token);
 
       // Send the token in response
       return res.status(201).json({
@@ -107,7 +109,7 @@ class userContoller {
       });
     } catch (err) {
       console.error(err);
-      res.status(500).send("Internal Server Error");
+      res.status(500).json({ errors: "Internal Server Error" });
     }
   }
 
@@ -182,7 +184,9 @@ class userContoller {
         } else {
           // if user has already FINISHED registration
           // return a 403 status code when user cannot register again with same email
-          return res.status(403).send("Email already exists, sign in instead.");
+          return res
+            .status(403)
+            .json({ errors: "Email already exists, sign in instead." });
         }
       }
 
@@ -210,10 +214,10 @@ class userContoller {
       // try saving the new user details if email sent was successful
       await newUser.save();
 
-      res.status(201).send("Succesfully created");
+      res.status(201).send({ message: "Password updated successfully" });
     } catch (err) {
       console.error(err);
-      res.status(500).send("Internal Server Error");
+      res.status(500).json({ errors: "Internal Server Error" });
     }
   }
 
@@ -247,7 +251,7 @@ class userContoller {
 
       // If email not found
       if (!user) {
-        return res.status(404).json({ error: "User not found" });
+        return res.status(404).json({ errors: "User not found" });
       }
 
       // if email found we generate token and save it to DB with an expiry of 1 hour
@@ -259,10 +263,10 @@ class userContoller {
 
       // sending reset link to email
       await sendPasswordResetEmail(user.email, token);
-      res.status(200).json({ error: "Password reset link sent" });
+      res.status(200).json({ errors: "Password reset link sent" });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ errors: "Internal Server Error" });
     }
   }
 
@@ -303,7 +307,7 @@ class userContoller {
 
       // if token not found
       if (!user) {
-        return res.status(401).json({ error: "Invalid or expired token" });
+        return res.status(401).json({ errors: "Invalid or expired token" });
       }
 
       // Compare the provided password with the hashed password in the database
@@ -311,7 +315,7 @@ class userContoller {
 
       if (passwordMatch) {
         return res.status(400).json({
-          error: "New password must be different from the previous password",
+          errors: "New password must be different from the previous password",
         });
       }
 
@@ -350,7 +354,7 @@ class userContoller {
       //console.log(user);
       // If user not found, return an error
       if (!user) {
-        return res.status(404).json({ error: "Invalid or expired token" });
+        return res.status(404).json({ errors: "Invalid or expired token" });
       }
 
       // Update user's email verification status
@@ -362,7 +366,7 @@ class userContoller {
       res.status(200).json({ message: "Email verified successfully" });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ errors: "Internal Server Error" });
     }
   }
 }
