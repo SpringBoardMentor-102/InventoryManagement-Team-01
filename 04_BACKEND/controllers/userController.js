@@ -93,7 +93,18 @@ class userContoller {
       console.log(token);
 
       // Send the token in response
-      return res.status(201).json({ token });
+      return res.status(201).json({
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phone: user.phone,
+          city: user.city,
+          shipping_address: user.shipping_address,
+        },
+      });
     } catch (err) {
       console.error(err);
       res.status(500).send("Internal Server Error");
