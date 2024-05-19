@@ -1,21 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const Checkout = () => {
   const [items, setItems] = useState([]);
-
+  const [totalAmount, setTotalAmount] = useState(0);
+  const navigate = useNavigate(); 
+  
   useEffect(() => {
     const fetchCartItems = () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       setItems(cart);
+      calculateTotal(cart);
     };
     fetchCartItems();
   }, []);
+
+  const calculateTotal = (cartItems) => {
+    const total = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+    setTotalAmount(total);
+  };
+  
   const handleCheckout = () => {
-    
-    alert("Are you sure you want to checkout?");
+    const confirmation = window.confirm("Are you sure you want to checkout?");
+    if (confirmation) {
+      // Navigate to the order summary page with the selected products
+      navigate('/order-summary', { state: { selectedProducts: items } });
 
     // Clear cart data after successful checkout (or handle errors gracefully)
     try {
@@ -25,8 +36,13 @@ const Checkout = () => {
       console.error("Error clearing cart:", error);
       // Implement error handling (e.g., display an error message)
     }
+  }
   };
 
+  const handleImageClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
+  
   return (
     <>
       <Link to="/Dashboard" className="back-to-dashboard-btn">
