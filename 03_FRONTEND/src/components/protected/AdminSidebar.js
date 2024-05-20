@@ -61,9 +61,9 @@ const AdminSidebar = () => {
             <span className="material-icons-sharp">history</span>
             <h3>History</h3>
           </a>
-          <a href="/">
+          <a href="/AdminProduct">
             <span className="material-icons-sharp">shopping_cart</span>
-            <h3>Add / Remove Product</h3>
+            <h3>Manage Product</h3>
           </a>
           <a href="/Reports">
             <span className="material-icons-sharp">summarize</span>
