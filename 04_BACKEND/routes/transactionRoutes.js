@@ -1,26 +1,26 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const {
   createTransaction,
-  getAllTransaction,
-  getTransactionById,
-  updateTransaction,
-  deleteTransaction,
-} = require('../controllers/transactionController');
+  handleGetAlltransaction,
+  handlegetTransactionByID,
+  handleUpdatesTransactions,
+  handleDeleteTransaction,
+} = require("../controllers/transactionController");
 
 // 1. Create a Transaction (POST)
-router.post('/createTransaction', createTransaction);
+router.post("/createTransaction", createTransaction);
 
 // 2. Retrieve All Transactions (GET)
-router.get('/listTransaction', getAllTransaction);
+router.get("/listTransaction", handleGetAlltransaction);
 
 // 3. Retrieve a Specific Transaction by ID (GET)
-router.get('/getTransaction/:id', getTransactionById);
+router.get("/getTransaction/:id", handlegetTransactionByID);
 
 // 4. Update a Transaction by ID (PUT)
-router.put('/updateTransaction/:id', updateTransaction);
+router.put("/updateTransaction/:id", handleUpdatesTransactions);
 
 // 5. Delete a Transaction by ID (DELETE)
-router.delete('/deleteTransaction/:id', deleteTransaction);
+router.delete("/deleteTransaction/:id", handleDeleteTransaction);
 
 module.exports = router;
