@@ -18,18 +18,13 @@ const fetchDataUnprotected = async (method, endpoint, body) => {
 const fetchData = async (method, endpoint, body) => {
   const token = localStorage.getItem("token");
 
-  console.log("test me =====",body,token);
+  // console.log("test me =====",body,token);
   try {
-    const response = await axios[method](
-      `${BACKEND_URL}/${endpoint}`, 
-      {
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
-        body,
+    const response = await axios[method](`${BACKEND_URL}/${endpoint}`, body, {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-      
-    );
+    });
     // console.log(response);
     return response;
   } catch (error) {
