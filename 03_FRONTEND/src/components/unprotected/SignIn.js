@@ -85,7 +85,9 @@ function SignIn() {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
 
-      const role = jwtDecode(response.data.token).user.roles;
+      // const role = jwtDecode(response.data.token).user.roles;
+      // take refrence of this how to get role form local storage
+      const role = JSON.parse(localStorage.getItem("user")).role;
 
       if (role === 0) {
         navigate("/dashboard", { replace: true });

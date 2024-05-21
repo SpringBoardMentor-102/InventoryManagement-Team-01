@@ -102,6 +102,7 @@ class userContoller {
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
+          role: user.roles,
           phone: user.phone,
           city: user.city,
           shipping_address: user.shipping_address,

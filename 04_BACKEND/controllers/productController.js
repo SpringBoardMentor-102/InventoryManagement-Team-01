@@ -59,7 +59,7 @@ async function getAllProducts(req, res) {
       "categoryName"
     );
 
-    console.log(products);
+    // console.log(products);
     // Check if no products were found
     if (products.length === 0) {
       return res.status(404).json({ errors: "No products found" });
