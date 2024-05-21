@@ -23,6 +23,10 @@ const ProductDetail = () => {
 
   //   other helper function
 
+  // getting the role value 
+  const role = JSON.parse(localStorage.getItem("user")).role;
+
+  const admin = role?false :true;
   //handler code for decrementing the quantity
   const setDecrease = () => {
     if (cartQuantity > 0) {
@@ -74,6 +78,20 @@ const ProductDetail = () => {
     // Save the updated cart back to localStorage 
     localStorage.setItem('cart', JSON.stringify(cart));
   };
+  const handleDelete= async (productID)=>{
+    if(window.confirm('Are you sure you want to delete this product')){
+    try{
+      const response=await fetchData( "delete" ,`product/deleteProducts/${productID}`);
+      console.log(response);
+      alert("product is deleted successfully");
+    }catch(error){
+      console.error('error deleting product :',error);
+    }
+  }}
+
+  const handleAddToStore=(productData)=>{
+
+  }
 
   const handleRemoveFromCart = (productData) => {
     // Remove the selected product from the list of selected products
@@ -123,13 +141,17 @@ const ProductDetail = () => {
           <h2>DESCRIPTION</h2>
           <p className="desc">{product.description}</p>
           <div className="buttons">
-            <button onClick={() => handleAddToCart(product)} className="add">
+          {admin? ( <button onClick={() => handleAddToCart(product)} className="add">
               Add to Cart
-            </button>
+            </button>):( <button onClick={() => handleAddToStore(product)} className="add">
+              Add to Store
+            </button>)}
             <span> </span>
-            <button onClick={()=>handleRemoveFromCart(product)} className="add">
+            {admin? ( <button onClick={() => handleRemoveFromCart(product)} className="add">
               Remove from Cart
-            </button>
+            </button>):( <button onClick={() => handleDelete(product._id)} className="add">
+              Delete from store
+            </button>)}
           </div>
           <div className="change-button">
             <button onClick={setDecrease} className="minus">

@@ -18,18 +18,29 @@ const fetchDataUnprotected = async (method, endpoint, body) => {
 const fetchData = async (method, endpoint, body) => {
   const token = localStorage.getItem("token");
 
-  console.log("test me =====",body,token);
+  // console.log("test me =====",body,token);
   try {
-    const response = await axios[method](
-      `${BACKEND_URL}/${endpoint}`, 
-      {
+    // const response = await axios[method](`${BACKEND_URL}/${endpoint}`, body, {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // });
+    let response;
+    if (method === "get" || method === "delete") {
+      // For GET and DELETE,
+      response = await axios[method](`${BACKEND_URL}/${endpoint}`, {
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
-        body,
-      },
-      
-    );
+      });
+    } else {
+      // For POST, PUT, PATCH, 'body' should be passed as the second argument
+      response = await axios[method](`${BACKEND_URL}/${endpoint}`, body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
     // console.log(response);
     return response;
   } catch (error) {

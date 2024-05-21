@@ -126,10 +126,10 @@ async function getProductById(req, res) {
  */
 async function createProduct(req, res) {
   // Destructure the request body to extract the required fields
-  const { name, description, price, quantity, status, categoryId , imageUrl} =
+  const { name, description, price, quantity, status, categoryId, imageUrl } =
     req.body;
 
-    console.log("new product request body ----", req);
+  // console.log("new product request body ----", req);
 
   try {
     // Validate the request body fields
@@ -138,9 +138,9 @@ async function createProduct(req, res) {
       descriptionResponse: validateDescription(description),
       priceResponse: validatePrice(price),
       quantityResponse: validateQuantity(quantity),
-      statusResponse: validateStatus(status),
+      // statusResponse: validateStatus(status),
       categoryIdResponse: validateCategoryId(categoryId),
-      imageUrlResponse: validateImageUrl(imageUrl),
+      // imageUrlResponse: validateImageUrl(imageUrl),
     };
 
     // Check each validation response
@@ -159,6 +159,14 @@ async function createProduct(req, res) {
       // Return a 422 status code when validation failure occurs
       return res.status(422).json({ errors: returnMessage });
     }
+    // finds duplicate products
+
+    const duplicateProduct = await Product.findOne({ name: name });
+    if (duplicateProduct) {
+      return res
+        .status(403)
+        .json({ errors: "Product with this name already exists" });
+    }
 
     // Create a new product instance using the extracted fields
     const product = new Product({
@@ -175,12 +183,6 @@ async function createProduct(req, res) {
     // Return the newly created product as a JSON response with status code 201 (Created)
     return res.status(201).json(newProduct);
   } catch (err) {
-    if (err.code === 11000 && err.keyPattern && err.keyPattern.name) {
-      // Duplicate name error
-      return res
-        .status(400)
-        .json({ errors: "Product with this name already exists" });
-    }
     // For other errors, return a generic error message
     return res.status(400).json({ errors: err.message });
   }
@@ -229,7 +231,7 @@ async function deleteProduct(req, res) {
     await Product.findByIdAndDelete(req.params.id);
 
     // Respond with a success message if the deletion was successful
-    res.json({ errors: "Product deleted successfully" });
+    res.json({ message: "Product deleted successfully" });
   } catch (err) {
     res.status(500).json({ errors: err.message });
   }
