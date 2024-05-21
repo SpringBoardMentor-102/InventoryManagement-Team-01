@@ -1,24 +1,20 @@
-import React, { useState } from "react";
-// import { useForm } from 'react-hook-form';
-import axios from "axios";
+//external dependecies
+import React, { useEffect, useState } from "react";
 import { fetchData } from "../../utilities/apputils";
-import AdminSidebar from "./AdminSidebar";
+import { useNavigate } from "react-router-dom";
+//internal dependecies
 import {
   validateCategoryId,
   validateDescription,
-  validateImageUrl,
   validateName,
   validatePrice,
   validateQuantity,
-  validateStatus,
 } from "../../utilities/validators";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const ManageProduct = () => {
-  // const { register, handleSubmit, reset } = useForm();
+  const navigate = useNavigate();
   const [productName, setProductName] = useState("");
   const [ProductNameError, setProductNameError] = useState("");
-  // const [productImage, setProductImage] = useState(null);
   const [productDescription, setProductDescription] = useState("");
   const [productDescriptionError, setProductDescriptionError] = useState("");
   const [productPrice, setProductPrice] = useState("");
@@ -30,12 +26,28 @@ const ManageProduct = () => {
   const [productCategory, setProductCategory] = useState("");
   const [productCategoryError, setProductCategoryError] = useState("");
 
-  const [prodcutStatus, setProdcutStatus] = useState("");
+  const [categories, setCategories] = useState([]);
+
+  const [prodcutStatus, setProdcutStatus] = useState("available");
   const [prodcutStatusError, setProdcutStatusError] = useState("");
   const [productImage, setProductImage] = useState("");
   const [productImageError, setProductImageError] = useState("");
 
   const [errorMessage, setErrorMessage] = useState("");
+
+  const Fetchcategory = async () => {
+    try {
+      const category = await fetchData("get", "category/getallcategory");
+      setCategories(category.data);
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(error);
+    }
+  };
+
+  useEffect(() => {
+    Fetchcategory();
+  }, []);
 
   /** This is a helper function to clear all the errors on the UI screen
    */
@@ -128,6 +140,7 @@ const ManageProduct = () => {
       });
       console.log(response);
       alert("Product added Succesfully");
+      navigate("/admindashboard");
     } catch (error) {
       let response = error.response;
       console.log(response?.status);
@@ -158,56 +171,8 @@ const ManageProduct = () => {
         setErrorMessage("Internal Server Error");
       }
     }
-
-    // await axios
-    //   .post(`${BACKEND_URL}/product/createProduct`, {
-    //     name: productName,
-    //     description: productDescription,
-    //     price: productPrice,
-    //     quantity: productQuantity,
-    //     categoryId: productCategory,
-    //     imageUrl: productImage,
-    //     status: prodcutStatus,
-    //   })
-    //   .then((response) => {
-    //     // registration successfuly
-    //     console.log(response);
-    //     alert("Product added Succesfully");
-    //     //navigate("/dashboard");
-    //   })
-    //   .catch((error) => {
-    //     let response = error.response;
-    //     console.log(response?.status);
-    //     if (response) {
-    //       if (response?.status === 422) {
-    //         // 422 when validation failure happens,
-    //         console.error("Validation failure: ", response.data.error);
-    //         setErrorMessage("Validation failure: ", response.data.error);
-    //       } else if (response?.status === 404) {
-    //         // 404 when product alreday exist
-    //         console.error("Product already exists", response.data.errors);
-    //         setErrorMessage("Product  already exists", response.data.errors);
-    //       } else if (response?.status === 404) {
-    //         // 404 when a generic error message happened
-    //         console.error("Error", response.data.errors);
-    //         setErrorMessage("Errors", response.data.errors);
-    //       } else if (response?.status === 500) {
-    //         // 500 when unknown error occurs
-    //         console.error("Internal Server Error", response.data.errors);
-    //         setErrorMessage("Internal Server Error", response.data.errors);
-    //       } else {
-    //         // UNKOWN CASE
-    //         console.error("CRAZY STUFF", response.data.errors);
-    //         setErrorMessage("CRAZY STUFF", response.data.errors);
-    //       }
-    //     } else {
-    //       console.log("Backend not working");
-    //       setErrorMessage("Internal Server Error");
-    //     }
-    //   });
   };
 
-  // const onSubmit = async (data) => {
   //   //     const formData = new FormData();
   //   //     formData.append('name', data.name);
   //   //     formData.append('description', data.description);
@@ -254,7 +219,6 @@ const ManageProduct = () => {
               <input
                 style={{ width: "64vw" }}
                 type="text"
-                // {...register("name")}
                 value={productName}
                 placeholder="Product Name"
                 onChange={(e) => setProductName(e.target.value)}
@@ -268,7 +232,6 @@ const ManageProduct = () => {
               <label>Description:</label>
               <textarea
                 style={{ width: "65vw", height: "10vh", marginBottom: "10px" }}
-                // {...register("description")}
                 value={productDescription}
                 placeholder="Product Description"
                 onChange={(e) => setProductDescription(e.target.value)}
@@ -284,7 +247,7 @@ const ManageProduct = () => {
                 <input
                   style={{ height: "20px" }}
                   type="number"
-                  // {...register("price")}
+                  min="0"
                   value={productPrice}
                   placeholder="Product Price"
                   onChange={(e) => setProductPrice(e.target.value)}
@@ -299,6 +262,7 @@ const ManageProduct = () => {
                 <input
                   style={{ height: "20px" }}
                   type="number"
+                  min="0"
                   // {...register("quantity")}
                   value={productQuantity}
                   placeholder="Product Quantity"
@@ -314,7 +278,6 @@ const ManageProduct = () => {
               <label>Status:</label>
               <select
                 style={{ width: "64vw" }}
-                // {...register("status")}
                 onChange={(e) => setProdcutStatus(e.target.value)}
               >
                 <option value="available">Available</option>
@@ -326,15 +289,19 @@ const ManageProduct = () => {
             </div>
             <div style={{ margin: "4px" }}>
               <label>Category ID:</label>
-              <input
+              <select
                 style={{ width: "64vw" }}
-                type="text"
-                // {...register("categoryId")}
                 value={productCategory}
-                placeholder="Product Category"
                 onChange={(e) => setProductCategory(e.target.value)}
                 required
-              />
+              >
+                <option value="">Select Category</option>
+                {categories.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.categoryName}
+                  </option>
+                ))}
+              </select>
             </div>
             <div id="productCategoryError" className="error_sign_up">
               {productCategoryError}
@@ -344,7 +311,6 @@ const ManageProduct = () => {
               <input
                 style={{ width: "64vw" }}
                 type="text"
-                // {...register("imageUrl")}
                 value={productImage}
                 placeholder="Product Image URL"
                 onChange={(e) => setProductImage(e.target.value)}

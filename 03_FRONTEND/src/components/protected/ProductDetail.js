@@ -1,6 +1,6 @@
 // external dependencies
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -78,12 +78,15 @@ const ProductDetail = () => {
     // Save the updated cart back to localStorage 
     localStorage.setItem('cart', JSON.stringify(cart));
   };
+  const navigate=useNavigate();
   const handleDelete= async (productID)=>{
     if(window.confirm('Are you sure you want to delete this product')){
     try{
       const response=await fetchData( "delete" ,`product/deleteProducts/${productID}`);
       console.log(response);
+      navigate("/Dashboard");
       alert("product is deleted successfully");
+      
     }catch(error){
       console.error('error deleting product :',error);
     }
