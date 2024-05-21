@@ -20,11 +20,27 @@ const fetchData = async (method, endpoint, body) => {
 
   // console.log("test me =====",body,token);
   try {
-    const response = await axios[method](`${BACKEND_URL}/${endpoint}`, body, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    // const response = await axios[method](`${BACKEND_URL}/${endpoint}`, body, {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // });
+    let response;
+    if (method === "get" || method === "delete") {
+      // For GET and DELETE,
+      response = await axios[method](`${BACKEND_URL}/${endpoint}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } else {
+      // For POST, PUT, PATCH, 'body' should be passed as the second argument
+      response = await axios[method](`${BACKEND_URL}/${endpoint}`, body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
     // console.log(response);
     return response;
   } catch (error) {
