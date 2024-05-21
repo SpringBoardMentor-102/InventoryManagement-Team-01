@@ -126,8 +126,10 @@ async function getProductById(req, res) {
  */
 async function createProduct(req, res) {
   // Destructure the request body to extract the required fields
-  const { name, description, price, quantity, status, categoryId, imageUrl } =
+  const { name, description, price, quantity, status, categoryId , imageUrl} =
     req.body;
+
+    console.log("new product request body ----", req);
 
   try {
     // Validate the request body fields
@@ -136,9 +138,9 @@ async function createProduct(req, res) {
       descriptionResponse: validateDescription(description),
       priceResponse: validatePrice(price),
       quantityResponse: validateQuantity(quantity),
-      // statusResponse: validateStatus(status),
+      statusResponse: validateStatus(status),
       categoryIdResponse: validateCategoryId(categoryId),
-      // imageUrlResponse: validateImageUrl(imageUrl),
+      imageUrlResponse: validateImageUrl(imageUrl),
     };
 
     // Check each validation response

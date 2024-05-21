@@ -95,7 +95,7 @@ function SignIn() {
         navigate("/AdminDashboard", { replace: true });
       }
     } catch (error) {
-      console.log(error);
+      console.log(error,"error from catch ");
       let response = error.response;
       if (response) {
         console.log(response.status);

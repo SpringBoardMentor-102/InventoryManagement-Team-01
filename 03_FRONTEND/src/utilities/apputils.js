@@ -17,16 +17,18 @@ const fetchDataUnprotected = async (method, endpoint, body) => {
 // function Used by Protected Routes
 const fetchData = async (method, endpoint, body) => {
   const token = localStorage.getItem("token");
-  // console.log(token);
+
+  console.log("test me =====",body,token);
   try {
     const response = await axios[method](
-      `${BACKEND_URL}/${endpoint}`,
+      `${BACKEND_URL}/${endpoint}`, 
       {
         headers: {
-          authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
         },
+        body,
       },
-      body
+      
     );
     // console.log(response);
     return response;

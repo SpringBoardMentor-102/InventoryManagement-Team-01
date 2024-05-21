@@ -1,7 +1,7 @@
-import Sidebar from "./Sidebar";
+
 import Search from "./Search";
 import Filteroption from "./Filteroption";
-
+import Sidebar from "./Sidebar";
 const Dashboard = () => {
 
   return (

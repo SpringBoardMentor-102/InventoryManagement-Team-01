@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Link } from "react-router-dom";
 import { fetchData } from "../../utilities/apputils";
+import ManageProduct from "./ManageProduct";
 
 const ProductList = ({products,error,loading}) => {
 
@@ -18,8 +19,12 @@ const ProductList = ({products,error,loading}) => {
   }
 
   return (
+    <div >
+      {/* <ManageProduct /> */}
     <div className="product-container">
+
       {products?.map((item) => (
+
         <div className="item-container" key={item._id}>
           <Link to={`/product/${item._id}`}>
             <img
@@ -42,6 +47,8 @@ const ProductList = ({products,error,loading}) => {
         </div>
       ))}
     </div>
+    </div>
+
   );
 };
 
