@@ -23,6 +23,11 @@ const Checkout = () => {
   };
   
   const handleCheckout = () => {
+    if (items.length === 0) {
+      alert("Your Cart is empty. Please add products!!! ");
+      return;
+    }
+    
     const confirmation = window.confirm("Are you sure you want to checkout?");
     if (confirmation) {
       // Navigate to the order summary page with the selected products
