@@ -207,17 +207,17 @@ const ManageProduct = () => {
   return (
     <>
       {/* <AdminSidebar /> */}
-      <div className="dash-container">
-        <div style={{ margin: "50px" }}>
-          <h2>Manage Product</h2>
+      <div className="manage-page">
+        <div className="manage-container">
+          <h2 className="manage-heading">MANAGE PRODUCT</h2>
           <div id="errorMessage" className="error_sign_up">
             {errorMessage}
           </div>
-          <form onSubmit={createProduct}>
-            <div style={{ margin: "4px" }}>
+          <form className="form-container" onSubmit={createProduct}>
+            <div className="manage-name">
               <label>Name:</label>
               <input
-                style={{ width: "64vw" }}
+               className="manage-product"
                 type="text"
                 value={productName}
                 placeholder="Product Name"
@@ -228,10 +228,10 @@ const ManageProduct = () => {
             <div id="ProductNameError" className="error_sign_up">
               {ProductNameError}
             </div>
-            <div style={{ margin: "4px" }}>
+            <div>
               <label>Description:</label>
               <textarea
-                style={{ width: "65vw", height: "10vh", marginBottom: "10px" }}
+               className="manage-product"
                 value={productDescription}
                 placeholder="Product Description"
                 onChange={(e) => setProductDescription(e.target.value)}
@@ -241,11 +241,11 @@ const ManageProduct = () => {
             <div id="productDescriptionError" className="error_sign_up">
               {productDescriptionError}
             </div>
-            <div style={{ display: "flex" }}>
-              <div style={{ margin: "4px" }}>
+            <div>
+              <div>
                 <label>Price:</label>
                 <input
-                  style={{ height: "20px" }}
+                 className="manage-product"
                   type="number"
                   min="0"
                   value={productPrice}
@@ -257,10 +257,10 @@ const ManageProduct = () => {
               <div id="productPriceError" className="error_sign_up">
                 {productPriceError}
               </div>
-              <div style={{ margin: "4px" }}>
+              <div>
                 <label>Quantity:</label>
                 <input
-                  style={{ height: "20px" }}
+                 className="manage-product"
                   type="number"
                   min="0"
                   // {...register("quantity")}
@@ -274,23 +274,23 @@ const ManageProduct = () => {
             <div id="productQuantityError" className="error_sign_up">
               {productQuantityError}
             </div>
-            <div style={{ margin: "4px" }}>
+            <div>
               <label>Status:</label>
               <select
-                style={{ width: "64vw" }}
+              className="manage-product"
                 onChange={(e) => setProdcutStatus(e.target.value)}
               >
-                <option value="available">Available</option>
-                <option value="out_of_stock">Out of Stock</option>
+                <option value="available"  className="manage-product">Available</option>
+                <option value="out_of_stock"  className="manage-product">Out of Stock</option>
               </select>
             </div>
             <div id="prodcutStatusError" className="error_sign_up">
               {prodcutStatusError}
             </div>
-            <div style={{ margin: "4px" }}>
+            <div>
               <label>Category ID:</label>
-              <select
-                style={{ width: "64vw" }}
+              <select 
+               className="manage-product"
                 value={productCategory}
                 onChange={(e) => setProductCategory(e.target.value)}
                 required
@@ -306,10 +306,10 @@ const ManageProduct = () => {
             <div id="productCategoryError" className="error_sign_up">
               {productCategoryError}
             </div>
-            <div style={{ margin: "4px" }}>
+            <div className="manage-name">
               <label>Product Image:</label>
               <input
-                style={{ width: "64vw" }}
+               className="manage-product"
                 type="text"
                 value={productImage}
                 placeholder="Product Image URL"
