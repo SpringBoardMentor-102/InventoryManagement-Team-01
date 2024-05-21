@@ -25,6 +25,11 @@ const Sidebar = () => {
     navigate("/signin");
   };
 
+    // getting the role value 
+    const role = JSON.parse(localStorage.getItem("user")).role;
+
+    const admin = role?false :true;
+
   return (
     <aside>
       <div className="top">
@@ -64,17 +69,26 @@ const Sidebar = () => {
             <span className="material-icons-sharp">history</span>
             <h3>History</h3>
           </Link>
-          <Link
+          {admin? ( <Link
             to="/checkout"
             className={activeLink === "/checkout" ? "active" : ""}
           >
             <span className="material-icons-sharp">add_shopping_cart</span>
             <h3>Checkout</h3>
-          </Link>
-          <a href="/help">
+          </Link>):( <a href="/adminproduct">
+            <span className="material-icons-sharp">shopping_cart</span>
+            <h3>Manage Product</h3>
+          </a>)}
+         
+
+          {admin? (<a href="/help">
             <span className="material-icons-sharp">manage_accounts</span>
             <h3>Help Center</h3>
-          </a>
+          </a>):( <a href="/Reports">
+            <span className="material-icons-sharp">summarize</span>
+            <h3>Reports</h3>
+          </a>)}
+          
           <a href="/" onClick={handleLogout}>
             <span className="material-icons-sharp">logout</span>
             <h3>Logout</h3>
