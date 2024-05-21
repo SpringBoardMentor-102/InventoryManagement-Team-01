@@ -10,7 +10,7 @@ function TransactionHistory() {
         const userId = localStorage.getItem("userId"); 
         async function fetchTransactions() {
             try {
-                const response = await fetchData("get", `transaction/getTransactions?userId=${userId}`); 
+                const response = await fetchData("get", `transaction/getTransaction?${userId}`); 
                 console.log(response);
                 if (response.data.transaction) {
                     setTransactions(response.data.transaction); 

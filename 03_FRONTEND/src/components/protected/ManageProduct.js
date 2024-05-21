@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import React, { useState, useForm } from 'react';
 import { fetchData } from '../../utilities/apputils';
 import AdminSidebar from './AdminSidebar';
 
