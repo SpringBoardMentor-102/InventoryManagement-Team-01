@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 // internal dependencies: styling
 import "../../index.css";
 import {
@@ -46,6 +47,8 @@ const SignUp = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [passwordType, setPasswordType] = useState('password');
+  const [confirmPasswordType, setConfirmPasswordType] = useState('password');
 
   /** This is a helper function to clear all the errors on the UI screen
    */
@@ -271,7 +274,7 @@ const SignUp = () => {
         </div>
 
         <input
-          type="password"
+          type={passwordType}
           id="password"
           placeholder="Create Password"
           value={password}
@@ -279,12 +282,16 @@ const SignUp = () => {
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="off"
         />
+         <span className="icon-container" 
+         onClick={() => setPasswordType(passwordType === 'password' ? 'text' : 'password')}>
+         <FontAwesomeIcon icon={passwordType === 'password' ? faEyeSlash : faEye} />
+         </span>
         <div id="passwordError" className="error_sign_up">
           {passwordError}
         </div>
 
         <input
-          type="password"
+          type={confirmPasswordType}
           id="confirmPassword"
           placeholder="Confirm Password"
           value={confirmPassword}
@@ -292,6 +299,10 @@ const SignUp = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           autoComplete="off"
         />
+         <span className="icon-container-confirm" 
+         onClick={() => setConfirmPasswordType(confirmPasswordType === 'password' ? 'text' : 'password')}>
+         <FontAwesomeIcon icon={confirmPasswordType === 'password' ? faEyeSlash : faEye} />
+        </span>
         <div id="confirmPasswordError" className="error_sign_up">
           {confirmPasswordError}
         </div>

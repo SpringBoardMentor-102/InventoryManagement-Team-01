@@ -230,11 +230,27 @@ body.dark-mode {
   font-size: 15px;
   color: red;
 }
+/*css for eye icon*/
+.icon-container,
+.icon-container-confirm {
+  position: absolute;
+  right: 600px; 
+  cursor: pointer;
+}
+
+.icon-container {
+  top: 57%; 
+}
+
+.icon-container-confirm {
+  top: 64%; 
+}
 
 #error {
   font-size: 15px;
   color: red;
 }
+
 
 /* CSS for Sign_up Page*/
 
