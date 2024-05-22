@@ -27,6 +27,11 @@ const checkoutSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  products: [{
+    _id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+    quantity: { type: Number, required: true },
+    price: { type: Number, required: true }
+  }],
   date_of_creation: {
     type: Date,
     default: Date.now
