@@ -230,11 +230,27 @@ body.dark-mode {
   font-size: 15px;
   color: red;
 }
+/*css for eye icon*/
+.icon-container,
+.icon-container-confirm {
+  position: absolute;
+  right: 600px; 
+  cursor: pointer;
+}
+
+.icon-container {
+  top: 57%; 
+}
+
+.icon-container-confirm {
+  top: 64%; 
+}
 
 #error {
   font-size: 15px;
   color: red;
 }
+
 
 /* CSS for Sign_up Page*/
 
@@ -532,7 +548,7 @@ main .insights {
   gap: 1.6rem;
 }
 
-main .insights>div {
+main .insights > div {
   background: var(--color-white);
   padding: var(--card-padding);
   border-radius: var(--card-border-radius);
@@ -542,11 +558,11 @@ main .insights>div {
   width: 22rem;
 }
 
-main .insights>div:hover {
+main .insights > div:hover {
   box-shadow: none;
 }
 
-main .insights>div span {
+main .insights > div span {
   background: var(--color-primary);
   padding: 0.5rem;
   border-radius: 50%;
@@ -554,15 +570,15 @@ main .insights>div span {
   font-size: 2rem;
 }
 
-main .insights>div.expenses span {
+main .insights > div.expenses span {
   background: var(--color-danger);
 }
 
-main .insights>div.income span {
+main .insights > div.income span {
   background: var(--color-success);
 }
 
-main .insights>div .middle {
+main .insights > div .middle {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -860,7 +876,7 @@ main .recent-orders a {
   gap: 10px;
   /* background-color: #e1e1e1; */
   width: 80vw;
-  height: 90vh
+  height: 90vh;
 }
 
 .item-container {
@@ -1182,7 +1198,6 @@ main .recent-orders a {
   /* Orange color on hover */
 }
 
-
 /* check out  */
 
 body,
@@ -1225,7 +1240,7 @@ html {
 }
 
 .checkout-btn {
-  background: linear-gradient(135deg, #72EDF2 10%, #5151E5 100%);
+  background: linear-gradient(135deg, #72edf2 10%, #5151e5 100%);
   color: white;
   padding: 10px 20px;
   font-size: 1.1rem;
@@ -1244,7 +1259,7 @@ html {
 }
 
 .checkout-btn:hover {
-  background: linear-gradient(135deg, #5151E5 10%, #72EDF2 100%);
+  background: linear-gradient(135deg, #5151e5 10%, #72edf2 100%);
   color: black;
   transition: all 0.4s ease-in-out;
 }
@@ -1394,4 +1409,60 @@ html {
 
 ::-webkit-scrollbar-corner {
   background: #f1f1f1;
+}
+
+/* manage Product Page*/
+.new_product {
+  margin: 50px;
+}
+.div_of_input_element {
+  margin: 4px;
+  padding: 3px;
+}
+
+.div_of_input_element > input {
+  width: 60vw;
+}
+
+.Add_product {
+  margin-left: 15px;
+  margin-right: 100px;
+  background-color: #00ff97a3;
+  box-shadow: 9px 11px #c5acac;
+  padding: 3px 0px !important;
+  margin-top: 55px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  /* border:1px solid aqua; */
+  border-radius: 10px;
+}
+.admin_sidebar {
+  margin: 0px;
+  padding: 0px1;
+}
+.product_name {
+  width: 60vw;
+  height: 30px;
+  border-radius: 3px;
+}
+.product_desc {
+  width: 60vw;
+  height: 50px;
+  margin-bottom: 10px;
+}
+.price_quantity {
+  display: flex;
+}
+.product_price {
+  height: 30px;
+  width: 130px;
+  margin: 7px;
+}
+.label_price {
+  font-weight: bold;
+}
+.label_price_quantity {
+  font-weight: bold;
+  margin: 0px 10px;
 }

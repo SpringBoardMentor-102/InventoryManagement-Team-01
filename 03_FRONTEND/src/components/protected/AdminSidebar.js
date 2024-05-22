@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { FaStore } from "react-icons/fa6";
 
 import img1 from "../../images/logo.png";
 const AdminSidebar = () => {
@@ -62,7 +63,7 @@ const AdminSidebar = () => {
             <h3>History</h3>
           </a>
           <a href="/adminproduct">
-            <span className="material-icons-sharp">shopping_cart</span>
+            <span className="material-icons-sharp"><FaStore /></span>
             <h3>Manage Product</h3>
           </a>
           <a href="/Reports">
@@ -79,4 +80,4 @@ const AdminSidebar = () => {
   );
 };
 
-export default AdminSidebar;
+export default React.memo(AdminSidebar);
