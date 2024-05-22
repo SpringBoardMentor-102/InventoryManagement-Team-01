@@ -46,7 +46,7 @@ body {
   padding: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   min-height: 100vh;
   background-color: #e1e1e1;
   color: #333;
@@ -60,7 +60,7 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   text-align: center;
-  margin: 0 auto;
+  margin: 100px auto;
   /* Center the container horizontally */
 }
 
@@ -241,6 +241,7 @@ body.dark-mode {
 .container_sign_up {
   width: 400px;
   padding: 20px;
+  margin-top: 60px;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -486,6 +487,7 @@ main {
 
 .search-container {
   width: 70vw;
+  position: relative;
 }
 
 #search-input {
@@ -962,10 +964,14 @@ main .recent-orders a {
 }
 
 .table-container {
+  position: absolute;
   text-align: center;
-  width: 94%;
-  margin-top: 4.5%;
+  width: 80%;
+  margin-top: 3.7%;
+  margin-left: -17px;
   border-collapse: collapse;
+  z-index: -1;
+  /* overflow :scroll; */
 }
 
 .table-container th,
@@ -1117,6 +1123,11 @@ main .recent-orders a {
 }
 
 /* //TransactionHistory.js styling */
+.history-body {
+  display: flex;
+  width: 100vw;
+  margin-left: 11px;
+}
 
 .history-container {
   padding: 20px;
@@ -1139,9 +1150,10 @@ main .recent-orders a {
 }
 
 .transaction-table {
-  width: 100%;
+  width: 77vw;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 35px;
+  margin-left :-100px;
   /* Add some space between the header and the table */
 }
 
