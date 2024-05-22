@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Checkout = require('../model/checkout');
-const Product = require('../model/product');
-const Transaction = require('../model/transaction');
+const Product = require('../model/productModel');
+const Transaction = require('../model/transactionModel');
 const { isValidObjectId } = require("mongoose");
 
 class checkoutController {
