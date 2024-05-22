@@ -159,6 +159,10 @@ const ManageProduct = () => {
           // 404 when a generic error message happened
           console.error("Error", response.data.errors);
           setErrorMessage("Errors", response.data.errors);
+        } else if (response?.status === 401) {
+          // 404 when a unatuhorized error message happened
+          console.error("Unauthorized", response.data.errors);
+          setErrorMessage("Unauthorized", response.data.errors);
         } else if (response?.status === 500) {
           // 500 when unknown error occurs
           console.error("Internal Server Error", response.data.errors);
@@ -175,16 +179,13 @@ const ManageProduct = () => {
     }
   };
 
-  useEffect(() => {
-  
-  })
-
+  useEffect(() => {});
 
   return (
     <div className="dash-container">
-    <div >
-      <AdminSidebar />
-    </div>
+      <div>
+        <AdminSidebar />
+      </div>
       <div>
         <div className="Add_product">
           <div className="new_product">
@@ -193,9 +194,10 @@ const ManageProduct = () => {
               {errorMessage}
             </div>
             <form onSubmit={createProduct}>
-            <div  className="div_of_input_element">
+              <div className="div_of_input_element">
                 <label className="label_price">Name:</label>
-                <input className="product_name"
+                <input
+                  className="product_name"
                   type="text"
                   value={productName}
                   placeholder=" Product Name"
@@ -206,9 +208,10 @@ const ManageProduct = () => {
               <div id="ProductNameError" className="error_sign_up">
                 {ProductNameError}
               </div>
-              <div  className="div_of_input_element" >
+              <div className="div_of_input_element">
                 <label className="label_price">Description:</label>
-                <textarea  className="product_desc"
+                <textarea
+                  className="product_desc"
                   value={productDescription}
                   placeholder=" Product Description"
                   onChange={(e) => setProductDescription(e.target.value)}
@@ -218,10 +221,11 @@ const ManageProduct = () => {
               <div id="productDescriptionError" className="error_sign_up">
                 {productDescriptionError}
               </div>
-              <div className="price_quantity" >
-                <div  >
+              <div className="price_quantity">
+                <div>
                   <label className="label_price_quantity">Price:</label>
-                  <input className="product_price"
+                  <input
+                    className="product_price"
                     type="number"
                     min="0"
                     value={productPrice}
@@ -233,13 +237,12 @@ const ManageProduct = () => {
                 <div id="productPriceError" className="error_sign_up">
                   {productPriceError}
                 </div>
-                <div >
+                <div>
                   <label className="label_price_quantity">Quantity:</label>
                   <input
                     className="product_price"
                     type="number"
                     min="0"
-                    
                     value={productQuantity}
                     placeholder=" Product Quantity"
                     onChange={(e) => setProductQuantity(e.target.value)}
@@ -250,8 +253,8 @@ const ManageProduct = () => {
               <div id="productQuantityError" className="error_sign_up">
                 {productQuantityError}
               </div>
-              <div  className="div_of_input_element">
-                <label className="label_price" >Status:</label>
+              <div className="div_of_input_element">
+                <label className="label_price">Status:</label>
                 <select
                   className="product_name"
                   onChange={(e) => setProdcutStatus(e.target.value)}
@@ -263,7 +266,7 @@ const ManageProduct = () => {
               <div id="prodcutStatusError" className="error_sign_up">
                 {prodcutStatusError}
               </div>
-              <div  className="div_of_input_element">
+              <div className="div_of_input_element">
                 <label className="label_price">Category ID:</label>
                 <select
                   className="product_name"
@@ -282,10 +285,9 @@ const ManageProduct = () => {
               <div id="productCategoryError" className="error_sign_up">
                 {productCategoryError}
               </div>
-              <div  className="div_of_input_element">
+              <div className="div_of_input_element">
                 <label className="label_price">Product Image:</label>
                 <input
-                
                   type="text"
                   value={productImage}
                   placeholder=" Product Image URL"
@@ -301,7 +303,6 @@ const ManageProduct = () => {
           </div>
         </div>
       </div>
-    
     </div>
   );
 };
