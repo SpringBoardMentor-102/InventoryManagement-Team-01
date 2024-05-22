@@ -51,13 +51,13 @@ const Sidebar = () => {
       </button>
       {isOpen && (
         <div className="sidebar">
-          <a href="/AdminDashboard" className={activeLink === "/dashboard" ? "active" : ""}>
+          <a href="/Dashboard" className={activeLink === "/Dashboard" ? "active" : ""}>
             <span className="material-icons-sharp">grid_view</span>
             <h3>Dashboard</h3>
           </a>
           <a
             href="/AdminDashboard"
-            className={activeLink.startsWith("/product/") ? "active" : ""}
+            className={activeLink === "/AdminDashboard" ? "active" : ""}
           >
             <span className="material-icons-sharp">details</span>
             <h3>Product</h3>
@@ -75,19 +75,19 @@ const Sidebar = () => {
           >
             <span className="material-icons-sharp">add_shopping_cart</span>
             <h3>Checkout</h3>
-          </Link>):( <a href="/adminproduct">
+          </Link>):( <a href="/adminProduct" className={activeLink === "/adminProduct" ? "active" : ""}>
             <span className="material-icons-sharp">shopping_cart</span>
             <h3>Manage Product</h3>
           </a>)}
          
 
-          {admin? (<a href="/help">
+          {admin? (<a href="/help"   className={activeLink === '/help' ? "active" : ""}>
             <span className="material-icons-sharp">manage_accounts</span>
             <h3>Help Center</h3>
-          </a>):( <a href="/Reports">
+          </a>):( <Link to="/Reports" className={activeLink === '/Reports' ? "active" : ""}>
             <span className="material-icons-sharp">summarize</span>
             <h3>Reports</h3>
-          </a>)}
+          </Link>)}
           
           <a href="/" onClick={handleLogout}>
             <span className="material-icons-sharp">logout</span>

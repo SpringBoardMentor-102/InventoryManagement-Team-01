@@ -474,7 +474,8 @@ aside .sidebar a:before {
   background: var(--color-primary);
 }
 
-aside .sidebar a.active span {
+aside .sidebar a.active  {
+  background-color: #d6e3f1;
   color: var(--color-primary);
   margin-left: calc(1rem - 6px);
 }
@@ -1451,7 +1452,7 @@ transition: all 0.4s ease-in-out;
 .Add_product {
   margin-left: 15px;
   margin-right: 100px;
-  background-color: #00ff97a3;
+  background-color: #89a7be;
   box-shadow: 9px 11px #c5acac;
   padding: 3px 0px !important;
   margin-top: 55px;

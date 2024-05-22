@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchData } from "../../utilities/apputils";
 import { useNavigate } from "react-router-dom";
-import AdminSidebar from "../protected/AdminSidebar";
+import Sidebar from "../protected/Sidebar";
 import "../../index.css";
 //internal dependecies
 import {
@@ -184,7 +184,7 @@ const ManageProduct = () => {
   return (
     <div className="dash-container">
       <div>
-        <AdminSidebar />
+        <Sidebar />
       </div>
       <div>
         <div className="Add_product">
