@@ -56,7 +56,7 @@ const Sidebar = () => {
             <h3>Dashboard</h3>
           </a>
           <a
-            href="/"
+            href="/AdminDashboard"
             className={activeLink.startsWith("/product/") ? "active" : ""}
           >
             <span className="material-icons-sharp">details</span>

@@ -21,6 +21,7 @@ import ProductDetail from './components/protected/ProductDetail';
 import Checkout from './components/protected/Checkout';
 import OrderSummary from './components/protected/OrderSummary';
 import ManageProduct from './components/protected/ManageProduct';
+import Reports from './components/protected/Reports';
 // create an app to render routes
 const App = () => {
 
@@ -48,6 +49,7 @@ const App = () => {
           <Route path='*' element={<NotFound />} />
           <Route path='/' exact element={<ProductList />} />
           <Route path='/product/:id' element={<ProductDetail />} />
+          <Route path='/Reports' element={<Reports />} />
         </Routes>
 
   )
