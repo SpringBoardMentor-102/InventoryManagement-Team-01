@@ -51,12 +51,12 @@ const Sidebar = () => {
       </button>
       {isOpen && (
         <div className="sidebar">
-          <a href="/" className={activeLink === "/dashboard" ? "active" : ""}>
+          <a href="/AdminDashboard" className={activeLink === "/dashboard" ? "active" : ""}>
             <span className="material-icons-sharp">grid_view</span>
             <h3>Dashboard</h3>
           </a>
           <a
-            href="/"
+            href="/AdminDashboard"
             className={activeLink.startsWith("/product/") ? "active" : ""}
           >
             <span className="material-icons-sharp">details</span>

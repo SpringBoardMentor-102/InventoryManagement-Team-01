@@ -46,7 +46,7 @@ body {
   padding: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   min-height: 100vh;
   background-color: #e1e1e1;
   color: #333;
@@ -60,7 +60,7 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   text-align: center;
-  margin: 0 auto;
+  margin: 100px auto;
   /* Center the container horizontally */
 }
 
@@ -230,17 +230,34 @@ body.dark-mode {
   font-size: 15px;
   color: red;
 }
+/*css for eye icon*/
+.icon-container,
+.icon-container-confirm {
+  position: absolute;
+  right: 600px; 
+  cursor: pointer;
+}
+
+.icon-container {
+  top: 57%; 
+}
+
+.icon-container-confirm {
+  top: 64%; 
+}
 
 #error {
   font-size: 15px;
   color: red;
 }
 
+
 /* CSS for Sign_up Page*/
 
 .container_sign_up {
   width: 400px;
   padding: 20px;
+  margin-top: 60px;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -486,6 +503,7 @@ main {
 
 .search-container {
   width: 70vw;
+  position: relative;
 }
 
 #search-input {
@@ -858,7 +876,7 @@ main .recent-orders a {
   gap: 10px;
   /* background-color: #e1e1e1; */
   width: 80vw;
-  height: 90vh
+  height: 90vh;
 }
 
 .item-container {
@@ -962,10 +980,14 @@ main .recent-orders a {
 }
 
 .table-container {
+  position: absolute;
   text-align: center;
-  width: 94%;
-  margin-top: 4.5%;
+  width: 80%;
+  margin-top: 3.7%;
+  margin-left: -17px;
   border-collapse: collapse;
+  z-index: -1;
+  /* overflow :scroll; */
 }
 
 .table-container th,
@@ -1116,6 +1138,66 @@ main .recent-orders a {
   margin-top: 13px;
 }
 
+/* //TransactionHistory.js styling */
+.history-body {
+  display: flex;
+  width: 100vw;
+  margin-left: 11px;
+}
+
+.history-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.history-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.history-loading,
+.history-error,
+.no-transactions {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+  /* Add some space between the message and the table */
+}
+
+.transaction-table {
+  width: 77vw;
+  border-collapse: collapse;
+  margin-top: 35px;
+  margin-left :-100px;
+  /* Add some space between the header and the table */
+}
+
+.transaction-table th {
+  background-color: #007bff;
+  /* Blue color for table header */
+  color: #fff;
+  /* White text color */
+  padding: 12px;
+  text-align: left;
+}
+
+.transaction-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+}
+
+/* Alternate row colors */
+.transaction-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Hover effect */
+.transaction-table tbody tr:hover {
+  background-color: #a8b8c8;
+  /* Orange color on hover */
+}
+
 /* check out  */
 
 body,
@@ -1158,28 +1240,28 @@ html {
 }
 
 .checkout-btn {
-  background: linear-gradient(135deg, #72EDF2 10%, #5151E5 100%);
-  color: white;
-  padding: 10px 20px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  text-align: center;
-  margin: 20px 0;
-  display: block;
-  width: 40%;
-  box-sizing: border-box;
-  align-self: center;
-  transition: all 0.4s ease-in-out;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+background: linear-gradient(135deg, #72EDF2 10%, #5151E5 100%);
+color: white;
+padding: 10px 20px; 
+font-size: 1.1rem;
+font-weight: 700;
+border: none;
+border-radius: 50px; 
+cursor: pointer;
+text-align: center;
+margin: 20px 0;
+display: block;
+width: 40%;
+box-sizing: border-box;
+align-self: center; 
+transition: all 0.4s ease-in-out;
+box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .checkout-btn:hover {
-  background: linear-gradient(135deg, #5151E5 10%, #72EDF2 100%);
-  color: black;
-  transition: all 0.4s ease-in-out;
+background: linear-gradient(135deg, #5151E5 10%, #72EDF2 100%);
+color: black;
+transition: all 0.4s ease-in-out;
 }
 
 .row-header {
@@ -1353,3 +1435,58 @@ html {
 }
 
 
+/* manage Product Page*/
+.new_product {
+  margin: 50px;
+}
+.div_of_input_element {
+  margin: 4px;
+  padding: 3px;
+}
+
+.div_of_input_element > input {
+  width: 60vw;
+}
+
+.Add_product {
+  margin-left: 15px;
+  margin-right: 100px;
+  background-color: #00ff97a3;
+  box-shadow: 9px 11px #c5acac;
+  padding: 3px 0px !important;
+  margin-top: 55px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  /* border:1px solid aqua; */
+  border-radius: 10px;
+}
+.admin_sidebar {
+  margin: 0px;
+  padding: 0px1;
+}
+.product_name {
+  width: 60vw;
+  height: 30px;
+  border-radius: 3px;
+}
+.product_desc {
+  width: 60vw;
+  height: 50px;
+  margin-bottom: 10px;
+}
+.price_quantity {
+  display: flex;
+}
+.product_price {
+  height: 30px;
+  width: 130px;
+  margin: 7px;
+}
+.label_price {
+  font-weight: bold;
+}
+.label_price_quantity {
+  font-weight: bold;
+  margin: 0px 10px;
+}
