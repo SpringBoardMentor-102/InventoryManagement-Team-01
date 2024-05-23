@@ -52,7 +52,7 @@ const Reset = () => {
     const token = urlParams.get("token");
 
     try {
-      const response = await fetchDataUnprotected(
+      await fetchDataUnprotected(
         "post",
         "users/reset-password",
         {

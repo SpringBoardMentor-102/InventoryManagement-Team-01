@@ -11,31 +11,33 @@ const Confirm = () => {
   const [isConfirmed, setIsConfirmed] = useState(false);
 
   useEffect(() => {
+    const handleConfirm = async () => {
+      try {
+        // taking token from URL Params
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get("token");
+        const method = 'get';
+        await fetchDataUnprotected(method, `users/confirm-email?token=${token}`);
+        setIsConfirmed(true);
+        setTimeout(() => {
+          navigate("/");
+        }, 2000); // Redirect to login page after 2 seconds
+      } catch (error) {
+        console.error("Confirmation error:", error.response.data);
+        // Handle different error responses as needed
+        if (error.response.status === 404) {
+          setTokenError("Invalid or expired token");
+        } else {
+          setTokenError("Internal Server Error");
+        }
+      }
+    };
+
     // Confirm email when component mounts
     handleConfirm();
-  }, []); // Empty dependency array ensures this effect runs only once
+  }, [navigate]); // Empty dependency array ensures this effect runs only once
 
-  const handleConfirm = async () => {
-    try {
-          // taking token from URL Params
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get("token");
-    const method='get';
-      const response = await fetchDataUnprotected(method,`users/confirm-email?token=${token}`);
-      setIsConfirmed(true);
-      setTimeout(() => {
-        navigate("/");
-      }, 2000); // Redirect to login page after 2 seconds
-    } catch (error) {
-      console.error("Confirmation error:", error.response.data);
-      // Handle different error responses as needed
-      if (error.response.status === 404) {
-        setTokenError("Invalid or expired token");
-      } else {
-        setTokenError("Internal Server Error");
-      }
-    }
-  };
+
 
   return (
     <>

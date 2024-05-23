@@ -128,7 +128,7 @@ const ManageProduct = () => {
     // validation was successful, attempting to make a call to the backend
 
     try {
-      const response = await fetchData("post", `product/createProduct`, {
+      await fetchData("post", `product/createProduct`, {
         name: productName,
         description: productDescription,
         price: productPrice,

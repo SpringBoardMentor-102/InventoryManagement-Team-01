@@ -2,14 +2,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchDataUnprotected } from "../../utilities/apputils";
-import { jwtDecode } from "jwt-decode";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 // Internal dependencies
 import { validateEmail, validatePassword } from "../../utilities/validators";
-
-// getting the path from environment variable
-// const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 /** React component, representing the Sign-in view of the application
  */
@@ -70,7 +66,6 @@ function SignIn() {
       return;
     }
 
-    console.log("making a call..");
     // validation was successful, attempting to make a call to the backend
 
     try {

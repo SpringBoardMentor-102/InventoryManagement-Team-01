@@ -60,7 +60,7 @@ const ForgotPassword = () => {
 
     try {
       const method = "post";
-      const response = await fetchDataUnprotected(
+      await fetchDataUnprotected(
         method,
         `users/forget-password`,
         { email: email }

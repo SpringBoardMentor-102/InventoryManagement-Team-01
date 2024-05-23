@@ -82,7 +82,7 @@ const ProductDetail = () => {
   const handleDelete= async (productID)=>{
     if(window.confirm('Are you sure you want to delete this product')){
     try{
-      const response=await fetchData( "delete" ,`product/deleteProducts/${productID}`);
+      await fetchData( "delete" ,`product/deleteProducts/${productID}`);
       navigate("/Dashboard");
       alert("product is deleted successfully");
       
