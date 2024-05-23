@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { fetchData } from "../../utilities/apputils";
 
 const Checkout = () => {
   const [items, setItems] = useState([]);
@@ -22,16 +23,28 @@ const Checkout = () => {
     setTotalAmount(total);
   };
   
-  const handleCheckout = () => {
+  const handleCheckout =async () => {
     if (items.length === 0) {
       alert("Your Cart is empty. Please add products!!! ");
       return;
     }
-    
+    const userId = JSON.parse(localStorage.getItem("user")).id;
+
+    console.log(userId)
+    const cart= localStorage.getItem("cart")
+    console.log(cart);
     const confirmation = window.confirm("Are you sure you want to checkout?");
     if (confirmation) {
       // Navigate to the order summary page with the selected products
-      navigate('/order-summary', { state: { selectedProducts: items } });
+      try {
+        await fetchData("post", "checkout/addcheckout",{
+          user_id: userId,
+          cart: cart 
+        })
+        navigate('/order-summary', { state: { selectedProducts: items } });
+      } catch (error) {
+        console.log(error);
+      }
 
     // Clear cart data after successful checkout (or handle errors gracefully)
     try {
