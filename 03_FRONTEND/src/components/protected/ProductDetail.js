@@ -83,7 +83,6 @@ const ProductDetail = () => {
     if(window.confirm('Are you sure you want to delete this product')){
     try{
       const response=await fetchData( "delete" ,`product/deleteProducts/${productID}`);
-      console.log(response);
       navigate("/Dashboard");
       alert("product is deleted successfully");
       

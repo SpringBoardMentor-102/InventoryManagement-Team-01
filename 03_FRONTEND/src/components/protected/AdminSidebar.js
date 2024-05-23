@@ -11,7 +11,6 @@ const AdminSidebar = () => {
   // get the current location
   const location = useLocation();
   const activeLink = location.pathname;
-  console.log("This is the activeLink: ", activeLink);
 
   const [isOpen, setIsOpen] = useState(true);
   const toggleSidebar = () => {

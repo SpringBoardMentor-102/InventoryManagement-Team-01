@@ -67,11 +67,10 @@ function SignIn() {
 
     // Validate form fields
     if (!validateForm()) {
-      console.log("form validation fails.");
       return;
     }
 
-    console.log("making a call..");
+    ("making a call..");
     // validation was successful, attempting to make a call to the backend
 
     try {
@@ -80,7 +79,6 @@ function SignIn() {
         email: email,
         password: password,
       });
-      console.log("Login Successful");
       // Store token and user data in localStorage
       const { token, user } = response.data;
       localStorage.setItem("token", token);
@@ -96,10 +94,8 @@ function SignIn() {
         navigate("/AdminDashboard", { replace: true });
       }
     } catch (error) {
-      console.log(error,"error from catch ");
       let response = error.response;
       if (response) {
-        console.log(response.status);
         if (response.status === 422) {
           console.error("Validation failure: ", response.data.errors);
           setErrorMessage("Validation failure: ", response.data.errors);

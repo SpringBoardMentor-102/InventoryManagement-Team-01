@@ -46,12 +46,10 @@ const Reset = () => {
   const handleReset = async (event) => {
     event.preventDefault();
     if (!validateForm()) {
-      console.log("form validation fails.");
       return;
     }
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
-    console.log(token);
 
     try {
       const response = await fetchDataUnprotected(
@@ -63,14 +61,12 @@ const Reset = () => {
         }
       );
 
-      console.log(response.data);
       alert("Password reset successfully");
       setPasswordResetSuccess(true);
       // navigate("/dashboard");
     } catch (error) {
       let response = error.response;
       if (response) {
-        console.log(response?.status);
         if (response?.status === 422) {
           console.error("Validation failure: ", response.data.errors);
           setErrorMessage("Validation failure: ", response.data.errors);

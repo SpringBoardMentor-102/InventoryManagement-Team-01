@@ -42,7 +42,6 @@ const ManageProduct = () => {
       const category = await fetchData("get", "category/getallcategory");
       setCategories(category.data);
     } catch (error) {
-      console.log(error);
       setErrorMessage(error);
     }
   };
@@ -123,11 +122,9 @@ const ManageProduct = () => {
 
     // Validate form fields
     if (!validateForm()) {
-      console.log("form validation fails.");
       return;
     }
 
-    console.log("making a call..");
     // validation was successful, attempting to make a call to the backend
 
     try {
@@ -140,12 +137,10 @@ const ManageProduct = () => {
         imageUrl: productImage,
         status: prodcutStatus,
       });
-      console.log(response);
       alert("Product added Succesfully");
       navigate("/admindashboard");
     } catch (error) {
       let response = error.response;
-      console.log(response?.status);
       if (response) {
         if (response?.status === 422) {
           // 422 when validation failure happens,

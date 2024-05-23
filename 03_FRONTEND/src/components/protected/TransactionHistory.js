@@ -13,7 +13,6 @@ function TransactionHistory() {
         async function fetchTransactions() {
             try {
                 const response = await fetchData("get", `transaction/getTransaction/${userId}`);
-                console.log(response);
                 if (response.data.transaction) {
                     // Sort transactions by date in descending order
                     const sortedTransactions = response.data.transaction.sort((a, b) => new Date(b.date) - new Date(a.date));

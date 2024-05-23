@@ -53,7 +53,6 @@ const ForgotPassword = () => {
 
     // Validate form fields
     if (!validateForm()) {
-      console.log("form validation fails.");
       return;
     }
 
@@ -67,12 +66,10 @@ const ForgotPassword = () => {
         { email: email }
       );
       // Reset Password link Sent successfull
-      console.log(response);
       alert("Reset Link sent successfully, Please check you mail");
     } catch (error) {
       let response = error.response;
       if (response) {
-        console.log(response.status);
 
         if (response.status === 422) {
           // 422 when validation failure happens,

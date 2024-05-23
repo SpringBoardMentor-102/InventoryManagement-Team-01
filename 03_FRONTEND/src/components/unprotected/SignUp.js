@@ -135,11 +135,9 @@ const SignUp = () => {
 
     // Validate form fields
     if (!validateForm()) {
-      console.log("form validation fails.");
       return;
     }
 
-    console.log("making a call..");
     // validation was successful, attempting to make a call to the backend
 
     await axios
@@ -154,16 +152,13 @@ const SignUp = () => {
       })
       .then((response) => {
         // registration successful
-        console.log("Registration Succesfull");
         //navigate("/dashboard");
-        console.log(response);
         alert(
-          "Email verification link sent successfully, Please check you mail"
+          `Email verification link sent successfully, Please check you mail at ${email}`
         );
       })
       .catch((error) => {
         let response = error.response;
-        console.log(response?.status);
         if (response) {
           if (response?.status === 422) {
             // 422 when validation failure happens,
