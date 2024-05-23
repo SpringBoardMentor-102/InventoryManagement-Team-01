@@ -70,7 +70,7 @@ function SignIn() {
       return;
     }
 
-    ("making a call..");
+    console.log("making a call..");
     // validation was successful, attempting to make a call to the backend
 
     try {

@@ -1199,6 +1199,12 @@ main .recent-orders a {
   /* Orange color on hover */
 }
 
+/* Not Found Page */
+.Not-found{
+  margin-top: 256px;
+  text-align: center;
+}
+
 /* check out  */
 
 body,

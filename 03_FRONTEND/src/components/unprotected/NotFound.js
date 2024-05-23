@@ -19,7 +19,7 @@ useEffect(()=>{
 
   return (
     <div>
-    <div style={{textAlign: 'center'}}>
+    <div className='Not-found'>
         <h1 className="error-heading_404">404 - Page Not Found</h1>
         <p className="error-message_404">Oops! The page you are looking for could not be found.</p>
         <Link  to={dashboardNavigate} className="button_404">Go to Home Page</Link>
