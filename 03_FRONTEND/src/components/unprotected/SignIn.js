@@ -86,7 +86,7 @@ function SignIn() {
       if (role === 0) {
         navigate("/dashboard", { replace: true });
       } else if (role === 1) {
-        navigate("/AdminDashboard", { replace: true });
+        navigate("/admin_dashboard", { replace: true });
       }
     } catch (error) {
       let response = error.response;

@@ -138,7 +138,7 @@ const ManageProduct = () => {
         status: prodcutStatus,
       });
       alert("Product added Succesfully");
-      navigate("/admindashboard");
+      navigate("/admin_dashboard");
     } catch (error) {
       let response = error.response;
       if (response) {

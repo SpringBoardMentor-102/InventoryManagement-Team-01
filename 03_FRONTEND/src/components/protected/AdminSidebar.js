@@ -43,12 +43,12 @@ const AdminSidebar = () => {
       </button>
       {isOpen && (
         <div className="sidebar">
-          <a href="/AdminDashboard" className={activeLink === "/dashboard" ? "active" : ""}>
+          <a href="/admin_dashboard" className={activeLink === "/dashboard" ? "active" : ""}>
             <span className="material-icons-sharp">grid_view</span>
             <h3>Dashboard</h3>
           </a>
           <a
-            href="/AdminDashboard"
+            href="/admin_dashboard"
             className={activeLink.startsWith("/product/") ? "active" : ""}
           >
             <span className="material-icons-sharp">details</span>
@@ -61,7 +61,7 @@ const AdminSidebar = () => {
             <span className="material-icons-sharp">history</span>
             <h3>History</h3>
           </a>
-          <a href="/adminproduct">
+          <a href="/admin_product">
             <span className="material-icons-sharp"><FaStore /></span>
             <h3>Manage Product</h3>
           </a>

@@ -55,8 +55,8 @@ const Sidebar = () => {
             <h3>Dashboard</h3>
           </a>
           <a
-            href="/AdminDashboard"
-            className={activeLink === "/AdminDashboard" ? "active" : ""}
+            href="/admin_dashboard"
+            className={activeLink === "/admin_dashboard" ? "active" : ""}
           >
             <span className="material-icons-sharp">details</span>
             <h3>Product</h3>
@@ -74,7 +74,7 @@ const Sidebar = () => {
           >
             <span className="material-icons-sharp">add_shopping_cart</span>
             <h3>Checkout</h3>
-          </Link>):( <a href="/adminProduct" className={activeLink === "/adminProduct" ? "active" : ""}>
+          </Link>):( <a href="/admin_product" className={activeLink === "/admin_product" ? "active" : ""}>
             <span className="material-icons-sharp">shopping_cart</span>
             <h3>Manage Product</h3>
           </a>)}
