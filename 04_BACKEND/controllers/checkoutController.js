@@ -8,9 +8,8 @@ class checkoutController {
   static async addCheckout(req, res) {
 
       const {user_id,cart}= req.body;
-      // console.log(req.body);
       const carts= JSON.parse(cart);
-      // console.log(carts);
+
       if (!isValidObjectId(user_id)) {
         return res.status(403).json({ errors: "Invalid User ID" });
       }
@@ -20,9 +19,7 @@ class checkoutController {
       }
         // Check product quantities
         for (const product of carts) {
-          // console.log(product.quantity);
           const dbProduct = await Product.findById(product.product._id);
-          // console.log(dbProduct.quantity)
           if (!dbProduct || dbProduct.quantity < product.quantity) {
             return res.status(404).json({ errors: `Product ${product.product.name} has insufficient quantity` });
           }
@@ -32,14 +29,11 @@ class checkoutController {
               product: product.product._id,
                 quantity: product.quantity,
                 price: product.product.price
-              
-              
             })
-            // console.log(newcheckouts);
+
             const response=await Product.findByIdAndUpdate(product.product._id, {
               $inc: { quantity: -product.quantity }
             });
-            // console.log(response);
 
            return  res.status(201).json({message:" Checkout done succesfully"})
           } catch (error) {
