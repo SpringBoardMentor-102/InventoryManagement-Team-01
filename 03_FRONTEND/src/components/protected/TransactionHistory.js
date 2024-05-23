@@ -4,7 +4,7 @@ import "../../index.css";
 import Sidebar from "./Sidebar";
 
 function TransactionHistory() {
-    const [transactions, setTransactions] = useState([]);
+    const [transactions, setTransactions] = useState([]); 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
