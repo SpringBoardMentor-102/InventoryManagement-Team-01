@@ -1419,27 +1419,153 @@ transition: all 0.4s ease-in-out;
 }
 
 
-/* css for order summary page */
+.order-summary {
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  font-family: 'Arial', sans-serif;
+  animation: fadeIn 0.5s ease-in-out;
+  box-sizing: border-box;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Temporaryordersummary */
+
+.order-summary-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #f0f0f0;
+  padding: 20px;
+  box-sizing: border-box;
+}
 
 .order-summary {
+  width: 100%;
   max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  font-family: 'Times New Roman', Times, serif;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  font-family: 'Arial', sans-serif;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
-.product-name {
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.order-summary h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.order-summary p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.order-summary .items {
+  margin: 2rem 0;
+}
+
+.order-summary .item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1rem;
+}
+
+.order-summary .product-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 1rem;
+}
+
+.order-summary .product-details {
+  flex: 1;
+}
+
+.order-summary .product-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.order-summary .product-price,
+.order-summary .product-quantity {
+  font-size: 1rem;
+  color: #777;
+}
+
+.order-summary .total p {
   font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  text-transform: capitalize;
+  font-weight: bold;
+  color: #333;
+  margin: 0.5rem 0;
 }
 
-.total {
+.order-summary .total .free {
+  color: green;
   font-weight: bold;
 }
+
+.order-summary .place-order-btn {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 2rem;
+  transition: background-color 0.3s ease;
+}
+
+.order-summary .place-order-btn:hover {
+  background-color: #218838;
+}
+
+.order-summary .invoice-note {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: #999;
+  text-align: center;
+}
+
+
+
 
 
 /* manage Product Page*/
@@ -1496,4 +1622,85 @@ transition: all 0.4s ease-in-out;
 .label_price_quantity {
   font-weight: bold;
   margin: 0px 10px;
+}
+
+/* TemporaryModal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-buttons {
+  margin-top: 1.5rem;
+}
+
+.confirm-btn, .cancel-btn {
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.confirm-btn {
+  background: #28a745;
+  color: white;
+}
+
+.cancel-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.confirm-btn:hover {
+  background: #218838;
+}
+
+.cancel-btn:hover {
+  background: #c82333;
+}
+
+
+.order-summary-container, .transactions-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #f0f0f0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.transactions-container {
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+
+.transactions-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.transactions-container p {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 0.5rem 0;
 }
