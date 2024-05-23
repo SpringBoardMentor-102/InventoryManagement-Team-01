@@ -1,37 +1,36 @@
-const uuid = require('uuid');
+
 const mongoose = require('mongoose');
 
 const checkoutSchema = new mongoose.Schema({
-  uuid: {
-    type: String,
-    required: true,
-    unique: true
-  },
+  
   user_id: {
-    type: String,
-    required: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
   payment_status: {
     type: Number,
-    required: true
+    // required: true
   },
   total_amount: {
     type: Number,
-    required: true
+    // required: true
   },
   payment_method: {
     type: String,
-    required: true
+    // required: true
   },
   shipping_address: {
     type: String,
-    required: true
+    // required: true
   },
-  products: [{
-    _id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-    quantity: { type: Number, required: true },
-    price: { type: Number, required: true }
-  }],
+  product: {
+   type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true ,
+  },
+  quantity:{
+    type: Number, required: true 
+  },
+  price: { type: Number, required: true },
   date_of_creation: {
     type: Date,
     default: Date.now
