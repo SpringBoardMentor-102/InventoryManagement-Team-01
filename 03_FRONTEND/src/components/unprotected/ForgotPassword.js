@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchDataUnprotected } from "../../utilities/apputils";
 
+
 // internal dependencies
 import { validateEmail } from "../../utilities/validators";
 
@@ -13,6 +14,7 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  
 
   /** This is a helper function to clear all the errors on the UI screen
    */

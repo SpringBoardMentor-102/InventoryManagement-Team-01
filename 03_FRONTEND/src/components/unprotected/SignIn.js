@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchDataUnprotected } from "../../utilities/apputils";
 import { jwtDecode } from "jwt-decode";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 // Internal dependencies
 import { validateEmail, validatePassword } from "../../utilities/validators";
 
@@ -20,7 +21,7 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [passwordType, setPasswordType] = useState('password');
   /** This is a helper function to clear all the errors on the UI screen
    */
   const clearErrors = () => {
@@ -159,8 +160,12 @@ function SignIn() {
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              type="password"
+              type={passwordType}
             />
+             <span className="icon-signIn" style={{position:"absolute",top:"46%",right:"680px",cursor:"pointer"}} 
+             onClick={() => setPasswordType(passwordType === 'password' ? 'text' : 'password')}>
+             <FontAwesomeIcon icon={passwordType === 'password' ? faEyeSlash : faEye} />
+             </span>
             <div id="passwordError" className="error_sign_up">
               {passwordError}
             </div>
