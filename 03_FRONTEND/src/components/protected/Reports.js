@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchData } from "../../utilities/apputils";
 import ProductList from "./ProductList";
-import AdminSidebar from "./AdminSidebar";
+import Sidebar from "./Sidebar";
 
 const Reports = () => {
   const [products, setProducts] = useState([]);
@@ -26,7 +26,7 @@ const Reports = () => {
   return (
     <div className="dash-container">
     <div >
-      <AdminSidebar />
+      <Sidebar />
     </div>
     <div className="report-page">
       <h1>Product Report</h1>

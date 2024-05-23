@@ -54,13 +54,6 @@ const Sidebar = () => {
             <span className="material-icons-sharp">grid_view</span>
             <h3>Dashboard</h3>
           </a>
-          <a
-            href="/admin_dashboard"
-            className={activeLink === "/admin_dashboard" ? "active" : ""}
-          >
-            <span className="material-icons-sharp">details</span>
-            <h3>Product</h3>
-          </a>
           <Link
             to="/history"
             className={activeLink === "/history" ? "active" : ""}
@@ -76,14 +69,14 @@ const Sidebar = () => {
             <h3>Checkout</h3>
           </Link>):( <a href="/admin_product" className={activeLink === "/admin_product" ? "active" : ""}>
             <span className="material-icons-sharp">shopping_cart</span>
-            <h3>Manage Product</h3>
+            <h3> Add Product</h3>
           </a>)}
          
 
           {admin? (<a href="/help"   className={activeLink === '/help' ? "active" : ""}>
             <span className="material-icons-sharp">manage_accounts</span>
             <h3>Help Center</h3>
-          </a>):( <Link to="/Reports" className={activeLink === '/Reports' ? "active" : ""}>
+          </a>):( <Link to="/reports" className={activeLink === '/reports' ? "active" : ""}>
             <span className="material-icons-sharp">summarize</span>
             <h3>Reports</h3>
           </Link>)}
