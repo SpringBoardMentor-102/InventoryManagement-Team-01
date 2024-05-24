@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchData } from "../../utilities/apputils";
 import Sidebar from "./Sidebar";
-<<<<<<< HEAD
-
-
-=======
-/*
->>>>>>> 37a349b1c3828877233b0a7bf309d64dd8db7a5a
 const Reports = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
@@ -28,7 +22,7 @@ const Reports = () => {
 
     fetchProducts();
   }, []);
-*/
+
 function Reports() {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -69,18 +63,14 @@ function Reports() {
       return <div className="report-error">Error: {error}</div>;
   }
   return (
-<<<<<<< HEAD
+
     <div className="dash-container"  style={{ padding: '20px', border: '1px solid black' }}>
-=======
-    <>
     <div className="dash-container">
->>>>>>> 37a349b1c3828877233b0a7bf309d64dd8db7a5a
     <div >
       <Sidebar />
     </div>
     <div className="report-page" style={{ width: '100%', borderCollapse: 'collapse' }}>
       <h1>Product Report</h1>
-<<<<<<< HEAD
       <table border="5">
         <thead>
           <tr>
@@ -101,7 +91,6 @@ function Reports() {
           ))}
         </tbody>
         </table>
-=======
       <div className="report-body">
                 <div className="report-container">
                     <h2 className="report-header">Report Page</h2>
@@ -133,11 +122,11 @@ function Reports() {
                     )}
                 </div>
             </div>
->>>>>>> 37a349b1c3828877233b0a7bf309d64dd8db7a5a
     </div>
     </div>
-  </>
+    </div>
   );
+                                }
 };
 
 export default Reports;
