@@ -328,7 +328,7 @@ input[type="submit"]:hover {
   margin: 0 auto;
   gap: 3vw;
   grid-template-columns: 15vw 80vw;
-  padding: 20px;
+  padding: 0px 20px;
 }
 
 a {
@@ -507,6 +507,17 @@ main {
   position: relative;
 }
 
+.searchpage-container{
+  top: 77px;
+    position: fixed;
+    max-width: 80vw;
+}
+
+.search-block{
+  display: block;
+    margin: auto;
+  overflow : scroll;
+}
 #search-input {
   padding: 10px 20px 10px 30px;
   border: 1px solid #ccc;
@@ -870,19 +881,21 @@ main .recent-orders a {
 
 /* product item  */
 .product-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin: 64px 48px 30px 0px;
-  gap: 10px;
-  /* background-color: #e1e1e1; */
-  width: 80vw;
-  height: 90vh;
+  display: grid;
+    margin: 0px 10px;
+    width: 70vw;
+    height: 90vh;
+    grid-auto-rows: 160px;
+    gap: 222px 57px;
+    grid-template-columns: repeat(auto-fit, 160px);
+    justify-content: center;
+    justify-items: center;
 }
+
 
 .item-container {
   width: 200px;
-  /* height: 340px; */
+  height: 360px;
   background-color: white;
   border-radius: 5px;
 }
@@ -1402,7 +1415,7 @@ transition: all 0.4s ease-in-out;
 /* design scrollbar */
 
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
