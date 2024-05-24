@@ -60,7 +60,10 @@ const ProductDetail = () => {
 
   const handleAddToCart = (productData) => {
     // Add the selected product to the list of selected products
-
+     if (productData.quantity <= 0) {
+      alert("This product is out of stock and cannot be added to the cart.");
+      return;
+    }
     // get the cart from localStorage or create an empty array
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
 

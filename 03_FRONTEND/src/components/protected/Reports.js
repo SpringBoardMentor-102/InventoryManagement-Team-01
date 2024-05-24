@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { fetchData } from "../../utilities/apputils";
 import Sidebar from "./Sidebar";
+<<<<<<< HEAD
 
 
+=======
+/*
+>>>>>>> 37a349b1c3828877233b0a7bf309d64dd8db7a5a
 const Reports = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
@@ -24,14 +28,59 @@ const Reports = () => {
 
     fetchProducts();
   }, []);
+*/
+function Reports() {
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+      const userId = localStorage.getItem("userId");
+      async function fetchReports() {
+          try {
+              const response = await fetchData("get", `report/getReport/${userId}`);
+              console.log(response);
+              if (response.data.report) {
+                  // Sort reports by date in descending order
+                  const sortedReports = response.data.report.sort((a, b) => new Date(b.date) - new Date(a.date));
+                  setReports(sortedReports);
+                  setLoading(false);
+              } else {
+                  setError("No reports found.");
+                  setLoading(false);
+              }
+          } catch (error) {
+              setError(error.message);
+              setLoading(false);
+          }
+      }
+
+      if (userId) {
+          fetchReports();
+      } else {
+          setLoading(false);
+      }
+  }, []);
+
+  if (loading) {
+      return <div className="report-loading">Loading...</div>;
+  }
+  if (error) {
+      return <div className="report-error">Error: {error}</div>;
+  }
   return (
+<<<<<<< HEAD
     <div className="dash-container"  style={{ padding: '20px', border: '1px solid black' }}>
+=======
+    <>
+    <div className="dash-container">
+>>>>>>> 37a349b1c3828877233b0a7bf309d64dd8db7a5a
     <div >
       <Sidebar />
     </div>
     <div className="report-page" style={{ width: '100%', borderCollapse: 'collapse' }}>
       <h1>Product Report</h1>
+<<<<<<< HEAD
       <table border="5">
         <thead>
           <tr>
@@ -52,8 +101,42 @@ const Reports = () => {
           ))}
         </tbody>
         </table>
+=======
+      <div className="report-body">
+                <div className="report-container">
+                    <h2 className="report-header">Report Page</h2>
+                    {reports.length === 0 ? (
+                        <p className="no-reports">No reports found.</p>
+                    ) : (
+                        <table className="report-table">
+                            <thead>
+                                <tr>
+                                    <th>Report ID</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {reports.map(report => (
+                                    <tr key={report._id}>
+                                        <td>{report._id}</td>
+                                        <td>{report.title}</td>
+                                        <td>{report.description}</td>
+                                        <td>{new Date(report.date).toLocaleDateString()}</td>
+                                        <td>{new Date(report.date).toLocaleTimeString()}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                </div>
+            </div>
+>>>>>>> 37a349b1c3828877233b0a7bf309d64dd8db7a5a
     </div>
     </div>
+  </>
   );
 };
 

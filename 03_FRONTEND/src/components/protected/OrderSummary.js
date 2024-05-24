@@ -19,7 +19,9 @@ const OrderSummary = () => {
 
   const handlePlaceOrder = () => {
     // Here, you can navigate to any blank page or route
-    navigate("/blank-page");
+    alert("order placed successfully");
+    // navigate("/blank-page");
+    navigate("/dashboard")
   };
 
   return (
