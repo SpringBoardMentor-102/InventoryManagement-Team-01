@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 import "../../index.css";
 import ProductList from "./ProductList";
@@ -174,9 +175,10 @@ const Search = () => {
 
           {loading && <p>Loading...</p>}
           {showResults && (searchResults?.length > 0) && (
+
             <table className="table-container">
               <thead>
-                <tr>
+                <tr className="table-head">
                   <th>Product</th>
                   <th onClick={() => toggleSortOrder("name")}>
                     Product Name
@@ -250,17 +252,21 @@ const Search = () => {
                   })
                   .map((product, index) => (
                     <tr key={index} className="trows">
+                    
                       <td>
+                          <Link to={`/product/${product._id}`}>
                         <img
                           src={product.imageUrl}
                           alt="Product"
                           style={{ width: "200px", height: "200px" }}
                         />
+                            </Link>
                       </td>
                       <td>{product.name}</td>
                       <td>{product.price}</td>
                       <td>{product.quantity}</td>
                       <td>{product.status}</td>
+                  
                     </tr>
                   ))}
               </tbody>
