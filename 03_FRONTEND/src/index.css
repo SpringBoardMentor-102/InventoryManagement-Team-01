@@ -1704,3 +1704,31 @@ transition: all 0.4s ease-in-out;
   color: #555;
   margin: 0.5rem 0;
 }
+
+.dash-container {
+  padding: 20px;
+}
+
+.report-page {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+.report-table th, .report-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.report-table th {
+  background-color: #f2f2f2;
+}
+
+.report-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.report-table tr:hover {
+  background-color: #f1f1f1;
+}
