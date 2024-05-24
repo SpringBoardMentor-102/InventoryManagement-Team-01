@@ -89,19 +89,20 @@ class checkoutController {
   // Get checkout by User ID
   static async getCheckoutByUserId(req, res) {
     try {
-      const userId = req.query.user_id;
+      const userId = req.params.user_id;
+      console.log(userId)
 
       if (!userId) {
         return res.status(400).json({ errors: 'User ID is required' });
       }
 
-      const checkout = await Checkout.findOne({ user_id: userId }).populate('products._id');
+      const checkout = await Checkout.find({ user_id: userId }).populate('product').populate('user_id');
 
       if (!checkout) {
         return res.status(404).json({ errors: 'Checkout not found' });
       }
 
-      res.json(checkout);
+      return res.status(201).json(checkout);
     } catch (error) {
       console.error(error.message);
       res.status(500).json({ errors: 'Server error' });

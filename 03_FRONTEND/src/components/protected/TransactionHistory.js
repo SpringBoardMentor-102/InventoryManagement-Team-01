@@ -20,25 +20,51 @@ for (let i = 1; i <= Math.ceil(transactions.length / itemsPerPage); i++) {
 
 
     useEffect(() => {
-        async function fetchTransactions() {
-            try {
-                const response = await fetchData("get", `checkout/getCheckouts`);
-               
-                if (response.data) {
-                    // Sort transactions by date in descending order
-                    const sortedTransactions = response.data.sort((a, b) => new Date(b.date_of_creation) - new Date(a.date_of_creation));
-                    setTransactions(sortedTransactions);
-                    setLoading(false);
-                } else {
-                    setError("No transactions found.");
+        const role = JSON.parse(localStorage.getItem("user")).role;
+        if(role==1){
+
+            async function fetchallTransactions() {
+                try {
+                    const response = await fetchData("get", `checkout/getCheckouts`);
+                   
+                    if (response.data) {
+                        // Sort transactions by date in descending order
+                        const sortedTransactions = response.data.sort((a, b) => new Date(b.date_of_creation) - new Date(a.date_of_creation));
+                        setTransactions(sortedTransactions);
+                        setLoading(false);
+                    } else {
+                        setError("No transactions found.");
+                        setLoading(false);
+                    }
+                } catch (error) {
+                    setError(error.message);
                     setLoading(false);
                 }
-            } catch (error) {
-                setError(error.message);
-                setLoading(false);
             }
+    fetchallTransactions()
+        }else{
+            const userId=JSON.parse(localStorage.getItem("user")).id;
+            
+            async function fetchUserTransactions() {
+                try {
+                    const response = await fetchData("get", `checkout/getCheckouts/${userId}`);
+                //    console.log(response)
+                    if (response.data) {
+                        // Sort transactions by date in descending order
+                        const sortedTransactions = response.data.sort((a, b) => new Date(b.date_of_creation) - new Date(a.date_of_creation));
+                        setTransactions(sortedTransactions);
+                        setLoading(false);
+                    } else {
+                        setError("No transactions found.");
+                        setLoading(false);
+                    }
+                } catch (error) {
+                    setError(error.message);
+                    setLoading(false);
+                }
+            }
+    fetchUserTransactions()
         }
-fetchTransactions()
         // if (userId) {
         //     fetchTransactions();
         // } else {

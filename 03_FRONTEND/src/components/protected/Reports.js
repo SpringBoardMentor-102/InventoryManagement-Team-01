@@ -1,27 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { fetchData } from "../../utilities/apputils";
 import Sidebar from "./Sidebar";
-/*
 const Reports = () => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   useEffect(() => {
-    const loadProducts = async () => {
+    const fetchProducts = async () => {
       try {
-        const data = await fetchData();
-        setProducts(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+        const response = await fetchData('get', 'product/getAllProducts');
+        // Ensure response.data.products is an array before setting it to products
+        if (Array.isArray(response.data.products)) {
+          setProducts(response.data.products);
+        } else {
+          console.error('Error: response.data.products is not an array', response.data);
+          setProducts([]); 
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setProducts([]); 
       }
     };
 
-    loadProducts();
+    fetchProducts();
   }, []);
-*/
+
 function Reports() {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -62,13 +63,34 @@ function Reports() {
       return <div className="report-error">Error: {error}</div>;
   }
   return (
-    <>
+
+    <div className="dash-container"  style={{ padding: '20px', border: '1px solid black' }}>
     <div className="dash-container">
     <div >
       <Sidebar />
     </div>
-    <div className="report-page">
+    <div className="report-page" style={{ width: '100%', borderCollapse: 'collapse' }}>
       <h1>Product Report</h1>
+      <table border="5">
+        <thead>
+          <tr>
+            <th style={{ border: '1px solid black', padding: '10px' }}>Item Name</th>
+            <th style={{ border: '1px solid black', padding: '10px' }}>Availability</th>
+            <th style={{ border: '1px solid black', padding: '10px' }}>Quantity Left</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((item, index) => (
+            <tr key={index}>
+              <td style={{ border: '1px solid black', padding: '10px' }}>{item.name}</td>
+              <td style={{ border: '1px solid black', padding: '10px', textAlign: 'center' }}>
+                {item.quantity > 0 ? '✔️' : '❌'}
+              </td>
+              <td style={{ border: '1px solid black', padding: '10px' }}>{item.quantity}</td>
+            </tr>
+          ))}
+        </tbody>
+        </table>
       <div className="report-body">
                 <div className="report-container">
                     <h2 className="report-header">Report Page</h2>
@@ -102,8 +124,9 @@ function Reports() {
             </div>
     </div>
     </div>
-  </>
+    </div>
   );
+                                }
 };
 
 export default Reports;

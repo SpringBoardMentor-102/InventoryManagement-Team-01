@@ -153,7 +153,7 @@ function SignIn() {
               onChange={(e) => setPassword(e.target.value)}
               type={passwordType}
             />
-             <span className="icon-signIn" style={{position:"sticky",top:"46%",right:"680px",cursor:"pointer"}} 
+             <span className="icon-signIn" style={{position:"absolute",top:"46%",right:"680px",cursor:"pointer"}} 
              onClick={() => setPasswordType(passwordType === 'password' ? 'text' : 'password')}>
              <FontAwesomeIcon icon={passwordType === 'password' ? faEyeSlash : faEye} />
              </span>
