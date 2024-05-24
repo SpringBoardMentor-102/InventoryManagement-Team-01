@@ -38,7 +38,7 @@ class checkoutController {
                     user_id: user_id,
                     product: product.product._id,
                     quantity: product.quantity,
-                    price: product.product.price
+                    price: (product.product.price * product.quantity)
                 });
 
                 // Update product quantity

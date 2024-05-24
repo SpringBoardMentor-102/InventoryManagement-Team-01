@@ -36,7 +36,7 @@ const Checkout = () => {
   const confirmCheckout = async () => {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     const cart = JSON.stringify(items);
-   ;
+   
 
     try {
       await fetchData("post", "checkout/addcheckout",{

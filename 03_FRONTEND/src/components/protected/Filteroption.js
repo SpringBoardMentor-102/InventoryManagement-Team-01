@@ -73,7 +73,7 @@ const FilterComponent = ({ getCategory }) => {
   useEffect(() => {
     getCategory(selectedFilterOption);
 
-  }, [selectedFilterOption, getCategory])
+  }, [selectedFilterOption])
 
   return (
     <div
@@ -89,11 +89,11 @@ const FilterComponent = ({ getCategory }) => {
       {showDropdown && (
         <div className='filter' >
           
-          <div> Select Filter</div>
-          <select style={{
+          {/* <div> Select Filter</div> */}
+            <label >Select Price</label>
+          <select  style={{
             backgroundColor: "#f5f5f5"
           }} value={selectedFilterOption.price} onChange={(event) => handleFilterOptionChange("price", event)}>
-            <label >Select Price</label>
             <optgroup label="price"
 
             >
