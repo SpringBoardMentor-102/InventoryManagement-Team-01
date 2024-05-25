@@ -160,7 +160,7 @@ const Search = () => {
                   placeholder="Search here..."
                   value={searchQuery}
                   onChange={handleChange}
-                  onKeyPress={() => handleKeyPress}
+                  onKeyDown={ handleKeyPress}
                 />
                 <button onClick={handleSearch} className="material-icons-sharp">
                   search

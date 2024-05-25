@@ -122,7 +122,7 @@ for (let i = 1; i <= Math.ceil(transactions.length / itemsPerPage); i++) {
       <button onClick={() => setCurrentPage(number)}>{number}</button>
     </li>
   ))}
-  <li className={currentPage === pageNumbers ? 'disabled' : ''}>
+  <li className={currentPage === pageNumbers.length ? 'disabled' : ''}>
     <button className="arrow" onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
   </li>
 </ul>
