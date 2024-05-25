@@ -10,7 +10,6 @@ const Dashboard = () => {
       <main>
         <Search />
       </main>
-     
     </div>
   );
 };

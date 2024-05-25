@@ -1,6 +1,6 @@
 // App.js
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation, BrowserRouter } from 'react-router-dom';
 
 // Internal Component Imports
 import SignIn from './components/unprotected/SignIn';
@@ -25,8 +25,10 @@ import PrivateRoute from './components/protected/PrivateRoute';
 import PublicRoute from './components/unprotected/PublicRoute';
 import AdminRoute
  from './components/protected/AdminRoute';
+import Footer from './components/protected/Footer';
 const App = () => {
   return (
+    <BrowserRouter>
     <Routes>
     {/* Public Routes */}
     <Route element={<PublicRoute />}>
@@ -61,7 +63,17 @@ const App = () => {
       {/* Wildcard Route */}
       <Route path="*" element={<NotFound />} />
     </Routes>
+    <div>
+      <ConditionalFooter/>
+    </div>
+    </BrowserRouter>
   );
 };
+
+const ConditionalFooter=()=>{
+  const location=useLocation();
+  const showFooter=['/order-summary','/admin_product','/history','/checkout'].includes(location.pathname);
+  return showFooter ? <Footer/>: null ;
+}
 
 export default App;

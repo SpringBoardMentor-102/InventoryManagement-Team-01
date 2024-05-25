@@ -95,9 +95,12 @@ const Checkout = () => {
               </div>
             ))
           )}
+          <div className="check-button">
           <button className="checkout-btn" onClick={handleCheckout}>
             Checkout
           </button>
+
+          </div>
         </div>
       </div>
       <ConfirmationModal 

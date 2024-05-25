@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchData } from "../../utilities/apputils";
 import ManageProduct from "./ManageProduct";
+import Footer from "./Footer";
 
 const ProductList = ({ products, error, loading }) => {
   //pagination state and functionality
@@ -32,6 +33,7 @@ const ProductList = ({ products, error, loading }) => {
   }
 
   return (
+    <>
     <div className="page-wrapper" >
       {/* <ManageProduct /> */}
       <div className="product-container">
@@ -82,6 +84,10 @@ const ProductList = ({ products, error, loading }) => {
         </li>
       </ul>
     </div>
+    <div className="dash-footer">
+      <Footer/>
+    </div>
+    </>
   );
 };
 

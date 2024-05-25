@@ -21,7 +21,7 @@ for (let i = 1; i <= Math.ceil(transactions.length / itemsPerPage); i++) {
 
     useEffect(() => {
         const role = JSON.parse(localStorage.getItem("user")).role;
-        if(role==1){
+        if(role===1){
 
             async function fetchallTransactions() {
                 try {
