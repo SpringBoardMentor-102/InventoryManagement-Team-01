@@ -9,7 +9,7 @@ const Checkout = () => {
   const [items, setItems] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCartItems = () => {
@@ -25,7 +25,7 @@ const Checkout = () => {
     setTotalAmount(total);
   };
 
-  const handleCheckout =async () => {
+  const handleCheckout = async () => {
     if (items.length === 0) {
       alert("Your Cart is empty. Please add products!!! ");
       return;
@@ -36,12 +36,12 @@ const Checkout = () => {
   const confirmCheckout = async () => {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     const cart = JSON.stringify(items);
-   
+
 
     try {
-      await fetchData("post", "checkout/addcheckout",{
+      await fetchData("post", "checkout/addcheckout", {
         user_id: userId,
-        cart: cart 
+        cart: cart
       });
       navigate('/order-summary', { state: { selectedProducts: items } });
     } catch (error) {
@@ -50,7 +50,7 @@ const Checkout = () => {
 
     try {
       localStorage.removeItem("cart");
-      setItems([]); 
+      setItems([]);
     } catch (error) {
       console.error("Error clearing cart:", error);
     }
@@ -64,7 +64,7 @@ const Checkout = () => {
   const handleImageClick = (productId) => {
     navigate(`/product/${productId}`);
   };
-  
+
   return (
     <>
       <Link to="/Dashboard" className="back-to-dashboard-btn">
@@ -87,26 +87,28 @@ const Checkout = () => {
             <p>Your cart is currently empty.</p>
           ) : (
             items.map((item) => (
-              <div key={item.product._id} className="check-name">
-                <img className="img-checkout" src={item.product.imageUrl} alt={item.product.name} />
-                <div className="checkout-name">{item.product.name}</div>
-                <div className="checkout-price">₹{item.product.price.toFixed(2)}</div>
-                <div className="checkout-quantity">{item.quantity}</div>
-              </div>
+              <Link to={`/product/${item.product._id}`}>
+                <div key={item.product._id} className="check-name">
+                  <img className="img-checkout" src={item.product.imageUrl} alt={item.product.name} />
+                  <div className="checkout-name">{item.product.name}</div>
+                  <div className="checkout-price">₹{item.product.price.toFixed(2)}</div>
+                  <div className="checkout-quantity">{item.quantity}</div>
+                </div>
+              </Link>
             ))
           )}
           <div className="check-button">
-          <button className="checkout-btn" onClick={handleCheckout}>
-            Checkout
-          </button>
+            <button className="checkout-btn" onClick={handleCheckout}>
+              Checkout
+            </button>
 
           </div>
         </div>
       </div>
-      <ConfirmationModal 
-        isOpen={isModalOpen} 
-        onConfirm={confirmCheckout} 
-        onCancel={cancelCheckout} 
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onConfirm={confirmCheckout}
+        onCancel={cancelCheckout}
       />
     </>
   );

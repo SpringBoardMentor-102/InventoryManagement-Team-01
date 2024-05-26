@@ -11,6 +11,7 @@ import { fetchData } from "../../utilities/apputils";
 const ProductDetail = () => {
   //   extracting query params
   const { id } = useParams();
+  const navigate = useNavigate();
 
   //intializing the component state
   const [cartQuantity, setCartQuantity] = useState(1);
@@ -26,7 +27,7 @@ const ProductDetail = () => {
   // getting the role value 
   const role = JSON.parse(localStorage.getItem("user")).role;
 
-  const admin = role?false :true;
+  const admin = role ? false : true;
   //handler code for decrementing the quantity
   const setDecrease = () => {
     if (cartQuantity > 0) {
@@ -60,7 +61,7 @@ const ProductDetail = () => {
 
   const handleAddToCart = (productData) => {
     // Add the selected product to the list of selected products
-     if (productData.quantity <= 0) {
+    if (productData.quantity <= 0) {
       alert("This product is out of stock and cannot be added to the cart.");
       return;
     }
@@ -70,58 +71,46 @@ const ProductDetail = () => {
     // Check if the product already exists in the cart
     const existsIndex = cart.findIndex(item => item.product._id === productData._id);
 
-      if (existsIndex !== -1) {
-        // Update quantity if product already exists
-        cart[existsIndex].quantity += cartQuantity;
-      } else {
-        // Add the product to the cart if it doesn't exist
-        cart.push({ product: productData, quantity: cartQuantity });
-      }
+    if (existsIndex !== -1) {
+      // Update quantity if product already exists
+      cart[existsIndex].quantity += cartQuantity;
+    } else {
+      // Add the product to the cart if it doesn't exist
+      cart.push({ product: productData, quantity: cartQuantity });
+    }
 
     // Save the updated cart back to localStorage 
     localStorage.setItem('cart', JSON.stringify(cart));
   };
-  const navigate=useNavigate();
-  const handleDelete= async (productID)=>{
-    if(window.confirm('Are you sure you want to delete this product')){
-    try{
-      await fetchData( "delete" ,`product/deleteProducts/${productID}`);
-      navigate("/Dashboard");
-      alert("product is deleted successfully");
-      
-    }catch(error){
-      console.error('error deleting product :',error);
-    }
-  }}
 
-  const handleAddToStore=(productData)=>{
+  const handleDelete = async (productID) => {
+    if (window.confirm('Are you sure you want to delete this product')) {
+      try {
+        await fetchData("delete", `product/deleteProducts/${productID}`);
+        navigate("/Dashboard");
+        alert("product is deleted successfully");
+
+      } catch (error) {
+        console.error('error deleting product :', error);
+      }
+    }
+  }
+
+  const handleAddToStore = (productData) => {
 
   }
 
   const handleRemoveFromCart = (productData) => {
     // Remove the selected product from the list of selected products
-    
+
     // Get the cart from localStorage or create an empty array
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existsCartProduct = cart.filter(item => item.product._id !== productData._id);
+    localStorage.setItem('cart', JSON.stringify(existsCartProduct));
+    navigate("/checkout");
 
-    // Filter out the product to be removed
- const existsIndex = cart.findIndex(item => item.product._id === productData._id);
-    // Filter out the product to be removed
-    if(existsIndex !==-1){
-      if(cart[existsIndex].quantity>1){
-        //decrement 1 quantity from the cart
-        cart[existsIndex].quantity -=cartQuantity;
-        localStorage.setItem('cart', JSON.stringify(cart));
-      }else{
-        const updatedCart = cart.filter(item => item.product._id !== productData._id);
-        // Save the updated cart back to localStorage
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
-
-      }
-    }
-   
   };
-  
+
 
   if (!product) return <div>Loading...</div>;
 
@@ -146,15 +135,15 @@ const ProductDetail = () => {
           <h2>DESCRIPTION</h2>
           <p className="desc">{product.description}</p>
           <div className="buttons">
-          {admin? ( <button onClick={() => handleAddToCart(product)} className="add">
+            {admin ? (<button onClick={() => handleAddToCart(product)} className="add">
               Add to Cart
-            </button>):( <button onClick={() => handleAddToStore(product)} className="add">
+            </button>) : (<button onClick={() => handleAddToStore(product)} className="add">
               Add to Store
             </button>)}
             <span> </span>
-            {admin? ( <button onClick={() => handleRemoveFromCart(product)} className="add">
+            {admin ? (<button onClick={() => handleRemoveFromCart(product)} className="add">
               Remove from Cart
-            </button>):( <button onClick={() => handleDelete(product._id)} className="add">
+            </button>) : (<button onClick={() => handleDelete(product._id)} className="add">
               Delete from store
             </button>)}
           </div>

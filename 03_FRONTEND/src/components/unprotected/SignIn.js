@@ -129,7 +129,7 @@ function SignIn() {
         <p>Explore this app as a test user:</p>
 
         <form id="form" action="/">
-          <div style={{ fontSize: "12px", color: "red" }}>{errorMessage}</div>
+          <div >{errorMessage}</div>
           <div className="input-control">
             <label htmlFor="email">Email</label>
             <input
@@ -144,7 +144,7 @@ function SignIn() {
               {emailError}
             </div>
           </div>
-          <div className="input-control">
+          <div className="input-control-password" >
             <label htmlFor="password">Password</label>
             <input
               id="password"
@@ -153,10 +153,10 @@ function SignIn() {
               onChange={(e) => setPassword(e.target.value)}
               type={passwordType}
             />
-             <span className="icon-signIn" style={{position:"absolute",top:"46%",right:"680px",cursor:"pointer"}} 
-             onClick={() => setPasswordType(passwordType === 'password' ? 'text' : 'password')}>
-             <FontAwesomeIcon icon={passwordType === 'password' ? faEyeSlash : faEye} />
-             </span>
+            <span className="eye-icon-signIn"
+              onClick={() => setPasswordType(passwordType === 'password' ? 'text' : 'password')}>
+              <FontAwesomeIcon icon={passwordType === 'password' ? faEyeSlash : faEye} />
+            </span>
             <div id="passwordError" className="error_sign_up">
               {passwordError}
             </div>
@@ -165,7 +165,7 @@ function SignIn() {
           <button type="submit" onClick={onLogin}>
             Sign In
           </button>
-          <div className="links" style={{ clear: "both", textAlign: "center" }}>
+          <div className="links">
             <Link to="/signup">Sign Up</Link>
             <Link to="/forgot">Forgot password</Link>
           </div>
