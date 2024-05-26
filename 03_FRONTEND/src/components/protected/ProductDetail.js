@@ -107,7 +107,7 @@ const ProductDetail = () => {
     // Filter out the product to be removed
  const existsIndex = cart.findIndex(item => item.product._id === productData._id);
     // Filter out the product to be removed
-    if(existsIndex !== 0){
+    if(existsIndex !==-1){
       if(cart[existsIndex].quantity>1){
         //decrement 1 quantity from the cart
         cart[existsIndex].quantity -=cartQuantity;
