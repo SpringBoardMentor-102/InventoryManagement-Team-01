@@ -164,7 +164,7 @@ const Search = () => {
                   <ul>
                     {recentSearches.map((query, index) => (
                       <li key={index} onClick={() => handleRecentSearchClick(query)}>
-                        {query}
+                        {/* {query} */}
                       </li>
                     ))}
                   </ul>
