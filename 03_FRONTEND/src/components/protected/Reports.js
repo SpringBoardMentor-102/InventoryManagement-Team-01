@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchData } from "../../utilities/apputils";
 import Sidebar from "./Sidebar";
+
 const Reports = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
@@ -23,7 +24,7 @@ const Reports = () => {
     fetchProducts();
   }, []);
 
-function Reports() {
+/*function Reports() {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -61,14 +62,14 @@ function Reports() {
   }
   if (error) {
       return <div className="report-error">Error: {error}</div>;
-  }
+  }*/
   return (
 
     <div className="dash-container"  style={{ padding: '20px', border: '1px solid black' }}>
-    <div className="dash-container">
-    <div >
+    {/*<div className="dash-container">*/}
+    
       <Sidebar />
-    </div>
+    
     <div className="report-page" style={{ width: '100%', borderCollapse: 'collapse' }}>
       <h1>Product Report</h1>
       <table border="5">
@@ -91,7 +92,7 @@ function Reports() {
           ))}
         </tbody>
         </table>
-      <div className="report-body">
+     {/*<div className="report-body">
                 <div className="report-container">
                     <h2 className="report-header">Report Page</h2>
                     {reports.length === 0 ? (
@@ -121,12 +122,12 @@ function Reports() {
                         </table>
                     )}
                 </div>
-            </div>
+                  </div>*/}
     </div>
-    </div>
-    </div>
+   </div>
+    
   );
-                                }
-};
+                                };
+
 
 export default Reports;
