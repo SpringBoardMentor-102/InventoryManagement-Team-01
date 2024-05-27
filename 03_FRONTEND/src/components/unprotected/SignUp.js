@@ -156,6 +156,7 @@ const SignUp = () => {
         alert(
           `Email verification link sent successfully, Please check you mail at ${email}`
         );
+        redirectToEmailClient(email);
       })
       .catch((error) => {
         let response = error.response;
@@ -167,12 +168,12 @@ const SignUp = () => {
           } else if (response?.status === 409) {
             // 409 when registration is incomplete
             navigate("/email_notification");
-            console.error("Incomplete registration", response.data.errors);
-            setErrorMessage("Incomplete registration", response.data.errors);
+            console.error("Incomplete registration. Please Complete it!", response.data.errors);
+            setErrorMessage("Incomplete registration. Please Complete it!", response.data.errors);
           } else if (response?.status === 403) {
             // 403 when registration attempted on already registered email
-            console.error("Already registered", response.data.errors);
-            setErrorMessage("Already registered", response.data.errors);
+            console.error("Email is Already registered", response.data.errors);
+            setErrorMessage("Email is Already registered", response.data.errors);
           } else if (response?.status === 500) {
             // 500 when unknown error occurs
             console.error("Internal Server Error", response.data.errors);
@@ -189,6 +190,23 @@ const SignUp = () => {
       });
   };
 
+  const redirectToEmailClient = (email) => {
+    const emailDomain = email.split('@')[1];
+    let emailClientUrl = "";
+
+    if (emailDomain.includes("gmail.com")) {
+      emailClientUrl = "https://mail.google.com";
+    } else if (emailDomain.includes("yahoo.com")) {
+      emailClientUrl = "https://mail.yahoo.com";
+    } else if (emailDomain.includes("outlook.com")) {
+      emailClientUrl = "https://outlook.live.com";
+    } else {
+      emailClientUrl = `https://mail.${emailDomain}`;
+    }
+
+   window.open(emailClientUrl, '_blank');
+  };
+  
   function openGooglePopup() {
     window.open(
       "https://www.google.com",
