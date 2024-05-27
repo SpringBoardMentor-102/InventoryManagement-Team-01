@@ -1218,17 +1218,23 @@ table th {
   display: flex;
   width: 100vw;
   margin-left: 11px;
+  font-family: 'Arial', sans-serif;
 }
 
 .history-container {
   padding: 20px;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
+  background: #f4f4f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .history-header {
   text-align: center;
   margin-bottom: 20px;
+  font-size: 2em;
+  color: #333;
 }
 
 .history-loading,
@@ -1237,29 +1243,37 @@ table th {
   text-align: center;
   font-size: 18px;
   margin-top: 20px;
+  color: #d9534f;
   /* Add some space between the message and the table */
 }
 
 .transaction-table {
-  width: 77vw;
+  width: 100%;
   border-collapse: collapse;
   margin-top: 35px;
-  margin-left: -100px;
+  margin-left: auto;
+  margin-right: auto;
   /* Add some space between the header and the table */
+  animation: fadeIn 1s ease-in-out;
+}
+
+.transaction-table th,
+.transaction-table td {
+  padding: 12px;
+  text-align: center; /* Center the content */
+  border: 1px solid #ddd;
+  transition: background-color 0.3s;
 }
 
 .transaction-table th {
   background-color: #007bff;
   /* Blue color for table header */
   color: #fff;
-  /* White text color */
-  padding: 12px;
-  text-align: left;
+  transition: background-color 0.3s;
 }
 
-.transaction-table td {
-  border: 1px solid #ddd;
-  padding: 12px;
+.transaction-table th:hover {
+  background-color: #0056b3;
 }
 
 /* Alternate row colors */
@@ -1270,14 +1284,59 @@ table th {
 /* Hover effect */
 .transaction-table tbody tr:hover {
   background-color: #a8b8c8;
-  /* Orange color on hover */
+  color: #fff;
+  /* Change text color on hover */
 }
 
-/* Not Found Page */
-.Not-found {
-  margin-top: 256px;
-  text-align: center;
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+  margin-top: 20px;
+  animation: fadeIn 1.5s ease-in-out;
 }
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  border-radius: 5px;
+}
+
+.pagination button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+.pagination .active button {
+  background-color: #28a745;
+}
+
+.pagination .disabled button {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 
 /* check out  */
 
