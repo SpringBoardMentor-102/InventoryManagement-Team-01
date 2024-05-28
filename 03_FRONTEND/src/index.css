@@ -2218,3 +2218,49 @@ footer {
   text-align: center;
   margin-top: 10px;
 }
+.dash-container {
+  padding: 20px;
+  border: 1px solid black;
+}
+
+.report-page {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table {
+  width: 100%;
+  border: 5px solid black;
+  border-collapse: collapse;
+  font-size: 17px;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+th {
+  background-color: #b89543;
+  font-size: 20px;
+}
+
+tr:nth-child(even) {
+  background-color: #f5e4c6;
+}
+
+tr:nth-child(odd) {
+  background-color: #ebd09a;
+}
+
+td {
+  text-align: left;
+}
+
+td:nth-child(2) {
+  text-align: center;
+}
+
+h1 {
+  color: #333;
+}
