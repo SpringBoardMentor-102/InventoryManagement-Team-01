@@ -18,7 +18,7 @@ const {
   validateLastName,
   validateMobile,
   validateCity,
-} = require("./utilities/validators");
+} = require("../services/validationService");
 
 let isDebuggingOn = process.env.DEBUGGING_ON === "false" ? false : true;
 

@@ -5,10 +5,8 @@ const {
   validateDescription,
   validatePrice,
   validateQuantity,
-  validateStatus,
   validateCategoryId,
-  validateImageUrl,
-} = require("./utilities/validators/producModelValidators");
+} = require("../services/validationService");
 const { isValidObjectId } = require("mongoose");
 
 /**
