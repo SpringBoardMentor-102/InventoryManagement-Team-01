@@ -106,7 +106,25 @@ const ProductDetail = () => {
     // Get the cart from localStorage or create an empty array
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const existsCartProduct = cart.filter(item => item.product._id !== productData._id);
-    localStorage.setItem('cart', JSON.stringify(existsCartProduct));
+    const selectedProduct = cart.filter(item => item.product._id === productData._id);
+
+    if (selectedProduct.length > 0) {
+      const originalQuantity = selectedProduct[0].quantity
+      let newQuantity = 0
+      if (originalQuantity > cartQuantity) {
+        newQuantity = originalQuantity - cartQuantity
+        existsCartProduct.push({product: productData, quantity: newQuantity})
+        localStorage.setItem('cart', JSON.stringify(existsCartProduct));
+      } else {
+        localStorage.setItem('cart', JSON.stringify(existsCartProduct));
+      }
+    } else {
+      // user is trying to remove from cart an item which is not in the cart
+      // TODO: notify that this item is no in the cart
+      // disable the remove from cart button, if this item is not in the cart
+      // do nothing, becuase, this item cannot be removed from the cart
+
+    }
     navigate("/checkout");
 
   };

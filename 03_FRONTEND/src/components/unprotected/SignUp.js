@@ -50,6 +50,8 @@ const SignUp = () => {
   const [passwordType, setPasswordType] = useState('password');
   const [confirmPasswordType, setConfirmPasswordType] = useState('password');
 
+  const [isLoading, setIsLoading] = useState(false)
+
   /** This is a helper function to clear all the errors on the UI screen
    */
   const clearErrors = () => {
@@ -138,6 +140,8 @@ const SignUp = () => {
       return;
     }
 
+    setIsLoading(true)
+
     // validation was successful, attempting to make a call to the backend
 
     await axios
@@ -156,6 +160,7 @@ const SignUp = () => {
         alert(
           `Email verification link sent successfully, Please check you mail at ${email}`
         );
+        setIsLoading(false)
         redirectToEmailClient(email);
       })
       .catch((error) => {
@@ -187,6 +192,7 @@ const SignUp = () => {
           console.log("Backend not working");
           setErrorMessage("Internal Server Error");
         }
+        setIsLoading(false)
       });
   };
 
@@ -206,7 +212,7 @@ const SignUp = () => {
 
    window.open(emailClientUrl, '_blank');
   };
-  
+
   function openGooglePopup() {
     window.open(
       "https://www.google.com",
@@ -320,7 +326,7 @@ const SignUp = () => {
           {confirmPasswordError}
         </div>
 
-        <input type="submit" value="Sign Up" />
+        <input type="submit" value="Sign Up" /> { /* TODO: remove this comment and disable button, and add loading */ }
 
         <div className="action-links_sign_up">
           <p>

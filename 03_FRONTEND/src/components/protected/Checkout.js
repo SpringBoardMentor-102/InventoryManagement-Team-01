@@ -7,7 +7,6 @@ import ConfirmationModal from "./Confirmbeforecheckout";
 
 const Checkout = () => {
   const [items, setItems] = useState([]);
-  const [totalAmount, setTotalAmount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -15,15 +14,9 @@ const Checkout = () => {
     const fetchCartItems = () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       setItems(cart);
-      calculateTotal(cart);
     };
     fetchCartItems();
   }, []);
-
-  const calculateTotal = (cartItems) => {
-    const total = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
-    setTotalAmount(total);
-  };
 
   const handleCheckout = async () => {
     if (items.length === 0) {
@@ -61,10 +54,6 @@ const Checkout = () => {
     setIsModalOpen(false);
   };
 
-  const handleImageClick = (productId) => {
-    navigate(`/product/${productId}`);
-  };
-
   return (
     <>
       <Link to="/Dashboard" className="back-to-dashboard-btn">
@@ -87,7 +76,7 @@ const Checkout = () => {
             <p>Your cart is currently empty.</p>
           ) : (
             items.map((item) => (
-              <Link to={`/product/${item.product._id}`}>
+              <Link to={`/product/${item.product._id}`} key={item.product._id}>
                 <div key={item.product._id} className="check-name">
                   <img className="img-checkout" src={item.product.imageUrl} alt={item.product.name} />
                   <div className="checkout-name">{item.product.name}</div>
