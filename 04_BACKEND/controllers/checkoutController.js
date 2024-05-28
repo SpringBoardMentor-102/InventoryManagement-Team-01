@@ -96,7 +96,7 @@ class checkoutController {
         return res.status(400).json({ errors: 'User ID is required' });
       }
 
-      const checkout = await Checkout.find({ user_id: userId }).populate('product').populate('user_id').populate('imageUrl');
+      const checkout = await Checkout.find({ user_id: userId }).populate('product').populate('user_id');
 
 
       if (!checkout) {
