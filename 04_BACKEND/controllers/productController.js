@@ -292,26 +292,51 @@ async function getProductsByCategory(req, res) {
   }
 }
 
-//Function for searching product
+
+/**
+ * Controller function for searching  products
+ * @param {Object} productData - Data for the new product
+ * @returns {Promise<Object>}
+ */
+
 async function searchProduct(req, res) {
   try {
+    // Destructure the name parameter from the query string
     let { name } = req.query;
+
+    // Check if name is provided
+    if (!name) {
+      return res.status(401).json({ message: "Product name is required." });
+    }
+
+    // Trim the name to remove any leading or trailing spaces
     name = name.trim();
 
+    // Validate the name parameter to ensure it's not empty after trimming
+    if (name === "") {
+      return res.status(402).json({ message: "Product name cannot be empty." });
+    }
+
+    // Search for products whose names match the provided name (case-insensitive)
     const products = await Product.find({
       name: { $regex: new RegExp(name, "i") },
     });
 
-    if (products.length > 0) {
-      res.json(products);
-    } else {
-      // Send an empty array as response to indicate no products found
-      res.json([]);
+    // Check if products were found
+    if (products.length === 0) {
+     
+         // If the product does not exist, respond with a 404 error
+         return res.status(404).json({ errors: "Product not found" });
+     
     }
+     // Return the found products
+     return  res.status(201).json(products);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    // Return a 500 status code for any server errors
+    return res.status(500).json({ errors: "Internal Server Error"  });
   }
 }
+
 
 module.exports = {
   getAllProducts,

@@ -13,7 +13,7 @@ const checkouts = require("./routes/checkoutRoutes.js");
 const users = require("./routes/userRoutes.js");
 const transactions = require("./routes/transactionRoutes.js");
 const products = require("./routes/productRoutes.js");
-const searchs = require("./routes/searchs.js")
+
 
 // internal dependencies: to establish connection to database
 const connectDB = require("./services/databaseService.js");
@@ -32,7 +32,6 @@ app.use("/api/checkout", checkouts);
 app.use("/api/category", categories);
 app.use("/api/transaction", transactions);
 app.use("/api/product", products);
-app.use("/api/search", searchs);
 // app.use("/api", emailVerificationRoutes);
 
 /** Helper function, asynchronous to start the Express application
