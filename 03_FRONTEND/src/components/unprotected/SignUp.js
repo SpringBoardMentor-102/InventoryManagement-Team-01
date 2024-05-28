@@ -4,6 +4,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import LoadingSpinner from './Loader';
+
 // internal dependencies: styling
 import "../../index.css";
 import {
@@ -49,6 +51,8 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [passwordType, setPasswordType] = useState('password');
   const [confirmPasswordType, setConfirmPasswordType] = useState('password');
+
+  const [loading, setLoading] = useState(false);
 
   /** This is a helper function to clear all the errors on the UI screen
    */
@@ -139,6 +143,8 @@ const SignUp = () => {
       return;
     }
 
+    setLoading(true);
+
     console.log("making a call..");
     // validation was successful, attempting to make a call to the backend
 
@@ -205,6 +211,9 @@ const SignUp = () => {
   return (
     <div className="container_sign_up">
       <h2>Sign Up</h2>
+      {loading ? ( // Show loader if loading state is true
+          <LoadingSpinner />
+        ) : (
       <form id="signupForm" action="/register" onSubmit={signUp}>
         <div style={{ fontSize: "12px", color: "red" }}>{errorMessage}</div>
         <input
@@ -320,6 +329,7 @@ const SignUp = () => {
           </p>
         </div>
       </form>
+          )}
     </div>
   );
 };

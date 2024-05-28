@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchDataUnprotected } from "../../utilities/apputils";
 import { jwtDecode } from "jwt-decode";
+import LoadingSpinner from './Loader';
 
 // Internal dependencies
 import { validateEmail, validatePassword } from "../../utilities/validators";
@@ -20,6 +21,7 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   /** This is a helper function to clear all the errors on the UI screen
    */
@@ -70,6 +72,7 @@ function SignIn() {
       return;
     }
 
+    setLoading(true);
     console.log("making a call..");
     // validation was successful, attempting to make a call to the backend
 
@@ -120,6 +123,9 @@ function SignIn() {
         setErrorMessage("Internal Server Error");
       }
     }
+    finally {
+      setLoading(false); // Hide loader after the process is complete
+    }
   };
 
   return (
@@ -135,7 +141,9 @@ function SignIn() {
       <div className="container">
         <h1>Sign In</h1>
         <p>Explore this app as a test user:</p>
-
+        {loading ? ( // Show loader if loading state is true
+          <LoadingSpinner />
+        ) : (
         <form id="form" action="/">
           <div style={{ fontSize: "12px", color: "red" }}>{errorMessage}</div>
           <div className="input-control">
@@ -174,6 +182,7 @@ function SignIn() {
             <Link to="/forgot">Forgot password</Link>
           </div>
         </form>
+          )}
       </div>
     </>
   );
