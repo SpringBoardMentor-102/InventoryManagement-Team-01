@@ -444,6 +444,10 @@ aside .close {
 
 /* Sidebar */
 
+aside {
+  height: 100vh;
+  width: 10vw;
+}
 aside .sidebar {
   background: white;
   display: flex;
@@ -1235,8 +1239,8 @@ table th {
 
 .history-container {
   padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 70vw;
+  margin: auto;
   background: #f4f4f9;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -1279,7 +1283,7 @@ table th {
 }
 
 .transaction-table th {
-  background-color: #007bff;
+  background-color: #7380ec;
   /* Blue color for table header */
   color: #fff;
   transition: background-color 0.3s;
@@ -2065,6 +2069,133 @@ footer {
   right: 14px;
   cursor: pointer;
 }
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-contents {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+
+.modal-buttons .add-button, 
+.modal-buttons .cancel-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.modal-buttons .add-button {
+  background-color: green;
+  color: white;
+}
+
+.modal-buttons .cancel-button {
+  background-color: red;
+  color: white;
+}
+
+.modal-contents input[type="number"] {
+  width: 100px;
+  padding: 5px;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 10px;
+}
+.dash-container {
+  padding: 20px;
+  border: 1px solid black;
+}
+
+.report-page {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table {
+  width: 100%;
+  border: 5px solid black;
+  border-collapse: collapse;
+  font-size: 17px;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+th {
+  background-color: #7380ec;
+  font-size: 20px;
+}
+
+tr:nth-child(even) {
+  background-color: #e7e9ff;
+}
+
+tr:nth-child(odd) {
+  background-color: white;
+}
+
+td {
+  text-align: left;
+}
+
+td:nth-child(2) {
+  text-align: center;
+}
+
+h1 {
+  color: #333;
+}
+
+
+.loader {
+ display: flex;
+ gap: 10px;
+}
+
+.loader .dot{
+  width:10px;
+  height: 10px;
+  background-color: #414141;
+  border-radius: 50%;
+  animation: bounce 0.5s infinite alternate;
+}
+
+.loader .dot:nth-child(2){
+  animation-delay: 100ms;
+}
+
+.loader .dot:nth-child(3){
+  animation-delay: 200ms;
+}
+
+@keyframes bounce {
+  100%{
+    translate: 0 -10px;
+  }
+}
 
 /* Media Queries For Aside bar */
 /* Media Queries For Aside bar */
@@ -2163,132 +2294,5 @@ footer {
 
   aside .logo h2 {
     margin-top:19px
-  }
-}
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-contents {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  max-width: 400px;
-  width: 100%;
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: space-evenly;
-  margin-top: 20px;
-}
-
-.modal-buttons .add-button, 
-.modal-buttons .cancel-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.modal-buttons .add-button {
-  background-color: green;
-  color: white;
-}
-
-.modal-buttons .cancel-button {
-  background-color: red;
-  color: white;
-}
-
-.modal-contents input[type="number"] {
-  width: 100px;
-  padding: 5px;
-  font-size: 16px;
-  text-align: center;
-  margin-top: 10px;
-}
-.dash-container {
-  padding: 20px;
-  border: 1px solid black;
-}
-
-.report-page {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-table {
-  width: 100%;
-  border: 5px solid black;
-  border-collapse: collapse;
-  font-size: 17px;
-}
-
-th, td {
-  border: 1px solid black;
-  padding: 10px;
-}
-
-th {
-  background-color: #b89543;
-  font-size: 20px;
-}
-
-tr:nth-child(even) {
-  background-color: #f5e4c6;
-}
-
-tr:nth-child(odd) {
-  background-color: #ebd09a;
-}
-
-td {
-  text-align: left;
-}
-
-td:nth-child(2) {
-  text-align: center;
-}
-
-h1 {
-  color: #333;
-}
-
-
-.loader {
- display: flex;
- gap: 10px;
-}
-
-.loader .dot{
-  width:10px;
-  height: 10px;
-  background-color: #414141;
-  border-radius: 50%;
-  animation: bounce 0.5s infinite alternate;
-}
-
-.loader .dot:nth-child(2){
-  animation-delay: 100ms;
-}
-
-.loader .dot:nth-child(3){
-  animation-delay: 200ms;
-}
-
-@keyframes bounce {
-  100%{
-    translate: 0 -10px;
   }
 }
