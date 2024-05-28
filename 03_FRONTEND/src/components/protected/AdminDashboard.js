@@ -1,4 +1,3 @@
-import AdminSidebar from "./AdminSidebar";
 import Search from "./Search";
 import Sidebar from "./Sidebar";
 

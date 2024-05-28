@@ -2,58 +2,63 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { fetchData } from "../../utilities/apputils";
+import ConfirmationModal from "./Confirmbeforecheckout";
 
 const Checkout = () => {
   const [items, setItems] = useState([]);
-  const [totalAmount, setTotalAmount] = useState(0);
-  const navigate = useNavigate(); 
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchCartItems = () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       setItems(cart);
-      calculateTotal(cart);
     };
     fetchCartItems();
   }, []);
 
-  const calculateTotal = (cartItems) => {
-    const total = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
-    setTotalAmount(total);
-  };
-  
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (items.length === 0) {
       alert("Your Cart is empty. Please add products!!! ");
       return;
     }
-    
-    const confirmation = window.confirm("Are you sure you want to checkout?");
-    if (confirmation) {
-      // Navigate to the order summary page with the selected products
-      navigate('/order-summary', { state: { selectedProducts: items } });
+    setIsModalOpen(true);
+  };
 
-    // Clear cart data after successful checkout (or handle errors gracefully)
+  const confirmCheckout = async () => {
+    const userId = JSON.parse(localStorage.getItem("user")).id;
+    const cart = JSON.stringify(items);
+
+
+    try {
+      await fetchData("post", "checkout/addcheckout", {
+        user_id: userId,
+        cart: cart
+      });
+      navigate('/order-summary', { state: { selectedProducts: items } });
+    } catch (error) {
+      console.log(error);
+    }
+
     try {
       localStorage.removeItem("cart");
-      setItems([]); // Update state for immediate UI reflection
+      setItems([]);
     } catch (error) {
       console.error("Error clearing cart:", error);
-      // Implement error handling (e.g., display an error message)
     }
-  }
+    setIsModalOpen(false);
   };
 
-  const handleImageClick = (productId) => {
-    navigate(`/product/${productId}`);
+  const cancelCheckout = () => {
+    setIsModalOpen(false);
   };
-  
+
   return (
     <>
       <Link to="/Dashboard" className="back-to-dashboard-btn">
-      <FontAwesomeIcon icon={faArrowLeft} /> Back to Dashboard
+        <FontAwesomeIcon icon={faArrowLeft} /> Back to Dashboard
       </Link>
-
       <div className="checkout-container">
         <div className="items-container">
           <div className="checkout-heading">
@@ -71,19 +76,29 @@ const Checkout = () => {
             <p>Your cart is currently empty.</p>
           ) : (
             items.map((item) => (
-              <div key={item.product._id} className="check-name">
-                <img className="img-checkout" src={item.product.imageUrl} alt={item.product.name} />
-                <div className="checkout-name">{item.product.name}</div>
-                <div className="checkout-price">${item.product.price}</div>
-                <div className="checkout-quantity">{item.quantity}</div>
-              </div>
+              <Link to={`/product/${item.product._id}`} key={item.product._id}>
+                <div key={item.product._id} className="check-name">
+                  <img className="img-checkout" src={item.product.imageUrl} alt={item.product.name} />
+                  <div className="checkout-name">{item.product.name}</div>
+                  <div className="checkout-price">₹{item.product.price.toFixed(2)}</div>
+                  <div className="checkout-quantity">{item.quantity}</div>
+                </div>
+              </Link>
             ))
           )}
-          <button className="checkout-btn" onClick={handleCheckout}>
-            Checkout
-          </button>
+          <div className="check-button">
+            <button className="checkout-btn" onClick={handleCheckout}>
+              Checkout
+            </button>
+
+          </div>
         </div>
       </div>
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onConfirm={confirmCheckout}
+        onCancel={cancelCheckout}
+      />
     </>
   );
 };

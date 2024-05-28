@@ -54,6 +54,8 @@ const SignUp = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false)
+
   /** This is a helper function to clear all the errors on the UI screen
    */
   const clearErrors = () => {
@@ -139,13 +141,14 @@ const SignUp = () => {
 
     // Validate form fields
     if (!validateForm()) {
-      console.log("form validation fails.");
       return;
     }
 
     setLoading(true);
 
-    console.log("making a call..");
+    setLoading(true);
+    setIsLoading(true)
+
     // validation was successful, attempting to make a call to the backend
 
     await axios
@@ -160,16 +163,15 @@ const SignUp = () => {
       })
       .then((response) => {
         // registration successful
-        console.log("Registration Succesfull");
         //navigate("/dashboard");
-        console.log(response);
         alert(
-          "Email verification link sent successfully, Please check you mail"
+          `Email verification link sent successfully, Please check you mail at ${email}`
         );
+        setIsLoading(false)
+        redirectToEmailClient(email);
       })
       .catch((error) => {
         let response = error.response;
-        console.log(response?.status);
         if (response) {
           if (response?.status === 422) {
             // 422 when validation failure happens,
@@ -178,12 +180,12 @@ const SignUp = () => {
           } else if (response?.status === 409) {
             // 409 when registration is incomplete
             navigate("/email_notification");
-            console.error("Incomplete registration", response.data.errors);
-            setErrorMessage("Incomplete registration", response.data.errors);
+            console.error("Incomplete registration. Please Complete it!", response.data.errors);
+            setErrorMessage("Incomplete registration. Please Complete it!", response.data.errors);
           } else if (response?.status === 403) {
             // 403 when registration attempted on already registered email
-            console.error("Already registered", response.data.errors);
-            setErrorMessage("Already registered", response.data.errors);
+            console.error("Email is Already registered", response.data.errors);
+            setErrorMessage("Email is Already registered", response.data.errors);
           } else if (response?.status === 500) {
             // 500 when unknown error occurs
             console.error("Internal Server Error", response.data.errors);
@@ -197,7 +199,25 @@ const SignUp = () => {
           console.log("Backend not working");
           setErrorMessage("Internal Server Error");
         }
+        setIsLoading(false)
       });
+  };
+
+  const redirectToEmailClient = (email) => {
+    const emailDomain = email.split('@')[1];
+    let emailClientUrl = "";
+
+    if (emailDomain.includes("gmail.com")) {
+      emailClientUrl = "https://mail.google.com";
+    } else if (emailDomain.includes("yahoo.com")) {
+      emailClientUrl = "https://mail.yahoo.com";
+    } else if (emailDomain.includes("outlook.com")) {
+      emailClientUrl = "https://outlook.live.com";
+    } else {
+      emailClientUrl = `https://mail.${emailDomain}`;
+    }
+
+   window.open(emailClientUrl, '_blank');
   };
 
   function openGooglePopup() {
@@ -214,7 +234,7 @@ const SignUp = () => {
       {loading ? ( // Show loader if loading state is true
           <LoadingSpinner />
         ) : (
-      <form id="signupForm" action="/register" onSubmit={signUp}>
+      <form id="signupForm" action="/register" onSubmit={signUp} noValidate>
         <div style={{ fontSize: "12px", color: "red" }}>{errorMessage}</div>
         <input
           type="text"
@@ -316,7 +336,7 @@ const SignUp = () => {
           {confirmPasswordError}
         </div>
 
-        <input type="submit" value="Sign Up" />
+        <input type="submit" value="Sign Up" /> { /* TODO: remove this comment and disable button, and add loading */ }
 
         <div className="action-links_sign_up">
           <p>

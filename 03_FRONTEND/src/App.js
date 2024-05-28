@@ -1,11 +1,11 @@
-// External Imports
-import React from 'react'
-import { Routes, Route } from 'react-router-dom';
+// App.js
+import React from 'react';
+import { Routes, Route, useLocation, BrowserRouter } from 'react-router-dom';
 
 // Internal Component Imports
-import SignIn from './components/unprotected/SignIn'
-import Reset from './components/protected/Reset'
-import Confirm from './components/unprotected/Confirm'
+import SignIn from './components/unprotected/SignIn';
+import Reset from './components/protected/Reset';
+import Confirm from './components/unprotected/Confirm';
 import SignUp from './components/unprotected/SignUp';
 import Dashboard from './components/protected/Dashboard';
 import AdminDashboard from './components/protected/AdminDashboard';
@@ -14,7 +14,6 @@ import EmailNotification from './components/unprotected/EmailNotification';
 import NotFound from './components/unprotected/NotFound';
 import RegConfig from './components/unprotected/RegConfig';
 import Search from './components/protected/Search';
-// import Filter from './components/protected/Filter';
 import ProductList from './components/protected/ProductList';
 import TransactionHistory from './components/protected/TransactionHistory';
 import ProductDetail from './components/protected/ProductDetail';
@@ -22,37 +21,59 @@ import Checkout from './components/protected/Checkout';
 import OrderSummary from './components/protected/OrderSummary';
 import ManageProduct from './components/protected/ManageProduct';
 import Reports from './components/protected/Reports';
-// create an app to render routes
+import PrivateRoute from './components/protected/PrivateRoute';
+import PublicRoute from './components/unprotected/PublicRoute';
+import AdminRoute
+ from './components/protected/AdminRoute';
+import Footer from './components/protected/Footer';
 const App = () => {
-
   return (
+    <BrowserRouter>
+    <Routes>
+    {/* Public Routes */}
+    <Route element={<PublicRoute />}>
+      <Route index element={<SignIn />} />
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/reg_config" element={<RegConfig />} />
+      <Route path="/confirm-email" element={<Confirm />} />
+      <Route path="/forgot" element={<ForgotPassword />} />
+      <Route path="/email_notification" element={<EmailNotification />} />
+    </Route>
 
-   
-        <Routes >
-          <Route index element={<SignIn />} />
-          <Route path='/signin' element={<SignIn />} />
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/reg_config' element={<RegConfig />} />
-          <Route path='/reset' element={<Reset />} />
-          <Route path="/confirm-email" element={<Confirm />} />
-          <Route path='/Dashboard' element={<Dashboard />} />
-          <Route path='/AdminDashboard' element={<AdminDashboard />} />
-          <Route path='/forgot' element={<ForgotPassword />} />
-          <Route path='/forgot' element={<ForgotPassword />} />
-          <Route path='/email_notification' element={<EmailNotification />} />
-          <Route path='/search_product' element={<Search />} />
-          <Route path='/checkout' element={<Checkout />} />
-          <Route path='/order-summary' element={<OrderSummary />} />
-          <Route path='/adminProduct' element={<ManageProduct />} />
-          {/* <Route path='/Filter' element={<Filter />} /> */}
-          <Route path='/history' element={<TransactionHistory />} />
-          <Route path='*' element={<NotFound />} />
-          <Route path='/' exact element={<ProductList />} />
-          <Route path='/product/:id' element={<ProductDetail />} />
-          <Route path='/Reports' element={<Reports />} />
-        </Routes>
+      {/* Protected Routes */}
+      <Route element={<PrivateRoute />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/reset" element={<Reset />} />
+        <Route path="/search_product" element={<Search />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order-summary" element={<OrderSummary />} />
+        <Route path="/history" element={<TransactionHistory />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/product_list" element={<ProductList />} />
+      </Route>
 
-  )
+      {/* Admin Routes */}
+      <Route element={<AdminRoute />}>
+        <Route path="/admin_dashboard" element={<AdminDashboard />} />
+        <Route path="/admin_product" element={<ManageProduct />} />
+      </Route>
+
+      {/* Wildcard Route */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+    <div>
+      <ConditionalFooter/>
+    </div>
+    </BrowserRouter>
+  );
+};
+
+const ConditionalFooter=()=>{
+  const location=useLocation();
+  const showFooter=['/order-summary','/admin_product','/history','/checkout','/reports'].includes(location.pathname);
+  return showFooter ? <Footer/>: null ;
 }
 
-export default App
+export default App;

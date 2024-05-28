@@ -16,7 +16,7 @@ const products = require("./routes/productRoutes.js");
 const searchs = require("./routes/searchs.js")
 
 // internal dependencies: to establish connection to database
-const connectDB = require("./server.js");
+const connectDB = require("./services/databaseService.js");
 
 // create an Express application
 const app = express();

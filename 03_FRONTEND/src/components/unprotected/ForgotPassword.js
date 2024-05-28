@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchDataUnprotected } from "../../utilities/apputils";
 
+
 // internal dependencies
 import { validateEmail } from "../../utilities/validators";
 
@@ -13,6 +14,7 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  
 
   /** This is a helper function to clear all the errors on the UI screen
    */
@@ -51,7 +53,6 @@ const ForgotPassword = () => {
 
     // Validate form fields
     if (!validateForm()) {
-      console.log("form validation fails.");
       return;
     }
 
@@ -59,18 +60,16 @@ const ForgotPassword = () => {
 
     try {
       const method = "post";
-      const response = await fetchDataUnprotected(
+      await fetchDataUnprotected(
         method,
         `users/forget-password`,
         { email: email }
       );
       // Reset Password link Sent successfull
-      console.log(response);
       alert("Reset Link sent successfully, Please check you mail");
     } catch (error) {
       let response = error.response;
       if (response) {
-        console.log(response.status);
 
         if (response.status === 422) {
           // 422 when validation failure happens,

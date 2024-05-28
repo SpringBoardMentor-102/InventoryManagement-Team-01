@@ -5,9 +5,8 @@ import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
 
 // FilterComponent functional component
-const FilterComponent = ({ handleFilter, getCategory }) => {
+const FilterComponent = ({ getCategory }) => {
   // State variables using useState hook
-  const [selectedOption, setSelectedOption] = useState('');
   const [categories, setCategories] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -90,11 +89,11 @@ const FilterComponent = ({ handleFilter, getCategory }) => {
       {showDropdown && (
         <div className='filter' >
           
-          <div> Select Filter</div>
-          <select style={{
+          {/* <div> Select Filter</div> */}
+            <label >Select Price</label>
+          <select  style={{
             backgroundColor: "#f5f5f5"
           }} value={selectedFilterOption.price} onChange={(event) => handleFilterOptionChange("price", event)}>
-            <lable >Select Price</lable>
             <optgroup label="price"
 
             >
@@ -107,7 +106,7 @@ const FilterComponent = ({ handleFilter, getCategory }) => {
               <option value={100000}>less than 100000</option>
             </optgroup>
           </select>
-          <lable >Select Category</lable>
+          <label >Select Category</label>
 
           <select style={{
             backgroundColor: "#f5f5f5"
@@ -121,7 +120,7 @@ const FilterComponent = ({ handleFilter, getCategory }) => {
 
             </optgroup>
           </select>
-          <lable >Select Availablity</lable>
+          <label >Select Availablity</label>
           <select style={{
             backgroundColor: "#f5f5f5"
           }} value={selectedFilterOption.availablity} onChange={(event) => handleFilterOptionChange("availablity", event)}>

@@ -1,126 +1,109 @@
 const express = require('express');
-const router = express.Router();
 const Checkout = require('../model/checkout');
 const Product = require('../model/productModel');
-const Transaction = require('../model/transactionModel');
 const { isValidObjectId } = require("mongoose");
 
 class checkoutController {
   // Create Checkout
   static async addCheckout(req, res) {
     try {
-      const { user_id, payment_status, total_amount, payment_method, shipping_address, products } = req.body;
+        // Destructure user_id and cart from the request body
+        const { user_id, cart } = req.body;
 
-      if (!isValidObjectId(user_id)) {
-        return res.status(400).json({ errors: "Invalid User ID" });
-      }
+        // Parse the cart string into an array
+        const carts = JSON.parse(cart);
 
-      // Validate required fields
-      if (!user_id || !payment_status || !total_amount || !payment_method || !shipping_address || !products) {
-        return res.status(400).json({ errors: "All fields are required" });
-      }
+        let session = false;
 
-      // Validate payment_status
-      if (typeof payment_status !== 'number' || ![0, 1, 2].includes(payment_status)) {
-        return res.status(400).json({ errors: "Invalid payment_status" });
-      }
-
-      // Validate total_amount
-      if (typeof total_amount !== 'number' || total_amount <= 0) {
-        return res.status(400).json({ errors: "Invalid total_amount" });
-      }
-
-      // Validate payment_method
-      if (typeof payment_method !== 'string' || !['credit_card', 'paypal', 'cash_on_delivery'].includes(payment_method)) {
-        return res.status(400).json({ errors: "Invalid payment_method" });
-      }
-
-      // Validate shipping_address
-      if (typeof shipping_address !== 'string' || shipping_address.trim() === '') {
-        return res.status(400).json({ errors: "Invalid shipping_address" });
-      }
-
-      // Check product quantities
-      for (const product of products) {
-        const dbProduct = await Product.findById(product._id);
-        if (!dbProduct || dbProduct.quantity < product.quantity) {
-          return res.status(400).json({ errors: `Product ${product._id} has insufficient quantity` });
+        // Validate user_id format
+        if (!isValidObjectId(user_id)) {
+            return res.status(403).json({ errors: "Invalid User ID" });
         }
 
-        if (dbProduct.quantity < 3) {
-          return res.status(400).json({ errors: `Product ${product._id} has lesser quantity than 3` });
+        // Validate required fields
+        if (!user_id || !cart) {
+            return res.status(403).json({ errors: "All fields are required" });
         }
-      }
 
-      // Create a new Checkout instance
-      const newCheckout = new Checkout({
-        user_id,
-        payment_status,
-        total_amount,
-        payment_method,
-        shipping_address,
-        products
-      });
+        // Check product quantities and create checkout records
+        for (const product of carts) {
+            const dbProduct = await Product.findById(product.product._id);
+            // Check if product exists and has sufficient quantity
+            if (!dbProduct || dbProduct.quantity < product.quantity) {
+                return res.status(404).json({ errors: `Product ${product.product.name} has insufficient quantity` });
+            }
+            try {
+                // Create checkout record
+                await Checkout.create({
+                    user_id: user_id,
+                    product: product.product._id,
+                    quantity: product.quantity,
+                    price: (product.product.price * product.quantity)
+                });
 
-      // Save the new checkout to MongoDB Atlas
-      const savedCheckout = await newCheckout.save();
+                // Update product quantity
+                await Product.findByIdAndUpdate(product.product._id, {
+                    $inc: { quantity: -product.quantity }
+                });
 
-      // Create transactions and update product quantities
-      for (const product of products) {
-        await Transaction.create({
-          checkout_id: savedCheckout._id,
-          item_id: product._id,
-          quantity: product.quantity,
-          amount: product.price * product.quantity
-        });
+                session = true;
+            } catch (error) {
+                console.log(error);
+                session = false;
+            }
+        }
 
-        await Product.findByIdAndUpdate(product._id, {
-          $inc: { quantity: -product.quantity }
-        });
-      }
-
-      res.status(201).json(savedCheckout);
+        // Return appropriate response based on session status
+        if (session) {
+            return res.status(201).json({ message: "Checkout done successfully" });
+        }
+        return res.status(500).json({ errors: 'Server error' });
     } catch (error) {
-      if (error.code === 11000 && error.keyPattern && error.keyPattern.uuid) {
-        return res.status(400).json({ errors: 'ID already exists' });
-      }
-      console.error(error.message);
-      res.status(500).json({ errors: 'Server error' });
+        // Return a 500 error if an unexpected error occurs
+        return res.status(500).json({ errors: 'Internal Server Error' });
     }
-  }
+}
+
 
   // Get all Checkouts
   static async getCheckouts(req, res) {
     try {
-      const checkouts = await Checkout.find().populate('products._id');
+        // Fetch all checkouts from the database and populate the 'product' and 'user_id' fields
+        const checkouts = await Checkout.find().populate('product').populate('user_id');
 
-      if (checkouts.length === 0) {
-        return res.status(404).json({ errors: 'No checkouts found' });
-      }
+        // If no checkouts are found, return a 404 error
+        if (checkouts.length === 0) {
+            return res.status(404).json({ errors: 'No checkouts found' });
+        }
 
-      res.json(checkouts);
+        // Return the list of checkouts with a 201 status code
+        return res.status(201).json(checkouts);
     } catch (error) {
-      console.error(error.message);
-      res.status(500).json({ msg: 'Server error' });
+        // If an error occurs during the operation, log the error and return a 500 status code
+        console.error(error.message);
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
-  }
+}
+
 
   // Get checkout by User ID
   static async getCheckoutByUserId(req, res) {
     try {
-      const userId = req.query.user_id;
+      const userId = req.params.user_id;
+      console.log(userId)
 
       if (!userId) {
         return res.status(400).json({ errors: 'User ID is required' });
       }
 
-      const checkout = await Checkout.findOne({ user_id: userId }).populate('products._id');
+      const checkout = await Checkout.find({ user_id: userId }).populate('product').populate('user_id').populate('imageUrl');
+
 
       if (!checkout) {
         return res.status(404).json({ errors: 'Checkout not found' });
       }
 
-      res.json(checkout);
+      return res.status(201).json(checkout);
     } catch (error) {
       console.error(error.message);
       res.status(500).json({ errors: 'Server error' });

@@ -2,14 +2,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchDataUnprotected } from "../../utilities/apputils";
-import { jwtDecode } from "jwt-decode";
-import LoadingSpinner from './Loader';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';import LoadingSpinner from './Loader';
 
 // Internal dependencies
 import { validateEmail, validatePassword } from "../../utilities/validators";
-
-// getting the path from environment variable
-// const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 /** React component, representing the Sign-in view of the application
  */
@@ -22,7 +19,7 @@ function SignIn() {
   const [passwordError, setPasswordError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [passwordType, setPasswordType] = useState('password');
   /** This is a helper function to clear all the errors on the UI screen
    */
   const clearErrors = () => {
@@ -68,12 +65,10 @@ function SignIn() {
 
     // Validate form fields
     if (!validateForm()) {
-      console.log("form validation fails.");
       return;
     }
 
     setLoading(true);
-    console.log("making a call..");
     // validation was successful, attempting to make a call to the backend
 
     try {
@@ -82,7 +77,6 @@ function SignIn() {
         email: email,
         password: password,
       });
-      console.log("Login Successful");
       // Store token and user data in localStorage
       const { token, user } = response.data;
       localStorage.setItem("token", token);
@@ -95,13 +89,11 @@ function SignIn() {
       if (role === 0) {
         navigate("/dashboard", { replace: true });
       } else if (role === 1) {
-        navigate("/AdminDashboard", { replace: true });
+        navigate("/admin_dashboard", { replace: true });
       }
     } catch (error) {
-      console.log(error,"error from catch ");
       let response = error.response;
       if (response) {
-        console.log(response.status);
         if (response.status === 422) {
           console.error("Validation failure: ", response.data.errors);
           setErrorMessage("Validation failure: ", response.data.errors);
@@ -145,7 +137,7 @@ function SignIn() {
           <LoadingSpinner />
         ) : (
         <form id="form" action="/">
-          <div style={{ fontSize: "12px", color: "red" }}>{errorMessage}</div>
+          <div >{errorMessage}</div>
           <div className="input-control">
             <label htmlFor="email">Email</label>
             <input
@@ -160,15 +152,19 @@ function SignIn() {
               {emailError}
             </div>
           </div>
-          <div className="input-control">
+          <div className="input-control-password" >
             <label htmlFor="password">Password</label>
             <input
               id="password"
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              type="password"
+              type={passwordType}
             />
+            <span className="eye-icon-signIn"
+              onClick={() => setPasswordType(passwordType === 'password' ? 'text' : 'password')}>
+              <FontAwesomeIcon icon={passwordType === 'password' ? faEyeSlash : faEye} />
+            </span>
             <div id="passwordError" className="error_sign_up">
               {passwordError}
             </div>
@@ -177,7 +173,7 @@ function SignIn() {
           <button type="submit" onClick={onLogin}>
             Sign In
           </button>
-          <div className="links" style={{ clear: "both", textAlign: "center" }}>
+          <div className="links">
             <Link to="/signup">Sign Up</Link>
             <Link to="/forgot">Forgot password</Link>
           </div>

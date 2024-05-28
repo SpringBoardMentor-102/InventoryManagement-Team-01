@@ -6,7 +6,6 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const fetchDataUnprotected = async (method, endpoint, body) => {
   try {
     const response = await axios[method](`${BACKEND_URL}/${endpoint}`, body);
-    // console.log(response);
     return response;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -18,7 +17,6 @@ const fetchDataUnprotected = async (method, endpoint, body) => {
 const fetchData = async (method, endpoint, body) => {
   const token = localStorage.getItem("token");
 
-  // console.log("test me =====",body,token);
   try {
     // const response = await axios[method](`${BACKEND_URL}/${endpoint}`, body, {
     //   headers: {
@@ -41,7 +39,6 @@ const fetchData = async (method, endpoint, body) => {
         },
       });
     }
-    // console.log(response);
     return response;
   } catch (error) {
     console.error("Error fetching data:", error);

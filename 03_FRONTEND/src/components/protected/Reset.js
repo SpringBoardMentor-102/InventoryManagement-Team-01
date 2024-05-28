@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchDataUnprotected } from "../../utilities/apputils";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 //internal dependencies
 import {
   validateConfirmPassword,
@@ -17,6 +18,8 @@ const Reset = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [passwordType, setPasswordType] = useState('password');
+  const [confirmPasswordType, setConfirmPasswordType] = useState('password');
 
   const clearErrors = () => {
     setPasswordError("");
@@ -43,15 +46,13 @@ const Reset = () => {
   const handleReset = async (event) => {
     event.preventDefault();
     if (!validateForm()) {
-      console.log("form validation fails.");
       return;
     }
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
-    console.log(token);
 
     try {
-      const response = await fetchDataUnprotected(
+      await fetchDataUnprotected(
         "post",
         "users/reset-password",
         {
@@ -60,14 +61,12 @@ const Reset = () => {
         }
       );
 
-      console.log(response.data);
       alert("Password reset successfully");
       setPasswordResetSuccess(true);
       // navigate("/dashboard");
     } catch (error) {
       let response = error.response;
       if (response) {
-        console.log(response?.status);
         if (response?.status === 422) {
           console.error("Validation failure: ", response.data.errors);
           setErrorMessage("Validation failure: ", response.data.errors);
@@ -107,10 +106,14 @@ const Reset = () => {
             <input
               id="new-password"
               name="New Password"
-              type="password"
+              type={passwordType}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+             <span className="icon-reset" style={{position:"absolute",top:"38%",right:"610px",cursor:"pointer"}}
+             onClick={() => setPasswordType(passwordType === 'password' ? 'text' : 'password')}>
+             <FontAwesomeIcon icon={passwordType === 'password' ? faEyeSlash : faEye} />
+            </span>
             <div id="passwordError" className="error_sign_up">
               {passwordError}
             </div>
@@ -120,10 +123,14 @@ const Reset = () => {
             <input
               id="confirm-password"
               name="Confirm Password"
-              type="password"
+              type={confirmPasswordType}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
+             <span className="icon-reset-confirm" style={{position:"absolute",top:"48%",right:"610px",cursor:"pointer"}}
+             onClick={() => setConfirmPasswordType(confirmPasswordType === 'password' ? 'text' : 'password')}>
+             <FontAwesomeIcon icon={confirmPasswordType === 'password' ? faEyeSlash : faEye} />
+             </span>
             <div id="confirmPasswordError" className="error_sign_up">
               {confirmPasswordError}
             </div>
