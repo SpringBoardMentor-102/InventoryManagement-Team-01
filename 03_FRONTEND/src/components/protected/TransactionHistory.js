@@ -20,7 +20,7 @@ function TransactionHistory() {
 
     useEffect(() => {
         const role = JSON.parse(localStorage.getItem("user")).role;
-        if(role === 1) {
+        if (role === 1) {
             async function fetchAllTransactions() {
                 try {
                     const response = await fetchData("get", `checkout/getCheckouts`);
@@ -95,15 +95,19 @@ function TransactionHistory() {
                                     <tr key={transaction._id}>
                                         <td>{transaction._id}</td>
                                         <td>
-                                            <img
-                                                src={transaction.product.imageUrl}
-                                                alt={transaction.product.name}
-                                                className="product-image"
-                                                style={{ width: '50px', height: '50px' }}
-                                            />
+                                            {transaction.product && transaction.product.imageUrl ? (
+                                                <img
+                                                    src={transaction.product.imageUrl}
+                                                    alt={transaction.product.name}
+                                                    className="product-image"
+                                                    style={{ width: '50px', height: '50px' }}
+                                                />
+                                            ) : (
+                                                'No image available'
+                                            )}
                                         </td>
-                                        <td>{transaction.user_id.firstName + " " + transaction.user_id.lastName}</td>
-                                        <td>{transaction.product.name}</td>
+                                        <td>{transaction.user_id ? `${transaction.user_id.firstName} ${transaction.user_id.lastName}` : 'No customer name'}</td>
+                                        <td>{transaction.product ? transaction.product.name : 'No product name'}</td>
                                         <td>{transaction.quantity}</td>
                                         <td>{new Date(transaction.date_of_creation).toLocaleDateString()}</td>
                                         <td>{new Date(transaction.date_of_creation).toLocaleTimeString()}</td>
@@ -114,7 +118,7 @@ function TransactionHistory() {
                     )}
                     <ul className="pagination">
                         <li className={currentPage === 1 ? 'disabled' : ''}>
-                            <button className="arrow" onClick={() => setCurrentPage(currentPage - 1)}>Back</button>
+                            <button className="arrow" onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Back</button>
                         </li>
                         {pageNumbers.map(number => (
                             <li key={number} className={currentPage === number ? 'active' : ''}>
@@ -122,7 +126,7 @@ function TransactionHistory() {
                             </li>
                         ))}
                         <li className={currentPage === pageNumbers.length ? 'disabled' : ''}>
-                            <button className="arrow" onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
+                            <button className="arrow" onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === pageNumbers.length}>Next</button>
                         </li>
                     </ul>
                 </div>
