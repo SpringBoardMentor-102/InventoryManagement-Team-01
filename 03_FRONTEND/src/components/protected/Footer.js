@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom'
 const Footer = () => {
   return (
     <footer>
-<div class="footer">
-<div class="row">
+<div className="footer">
+<div className="row">
 <Link to="#"><FontAwesomeIcon icon={faFacebook} size='2x'/></Link>
  <Link to="#"><FontAwesomeIcon icon={faInstagram} size='2x'/></Link>
 <Link to="#"><FontAwesomeIcon icon={faTwitter} size='2x'/></Link>
@@ -15,7 +15,7 @@ const Footer = () => {
 
 </div>
 
-<div class="row">
+<div className="row">
 <ul>
 <li><Link to='#' >Contact us</Link></li>
 <li><Link to='#' >Our Services</Link></li>
@@ -26,8 +26,8 @@ const Footer = () => {
 </ul>
 </div>
 
-<div class="row">
-INFO SYS Copyright © 2021 INFO SYS - All rights reserved || Designed By: InventoryMangement Team || Guided By: Puran Kalapala 
+<div className="row">
+INFO SYS Copyright © 2021 INFO SYS - All rights reserved || Designed By: InventoryMangement Team
 </div>
 </div>
 </footer>

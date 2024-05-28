@@ -218,7 +218,7 @@ const SignUp = () => {
   return (
     <div className="container_sign_up">
       <h2>Sign Up</h2>
-      <form id="signupForm" action="/register" onSubmit={signUp}>
+      <form id="signupForm" action="/register" onSubmit={signUp} noValidate>
         <div style={{ fontSize: "12px", color: "red" }}>{errorMessage}</div>
         <input
           type="text"

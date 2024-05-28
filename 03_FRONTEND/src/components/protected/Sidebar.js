@@ -70,10 +70,7 @@ const Sidebar = () => {
           </Link>
         )}
         {admin ? (
-          <Link to="/help" className={activeLink === '/help' ? "active" : ""}>
-            <span className="material-icons-sharp">manage_accounts</span>
-            <h3>Help Center</h3>
-          </Link>
+          ""
         ) : (
           <Link to="/reports" className={activeLink === '/reports' ? "active" : ""}>
             <span className="material-icons-sharp">summarize</span>

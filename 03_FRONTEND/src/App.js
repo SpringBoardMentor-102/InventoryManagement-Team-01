@@ -72,7 +72,7 @@ const App = () => {
 
 const ConditionalFooter=()=>{
   const location=useLocation();
-  const showFooter=['/order-summary','/admin_product','/history','/checkout'].includes(location.pathname);
+  const showFooter=['/order-summary','/admin_product','/history','/checkout','/reports'].includes(location.pathname);
   return showFooter ? <Footer/>: null ;
 }
 

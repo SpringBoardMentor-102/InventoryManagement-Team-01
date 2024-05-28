@@ -188,7 +188,7 @@ const ManageProduct = () => {
             <div id="errorMessage" className="error_sign_up">
               {errorMessage}
             </div>
-            <form onSubmit={createProduct}>
+            <form onSubmit={createProduct} noValidate>
               <div className="div_of_input_element">
                 <label className="label_price">Name:</label>
                 <input
@@ -283,6 +283,7 @@ const ManageProduct = () => {
               <div className="div_of_input_element">
                 <label className="label_price">Product Image:</label>
                 <input
+                className="url"
                   type="text"
                   value={productImage}
                   placeholder=" Product Image URL"
@@ -293,7 +294,7 @@ const ManageProduct = () => {
               <div id="productImageError" className="error_sign_up">
                 {productImageError}
               </div>
-              <button type="submit">Add Product</button>
+              <button className="add_product_btn" type="submit">Add Product</button>
             </form>
           </div>
         </div>

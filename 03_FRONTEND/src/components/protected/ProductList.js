@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
-import { fetchData } from "../../utilities/apputils";
-import ManageProduct from "./ManageProduct";
+// import { fetchData } from "../../utilities/apputils";
 import Footer from "./Footer";
 
 const ProductList = ({ products, error, loading }) => {
@@ -28,7 +27,7 @@ const ProductList = ({ products, error, loading }) => {
   if (error) {
     return <div>Error :{error}</div>;
   }
-  if(products.length==0){
+  if(products.length ===0){
     return<div>No Products Found</div>
   }
 
