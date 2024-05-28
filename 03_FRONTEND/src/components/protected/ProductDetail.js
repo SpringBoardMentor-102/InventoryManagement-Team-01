@@ -16,6 +16,8 @@ const ProductDetail = () => {
   //intializing the component state
   const [cartQuantity, setCartQuantity] = useState(1);
   const [product, setProduct] = useState([]);
+  const [storeQuantity, setStoreQuantity] = useState(1);
+  const [showStoreModal, setShowStoreModal] = useState(false);
 
   // helper function to capitalize the first capitalizeFirstLetter,for better presentation
   const capitalizeFirstLetter = (text = "abc") => {
@@ -97,7 +99,24 @@ const ProductDetail = () => {
   }
 
   const handleAddToStore = (productData) => {
+       setShowStoreModal(true);
+  }
 
+  const handleStoreSubmit = async () => {
+    try {
+      const response = await fetchData("put", `product/updateProduct/${product._id}`, {
+        quantity: product.quantity + storeQuantity
+      });
+      if (response !== null) {
+        setProduct(response.data);
+        setShowStoreModal(false);
+        alert("Product quantity updated successfully.");
+      } else {
+        console.error("error", "UnAuthorized");
+      }
+    } catch (error) {
+      console.error("error", error);
+    }
   }
 
   const handleRemoveFromCart = (productData) => {
@@ -176,6 +195,23 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
+      {showStoreModal && (
+    <div className="modal">
+    <div className="modal-contents">
+      <h2>Add Quantity to Store</h2>
+      <input 
+        type="number" 
+        value={storeQuantity} 
+        onChange={(e) => setStoreQuantity(Math.max(1, e.target.value))}
+        min="1"
+      />
+      <div className="modal-buttons">
+        <button onClick={handleStoreSubmit} className="add-button">Add</button>
+        <button onClick={() => setShowStoreModal(false)} className="cancel-button">Cancel</button>
+      </div>
+    </div>
+  </div>
+)}
     </>
   );
 };
