@@ -1113,7 +1113,7 @@ table th {
 
 .product-name {
   font-size: 2.2em;
-  letter-spacing: 11.5px;
+  letter-spacing: 0.5px;
   top: 0px;
 }
 
@@ -1130,7 +1130,7 @@ table th {
   font-size: 15px;
   display: flex;
   float: right;
-  padding-right: 516px;
+  padding-right: 50px;
   margin-top: 24px;
   border: none;
   color: black;
