@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchDataUnprotected } from "../../utilities/apputils";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';import LoadingSpinner from './Loader';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; import LoadingSpinner from './Loader';
 
 // Internal dependencies
 import { validateEmail, validatePassword } from "../../utilities/validators";
@@ -111,7 +111,6 @@ function SignIn() {
           setErrorMessage("Internal Server Error");
         }
       } else {
-        console.log("Backend not working");
         setErrorMessage("Internal Server Error");
       }
     }
@@ -122,63 +121,55 @@ function SignIn() {
 
   return (
     <>
-      <nav className="navbar">
-        <div className="navbar-toggle" id="themeToggle">
-          <div className="toggle-icon">
-            <ion-icon name="toggle"></ion-icon>
-          </div>
-        </div>
-      </nav>
-
       <div className="container">
         <h1>Sign In</h1>
         <p>Explore this app as a test user:</p>
         {loading ? ( // Show loader if loading state is true
           <LoadingSpinner />
         ) : (
-        <form id="form" action="/">
-          <div >{errorMessage}</div>
-          <div className="input-control">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="on"
-            />
-            <div id="emailError" className="error_sign_up">
-              {emailError}
+          <form id="form" action="/">
+            <div >{errorMessage}</div>
+            <div className="input-control">
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="on"
+              />
+              <div id="emailError" className="error_sign_up">
+                {emailError}
+              </div>
             </div>
-          </div>
-          <div className="input-control-password" >
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type={passwordType}
-            />
-            <span className="eye-icon-signIn"
-              onClick={() => setPasswordType(passwordType === 'password' ? 'text' : 'password')}>
-              <FontAwesomeIcon icon={passwordType === 'password' ? faEyeSlash : faEye} />
-            </span>
-            <div id="passwordError" className="error_sign_up">
-              {passwordError}
+            <div className="input-control-password" >
+              <label htmlFor="password">Password</label>
+              <input
+                id="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type={passwordType}
+              />
+              <span className="eye-icon-signIn"
+                onClick={() => setPasswordType(passwordType === 'password' ? 'text' : 'password')}>
+                <FontAwesomeIcon icon={passwordType === 'password' ? faEyeSlash : faEye} />
+              </span>
+              <div id="passwordError" className="error_sign_up">
+                {passwordError}
+              </div>
             </div>
-          </div>
 
-          <button type="submit" onClick={onLogin}>
-            Sign In
-          </button>
-          <div className="links">
-            <Link to="/signup">Sign Up</Link>
-            <Link to="/forgot">Forgot password</Link>
-          </div>
-        </form>
-          )}
+            <button type="submit" onClick={onLogin}>
+              Sign In
+            </button>
+            <div className="links">
+              <Link to="/signup">Sign Up</Link>
+              <Link to="/forgot">Forgot password</Link>
+            </div>
+          </form>
+        )}
       </div>
     </>
   );

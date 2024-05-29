@@ -63,7 +63,7 @@ const ProductDetail = () => {
 
   const handleAddToCart = (productData) => {
     // Add the selected product to the list of selected products
-     if (cartQuantity <= 0) {
+    if (cartQuantity <= 0) {
       alert("Quantity must be greater than 0 for adding to cart");
       return;
     }
@@ -105,7 +105,7 @@ const ProductDetail = () => {
   }
 
   const handleAddToStore = (productData) => {
-       setShowStoreModal(true);
+    setShowStoreModal(true);
   }
 
   const handleStoreSubmit = async () => {
@@ -138,7 +138,7 @@ const ProductDetail = () => {
       let newQuantity = 0
       if (originalQuantity > cartQuantity) {
         newQuantity = originalQuantity - cartQuantity
-        existsCartProduct.push({product: productData, quantity: newQuantity})
+        existsCartProduct.push({ product: productData, quantity: newQuantity })
         localStorage.setItem('cart', JSON.stringify(existsCartProduct));
       } else {
         localStorage.setItem('cart', JSON.stringify(existsCartProduct));
@@ -194,34 +194,31 @@ const ProductDetail = () => {
               Delete from store
             </button>)}
           </div>
+
           <div className="change-button">
-            <button onClick={setDecrease} className="minus">
-              -
-            </button>
-            <button className="value">{cartQuantity}</button>
-            <button onClick={setIncrease} className="plus">
-              +
-            </button>
+            {admin ? (<><button onClick={setDecrease} className="minus">-</button>
+              <button className="value">{cartQuantity}</button>
+              <button onClick={setIncrease} className="plus">+</button></>) : (null)}
           </div>
         </div>
       </div>
       {showStoreModal && (
-    <div className="modal">
-    <div className="modal-contents">
-      <h2>Add Quantity to Store</h2>
-      <input 
-        type="number" 
-        value={storeQuantity} 
-        onChange={(e) => setStoreQuantity(Math.max(1, e.target.value))}
-        min="1"
-      />
-      <div className="modal-buttons">
-        <button onClick={handleStoreSubmit} className="add-button">Add</button>
-        <button onClick={() => setShowStoreModal(false)} className="cancel-button">Cancel</button>
-      </div>
-    </div>
-  </div>
-)}
+        <div className="modal">
+          <div className="modal-contents">
+            <h2>Add Quantity to Store</h2>
+            <input
+              type="number"
+              value={storeQuantity}
+              onChange={(e) => setStoreQuantity(Math.max(1, e.target.value))}
+              min="1"
+            />
+            <div className="modal-buttons">
+              <button onClick={handleStoreSubmit} className="add-button">Add</button>
+              <button onClick={() => setShowStoreModal(false)} className="cancel-button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

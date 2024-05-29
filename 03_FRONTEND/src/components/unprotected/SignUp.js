@@ -342,11 +342,6 @@ const SignUp = () => {
           <p>
             Already registered?<Link to="/signin"> Sign In</Link>
           </p>
-          <p>
-            <button onClick={openGooglePopup} type="button">
-              Login with Google
-            </button>
-          </p>
         </div>
       </form>
           )}

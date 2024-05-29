@@ -168,7 +168,6 @@ const ManageProduct = () => {
           setErrorMessage("CRAZY STUFF", response.data.errors);
         }
       } else {
-        console.log("Backend not working");
         setErrorMessage("Internal Server Error");
       }
     }

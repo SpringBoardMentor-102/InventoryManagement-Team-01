@@ -20,13 +20,11 @@ const ProductList = ({ products, error, loading }) => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
     setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
-    console.log("products", products, indexOfFirstItem, indexOfLastItem);
     const arr = [];
     for (let i = 1; i <= Math.ceil(products.length / itemsPerPage); i++) {
       arr.push(i);
     }
     setPageNumbers([...arr])
-    console.log("pagenumber", pageNumbers);
   }, [products]);
 
   useEffect(() => {
@@ -36,7 +34,6 @@ const ProductList = ({ products, error, loading }) => {
     // const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
 
     setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
-    console.log("products", products, indexOfFirstItem, indexOfLastItem);
 
 
     const arr = [];
