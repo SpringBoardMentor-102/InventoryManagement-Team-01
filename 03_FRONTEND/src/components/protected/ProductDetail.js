@@ -63,6 +63,11 @@ const ProductDetail = () => {
 
   const handleAddToCart = (productData) => {
     // Add the selected product to the list of selected products
+     if (cartQuantity <= 0) {
+      alert("Quantity must be greater than 0 for adding to cart");
+      return;
+    }
+
     if (productData.quantity <= 0) {
       alert("This product is out of stock and cannot be added to the cart.");
       return;
@@ -83,6 +88,7 @@ const ProductDetail = () => {
 
     // Save the updated cart back to localStorage 
     localStorage.setItem('cart', JSON.stringify(cart));
+    alert("Added to cart successfully.");
   };
 
   const handleDelete = async (productID) => {
@@ -139,12 +145,15 @@ const ProductDetail = () => {
       }
     } else {
       // user is trying to remove from cart an item which is not in the cart
-      // TODO: notify that this item is no in the cart
-      // disable the remove from cart button, if this item is not in the cart
+      alert('This item is not in the cart. So it cannot be Removed');
+
+      const removeButton = document.querySelector(`#remove-button-${productData._id}`);
+      if (removeButton) {
+        removeButton.disabled = true;
+      }
       // do nothing, becuase, this item cannot be removed from the cart
 
     }
-    navigate("/checkout");
 
   };
 
