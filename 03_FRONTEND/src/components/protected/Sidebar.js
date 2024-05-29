@@ -70,7 +70,7 @@ const Sidebar = () => {
           </Link>
         )}
         <Link to="/Faq" className={activeLink === "/Faq" ? "active" : ""}>
-         <span className="material-icons-sharp">Faq</span>
+         <span className="material-icons-sharp">help</span>
          <h3>Faq</h3>
         </Link>
         {admin ? (
