@@ -11,6 +11,7 @@ import Dashboard from './components/protected/Dashboard';
 import AdminDashboard from './components/protected/AdminDashboard';
 import ForgotPassword from './components/unprotected/ForgotPassword';
 import EmailNotification from './components/unprotected/EmailNotification';
+import Faq from './components/protected/Faq';
 import NotFound from './components/unprotected/NotFound';
 import RegConfig from './components/unprotected/RegConfig';
 import Search from './components/protected/Search';
@@ -52,6 +53,7 @@ const App = () => {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/product_list" element={<ProductList />} />
+        <Route path="/Faq" element={<Faq />} />
       </Route>
 
       {/* Admin Routes */}
@@ -72,7 +74,7 @@ const App = () => {
 
 const ConditionalFooter=()=>{
   const location=useLocation();
-  const showFooter=['/order-summary','/admin_product','/history','/checkout','/reports'].includes(location.pathname);
+  const showFooter=['/order-summary','/admin_product','/history','/checkout','/reports','/Faq'].includes(location.pathname);
   return showFooter ? <Footer/>: null ;
 }
 

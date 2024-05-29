@@ -69,6 +69,10 @@ const Sidebar = () => {
             <h3>Add Product</h3>
           </Link>
         )}
+        <Link to="/Faq" className={activeLink === "/Faq" ? "active" : ""}>
+         <span className="material-icons-sharp">Faq</span>
+         <h3>Faq</h3>
+        </Link>
         {admin ? (
           ""
         ) : (
