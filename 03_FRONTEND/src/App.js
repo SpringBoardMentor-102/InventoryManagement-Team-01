@@ -4,7 +4,7 @@ import { Routes, Route, useLocation, BrowserRouter } from 'react-router-dom';
 
 // Internal Component Imports
 import SignIn from './components/unprotected/SignIn';
-import Reset from './components/protected/Reset';
+import Reset from './components/unprotected/Reset';
 import Confirm from './components/unprotected/Confirm';
 import SignUp from './components/unprotected/SignUp';
 import Dashboard from './components/protected/Dashboard';
@@ -39,12 +39,12 @@ const App = () => {
       <Route path="/confirm-email" element={<Confirm />} />
       <Route path="/forgot" element={<ForgotPassword />} />
       <Route path="/email_notification" element={<EmailNotification />} />
+        <Route path="/reset" element={<Reset />} />
     </Route>
 
       {/* Protected Routes */}
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/reset" element={<Reset />} />
         <Route path="/search_product" element={<Search />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-summary" element={<OrderSummary />} />
