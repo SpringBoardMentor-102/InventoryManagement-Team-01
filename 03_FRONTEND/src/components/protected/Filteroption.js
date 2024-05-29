@@ -18,7 +18,10 @@ const FilterComponent = ({ getCategory }) => {
 
     }
   );
+  // getting the role value 
+  const role = JSON.parse(localStorage.getItem("user")).role;
 
+  const admin = role ? false : true;
 
   // useEffect hook to fetch categories when component mounts
   useEffect(() => {
@@ -107,7 +110,6 @@ const FilterComponent = ({ getCategory }) => {
             </optgroup>
           </select>
           <label >Select Category</label>
-
           <select style={{
             backgroundColor: "#f5f5f5"
           }} value={selectedFilterOption.category} onChange={(event) => handleFilterOptionChange("category", event)}>
@@ -120,7 +122,8 @@ const FilterComponent = ({ getCategory }) => {
 
             </optgroup>
           </select>
-          <label >Select Availablity</label>
+
+          {admin ? (null) : (<><label >Select Availablity</label>
           <select style={{
             backgroundColor: "#f5f5f5"
           }} value={selectedFilterOption.availablity} onChange={(event) => handleFilterOptionChange("availablity", event)}>
@@ -129,9 +132,8 @@ const FilterComponent = ({ getCategory }) => {
               <option value="">All</option>
               <option value="available">Available</option>
               <option value="out_of_stock">Out of Stock</option>
-            </optgroup>
-          </select>
-
+            </optgroup>            
+          </select></>)}
         </div>
       )}
     </div>
