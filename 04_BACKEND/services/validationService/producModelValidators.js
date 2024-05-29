@@ -1,19 +1,22 @@
-const PN_REQUIRED = "FN_REQUIRED";
-const PN_INVALID_CHARACTERS = "FN_INVALID_CHARACTERS";
-const PN_INVALID_LENGTH = "FN_INVALID_LENGTH";
+const PN_REQUIRED = "PN_REQUIRED";
+const PN_INVALID_CHARACTERS = "PN_INVALID_CHARACTERS";
+const PN_INVALID_LENGTH = "PN_INVALID_LENGTH";
 
 const DESCRIPTION_REQUIRED = "DESCRIPTION_REQUIRED";
 const DESCRIPTION_INVALID_LENGTH = "DESCRIPTION_INVALID_LENGTH";
 
 const PRICE_REQUIRED = "PRICE_REQUIRED";
 const PRICE_INVALID_FORMAT = "PRICE_INVALID_FORMAT";
+const PRICE_NEGATIVE_VALUE= "PRICE_NEGATIVE_VALUE"
 
 const QUANTITY_REQUIRED = "QUANTITY_REQUIRED";
 const QUANTITY_INVALID_FORMAT = "QUANTITY_INVALID_FORMAT";
 
 const STATUS_REQUIRED = "STATUS_REQUIRED";
+const STATUS_INVALID_VALUE= "STATUS_INVALID_VALUE";
 
 const CATEGORY_ID_REQUIRED = "CATEGORY_ID_REQUIRED";
+const CATEGORY_ID_INVALID_FORMAT= "CATEGORY_ID_INVALID_FORMAT";
 
 const IMAGE_URL_REQUIRED = "IMAGE_URL_REQUIRED";
 const IMAGE_URL_INVALID_FORMAT = "IMAGE_URL_INVALID_FORMAT";
@@ -23,7 +26,7 @@ const IMAGE_URL_INVALID_FORMAT = "IMAGE_URL_INVALID_FORMAT";
  * @param {*} name
  * @returns {*} An object with code, message specifying the error, null if no error
  */
-function validateName(name) {
+function validateProductName(name) {
   if (!name || name.trim() === "") {
     return { message: "Product name is required.", code: PN_REQUIRED };
   }
@@ -161,7 +164,7 @@ function validateImageUrl(imageUrl) {
 }
 
 module.exports = {
-  validateName,
+  validateProductName,
   validateDescription,
   validatePrice,
   validateQuantity,

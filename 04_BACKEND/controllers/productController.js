@@ -1,7 +1,7 @@
 const Product = require("../model/productModel");
 const axios = require("axios");
 const {
-  validateName,
+  validateProductName,
   validateDescription,
   validatePrice,
   validateQuantity,
@@ -132,7 +132,7 @@ async function createProduct(req, res) {
   try {
     // Validate the request body fields
     const validationResponses = {
-      nameResponse: validateName(name),
+      nameResponse: validateProductName(name),
       descriptionResponse: validateDescription(description),
       priceResponse: validatePrice(price),
       quantityResponse: validateQuantity(quantity),
