@@ -143,6 +143,7 @@ const ProductDetail = () => {
       } else {
         localStorage.setItem('cart', JSON.stringify(existsCartProduct));
       }
+      alert("Removed from cart Successfully");
     } else {
       // user is trying to remove from cart an item which is not in the cart
       alert('This item is not in the cart. So it cannot be Removed');
