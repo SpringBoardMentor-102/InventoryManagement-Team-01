@@ -261,7 +261,7 @@ const ManageProduct = () => {
                 {prodcutStatusError}
               </div>
               <div className="div_of_input_element">
-                <label className="label_price">Category ID:</label>
+                <label className="label_price">Category:</label>
                 <select
                   className="product_name"
                   value={productCategory}

@@ -55,9 +55,9 @@ async function getAllProducts(req, res) {
     const products = await Product.find().populate(
       "categoryId",
       "categoryName"
-    );
+    ).sort({ updatedAt: -1 });
 
-    // console.log(products);
+    console.log(products);
     // Check if no products were found
     if (products.length === 0) {
       return res.status(404).json({ errors: "No products found" });
