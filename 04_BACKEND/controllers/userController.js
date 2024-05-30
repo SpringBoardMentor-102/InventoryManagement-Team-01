@@ -240,7 +240,7 @@ class userContoller {
     isDebuggingOn ? console.log("Request params recieved email: ", email) : " ";
 
     const validationResponses = validateEmail(email);
-    console.log(validationResponses);
+    // console.log(validationResponses);
     // checking the validation responses
     if (validationResponses !== null) {
       return res.status(422).json({ errors: validationResponses?.message });
@@ -260,7 +260,7 @@ class userContoller {
       user.resetPasswordToken = token;
       user.resetPasswordExpires = Date.now() + 3600000; // Expires in 1 hour
       await user.save();
-      console.log(token);
+      // console.log(token);
 
       // sending reset link to email
       await sendPasswordResetEmail(user.email, token);
@@ -292,7 +292,7 @@ class userContoller {
       : " ";
 
     const validationResponses = validatePassword(newPassword);
-    console.log(validationResponses);
+    // console.log(validationResponses);
     // checking the validation responses
     if (validationResponses !== null) {
       return res.status(422).json({ errors: validationResponses?.message });
@@ -304,7 +304,7 @@ class userContoller {
         resetPasswordToken: token,
         resetPasswordExpires: { $gt: Date.now() },
       });
-      console.log(user);
+      // console.log(user);
 
       // if token not found
       if (!user) {
@@ -348,7 +348,7 @@ class userContoller {
   static async confirmEmail(req, res) {
     console.log("Confirm Email Route Accessed");
     const { token } = req.query; // Extract token from URL query parameters
-    console.log(req.query);
+    // console.log(req.query);
     try {
       // Find user by confirmation token
       const user = await User.findOne({ confirmEmailToken: token });

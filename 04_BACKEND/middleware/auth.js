@@ -4,9 +4,9 @@ const { jwtDecode } = require("jwt-decode");
 const authMiddlewareAdmin = async (req, res, next) => {
   // Taking token from headers
   const authHeader = req.headers.authorization;
-  // console.log("Token is", authHeader);
+
   const role = await jwtDecode(authHeader).user.roles;
-  // console.log(role);
+
 
   // Checking if token is null or undefined also checking the role
   if (authHeader === null || authHeader === undefined || role == 0) {
@@ -16,7 +16,6 @@ const authMiddlewareAdmin = async (req, res, next) => {
     });
   }
 
-  // console.log("Token is", authHeader);
 
   // Splitting token
   const token = authHeader.split(" ")[1];
@@ -38,7 +37,6 @@ const authMiddlewareAdmin = async (req, res, next) => {
 const authMiddleware = (req, res, next) => {
   // Taking token from headers
   const authHeader = req.headers.authorization;
-  // console.log("Token is", authHeader);
 
   // Checking if token is null or undefined
   if (authHeader === null || authHeader === undefined) {
@@ -48,7 +46,7 @@ const authMiddleware = (req, res, next) => {
     });
   }
 
-  // console.log("Token is", authHeader);
+
 
   // Splitting token
   const token = authHeader.split(" ")[1];

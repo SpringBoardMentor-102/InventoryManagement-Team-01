@@ -90,7 +90,6 @@ class checkoutController {
   static async getCheckoutByUserId(req, res) {
     try {
       const userId = req.params.user_id;
-      console.log(userId)
 
       if (!userId) {
         return res.status(400).json({ errors: 'User ID is required' });

@@ -17,47 +17,12 @@ const { isValidObjectId } = require("mongoose");
  */
 async function getAllProducts(req, res) {
   try {
-    // Use the aggregate method to perform a MongoDB aggregation
-    // const products = await Product.aggregate([
-    //   // The $lookup stage performs a left outer join to another collection named "categories"
-    //   {
-    //     $lookup: {
-    //       // Specifies the collection to join with
-    //       from: "categories",
-    //       // Specifies the local field in the "products" collection
-    //       localField: "categoryId",
-    //       // Specifies the field in the "categories" collection
-    //       foreignField: "_id",
-    //       // Specifies the field in the output document where the joined array is stored
-    //       as: "category",
-    //     },
-    //   },
-    //   // The $unwind stage deconstructs the "category" array created by the $lookup stage
-    //   {
-    //     $unwind: "$category",
-    //   },
-    //   // The $project stage reshapes the output document, including only the required fields
-    //   {
-    //     $project: {
-    //       name: 1, // Include the "name" field from the "products" collection
-    //       description: 1, // Include the "description" field from the "products" collection
-    //       price: 1, // Include the "price" field from the "products" collection
-    //       quantity: 1, // Include the "quantity" field from the "products" collection
-    //       status: 1, // Include the "status" field from the "products" collection
-    //       category: "$category.categoryName", // Include the "name" field from the "category" subdocument
-    //       imageUrl: 1, // Include the "image_url" field from the "products" collection
-    //       createdAt: { $ifNull: ["$createdAt", null] }, // Include createdAt field, or null if it doesn't exist
-    //       updatedAt: { $ifNull: ["$updatedAt", null] }, // Include updatedAt field, or null if it doesn't exist
-    //     },
-    //   },
-    // ]);
-
+    
     const products = await Product.find().populate(
       "categoryId",
       "categoryName"
     ).sort({ updatedAt: -1 });
 
-    console.log(products);
     // Check if no products were found
     if (products.length === 0) {
       return res.status(404).json({ errors: "No products found" });
@@ -84,24 +49,10 @@ async function getProductById(req, res) {
     }
 
     // Find a product by its ID
-    // const product = await Product.findById(req.params.id);
     const product = await Product.findById(req.params.id).populate(
       "categoryId",
       "categoryName"
     );
-
-    // const product = {
-    //   _id: payload._id,
-    //   name: payload.name,
-    //   description: payload.description,
-    //   price: payload.price,
-    //   quantity: payload.quantity,
-    //   status: payload.status,
-    //   category: payload.categoryId.categoryName,
-    //   imageUrl: payload.imageUrl,
-    //   createdAt: payload.createdAt,
-    //   updatedAt: payload.updatedAt,
-    // };
 
     // Check if the product exists
     if (!product || product.length === 0) {
