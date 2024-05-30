@@ -5,11 +5,15 @@ import { faArrowLeft, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { fetchData } from "../../utilities/apputils";
 import ConfirmationModal from "./Confirmbeforecheckout";
 
+// Checkout component
 const Checkout = () => {
   const [items, setItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+   // Hook to navigate programmatically
   const navigate = useNavigate();
 
+  // Effect to fetch cart items from localStorage when the component mounts
   useEffect(() => {
     const fetchCartItems = () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -18,38 +22,55 @@ const Checkout = () => {
     fetchCartItems();
   }, []);
 
+  // Handle checkout button click
   const handleCheckout = async () => {
+
+    // If cart is empty, alert the user and return
     if (items.length === 0) {
       alert("Your Cart is empty. Please add products!!! ");
       return;
     }
+
+    // Open the confirmation modal
     setIsModalOpen(true);
   };
 
+  // Confirm checkout process
   const confirmCheckout = async () => {
+
+    // Fetch userId from localStorage
     const userId = JSON.parse(localStorage.getItem("user")).id;
+
+    // Convert items to JSON string
     const cart = JSON.stringify(items);
 
 
     try {
+      // Make API call to add checkout
       await fetchData("post", "checkout/addcheckout", {
         user_id: userId,
         cart: cart
       });
+
+      // Navigate to order summary page
       navigate('/order-summary', { state: { selectedProducts: items } });
     } catch (error) {
       console.log(error);
     }
 
     try {
+      // Clear the cart from localStorage and update state
       localStorage.removeItem("cart");
       setItems([]);
     } catch (error) {
       console.error("Error clearing cart:", error);
     }
+
+    // Close the confirmation modal
     setIsModalOpen(false);
   };
 
+  // Cancel checkout process
   const cancelCheckout = () => {
     setIsModalOpen(false);
   };
@@ -59,6 +80,8 @@ const Checkout = () => {
       <Link to="/Dashboard" className="back-to-dashboard-btn">
         <FontAwesomeIcon icon={faArrowLeft} /> Back to Dashboard
       </Link>
+
+       {/* Checkout container */}
       <div className="checkout-container">
         <div className="items-container">
           <div className="checkout-heading">
@@ -72,6 +95,7 @@ const Checkout = () => {
             <div className="cell-quantity">Quantity</div>
           </div>
 
+          {/* If cart is empty, show message, otherwise map through items */}
           {items.length === 0 ? (
             <p>Your cart is currently empty.</p>
           ) : (
@@ -86,6 +110,8 @@ const Checkout = () => {
               </Link>
             ))
           )}
+
+          {/* Checkout button */}
           <div className="check-button">
             <button className="checkout-btn" onClick={handleCheckout}>
               Checkout
@@ -94,6 +120,8 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+
+       {/* Confirmation modal component */}
       <ConfirmationModal
         isOpen={isModalOpen}
         onConfirm={confirmCheckout}
