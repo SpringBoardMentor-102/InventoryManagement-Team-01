@@ -91,29 +91,34 @@ const ProductDetail = () => {
     alert("Added to cart successfully.");
   };
 
+  // Function to handle the deletion of a product
   const handleDelete = async (productID) => {
     if (window.confirm('Are you sure you want to delete this product')) {
       try {
         await fetchData("delete", `product/deleteProducts/${productID}`);
+        // Navigate to the dashboard after deletion
         navigate("/Dashboard");
         alert("product is deleted successfully");
-
       } catch (error) {
+        // Log any errors during deletion
         console.error('error deleting product :', error);
       }
     }
   }
 
+  // Function to handle adding a product to the store
   const handleAddToStore = (productData) => {
     setShowStoreModal(true);
   }
 
+  // Function to handle the submission of the store addition form
   const handleStoreSubmit = async () => {
     try {
       const response = await fetchData("put", `product/updateProduct/${product._id}`, {
         quantity: product.quantity + storeQuantity
       });
       if (response !== null) {
+        // Update the product state with the new data
         setProduct(response.data);
         setShowStoreModal(false);
         alert("Product quantity updated successfully.");
@@ -125,15 +130,15 @@ const ProductDetail = () => {
     }
   }
 
+  // Function to handle removing a product from the cart
   const handleRemoveFromCart = (productData) => {
-    // Remove the selected product from the list of selected products
-
     // Get the cart from localStorage or create an empty array
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const existsCartProduct = cart.filter(item => item.product._id !== productData._id);
     const selectedProduct = cart.filter(item => item.product._id === productData._id);
 
     if (selectedProduct.length > 0) {
+      // Adjust the product quantity in the cart
       const originalQuantity = selectedProduct[0].quantity
       let newQuantity = 0
       if (originalQuantity > cartQuantity) {
@@ -152,13 +157,10 @@ const ProductDetail = () => {
       if (removeButton) {
         removeButton.disabled = true;
       }
-      // do nothing, becuase, this item cannot be removed from the cart
-
     }
-
   };
 
-
+  // If the product is not loaded yet, show a loading message
   if (!product) return <div>Loading...</div>;
 
   return (
