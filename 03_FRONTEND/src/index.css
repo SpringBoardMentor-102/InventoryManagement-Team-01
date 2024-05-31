@@ -407,6 +407,7 @@ p {
 
 aside {
   height: 100vh;
+  width: 10vw;
 }
 
 aside .top {
@@ -416,7 +417,7 @@ aside .top {
   align-items: center;
   justify-content: space-between;
   top: 26px;
-  z-index: 999;
+  z-index: 9;
 }
 
 .hamburgor {
@@ -447,12 +448,6 @@ aside .close {
   display: none;
 }
 
-/* Sidebar */
-
-aside {
-  height: 100vh;
-  width: 10vw;
-}
 aside .sidebar {
   background: white;
   display: flex;
@@ -2054,6 +2049,15 @@ footer {
   .footer .row {
     margin: 0% 3%;
   }
+
+  .search-block > div{
+    flex-direction: column;
+  }
+  .filter-button{
+    position: absolute;
+    top:40px;
+    left:2px;
+  }
 }
 
 
@@ -2208,7 +2212,7 @@ h1 {
   .sidebar {
     position: fixed;
     top: 0;
-    left: -250px;
+    left: -500px;
     /* Hidden initially */
     width: 250px;
     height: 100%;
@@ -2298,7 +2302,8 @@ h1 {
   }
 
   aside .logo h2 {
-    margin-top:19px
+    margin-top: 23px;
+    font-size: 14px;
   }
 }
 

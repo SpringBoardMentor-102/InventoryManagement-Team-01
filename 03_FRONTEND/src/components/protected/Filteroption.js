@@ -82,7 +82,7 @@ const FilterComponent = ({ getCategory }) => {
     <div
 
     >
-      <button onClick={toggleDropdown}
+      <button className="filter-button" onClick={toggleDropdown}
         style={{
           fontSize: "16px",
           fontWeight: "bold"
