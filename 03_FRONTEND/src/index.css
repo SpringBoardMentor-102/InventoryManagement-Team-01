@@ -241,11 +241,16 @@ body.dark-mode {
 }
 
 .icon-container {
-  top: 54%;
+  top: 56%;
 }
 
 .icon-container-confirm {
-  top: 61%;
+  top: 64%;
+}
+
+.errorMessage{
+  font-size: 15px;
+  color: red;
 }
 
 #error {

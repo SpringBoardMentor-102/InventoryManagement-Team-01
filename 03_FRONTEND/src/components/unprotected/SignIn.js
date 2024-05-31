@@ -128,7 +128,7 @@ function SignIn() {
           <LoadingSpinner />
         ) : (
           <form id="form" action="/">
-            <div >{errorMessage}</div>
+            <div className="errorMessage" >{errorMessage}</div>
             <div className="input-control">
               <label htmlFor="email">Email</label>
               <input

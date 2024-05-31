@@ -69,10 +69,11 @@ const Sidebar = () => {
             <h3>Add Product</h3>
           </Link>
         )}
-        <Link to="/Faq" className={activeLink === "/Faq" ? "active" : ""}>
+        {!admin?(""):(<Link to="/Faq" className={activeLink === "/Faq" ? "active" : ""}>
          <span className="material-icons-sharp">help</span>
          <h3>Faq</h3>
-        </Link>
+        </Link>)}
+        
         {admin ? (
           ""
         ) : (
