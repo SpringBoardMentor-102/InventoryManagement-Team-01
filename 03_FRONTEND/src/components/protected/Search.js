@@ -14,10 +14,12 @@ const Search = () => {
   const [originalSearchResult, setOriginalSearchResult] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [recentSearches, setRecentSearches] = useState([]);
+  const [searchSuggest, setSearchSuggest] = useState([]);
   const [saveCategoryId, setSaveCategoryId] = useState(false);
   const [prevFilterOption, setPrevFilterOption] = useState({
     "price": "",
     "category": "",
+    "Category": "",
     "availablity": ""
   });
   const [loading, setLoading] = useState(false);
@@ -29,6 +31,11 @@ const Search = () => {
   const [products, setProducts] = useState([]);
   const [loadingProduct, setLoadingProduct] = useState(true);
   const [error, setError] = useState(null);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [visibleRow, setVisibleRow] = useState(null);
+  const handleButtonClick = (id) => {
+    setVisibleRow(visibleRow === id ? null : id);
+};
   // Function to fetch products for dashboard products
   const fetchProducts = async () => {
     try {
@@ -102,6 +109,10 @@ const Search = () => {
   };
   // Function to handle input change
   const handleChange = (e) => {
+    const filteredProducts = products.filter(product =>
+      product.name.toLowerCase().includes(e.target.value.toLowerCase())
+  );
+  setSearchSuggest(filteredProducts.slice(0, 6))
     setSearchQuery(e.target.value);
   };
   // Function to get products by category
@@ -126,24 +137,59 @@ const Search = () => {
     }
   }
 
+  const renderBadges = () => {
+    return Object.keys(prevFilterOption).map((key) => {
+        const value = prevFilterOption[key];
+        if (value && key !== "category") { // Check if the value is not empty
+            return (
+                <span key={key} style={{ display: 'inline-block', padding: '5px 10px', margin: '5px', backgroundColor: '#007bff', color: 'white', borderRadius: '12px' }}>
+                    {key}: {value}
+                </span>
+            );
+        }
+        return null;
+    });
+};
+const handleSearchFocus = () => {
+  setIsSearchFocused(true);
+};
+
+const handleSearchBlur = () => {
+  setIsSearchFocused(false);
+};
   return (
     <>
       <div className="searchpage-container">
         <div className="search-block">
           <div style={{ display: "flex", position: "fixed", top: "10px" }}>
             <div style={{ width: "60vw" }}>
-              <div className="search-bar">
+              <div className="search-bar" style={{ position: "relative" }}>
                 <input
                   type="text"
                   id="search-input"
                   placeholder="Search here..."
                   value={searchQuery}
                   onChange={handleChange}
+                  onFocus={handleSearchFocus}
+                  onBlur={handleSearchBlur}
                   onKeyPress={handleKeyPress}
                 />
                 <button onClick={()=>handleSearch()} className="material-icons-sharp">
                   search
                 </button>
+                {isSearchFocused && (
+                  <div style={{ position: "absolute", top: "3rem", width:"100%", padding: "1rem" , background:"white" }}>
+                    {searchSuggest.length > 0 ? (
+                      searchSuggest.map(product => (
+                        <div key={product._id}>
+                          <p>{product.name}</p>
+                        </div>
+                      ))
+                        ) : (
+                          <p>No matching products found.</p>
+                          )}
+                      </div>
+                    )}
               </div>
             </div>
             {/* filter */}
@@ -151,10 +197,13 @@ const Search = () => {
               <Filteroption getCategory={getCategory} />
             </div>
           </div>
-
+          <div>
+            {renderBadges()}
+          </div>
           {loading && <p>Loading...</p>}
           {showResults && (searchResults?.length > 0) && (
-
+            <>
+            <span>{searchResults.length} Result found.</span>
             <table className="table-container">
               <thead>
 
@@ -231,7 +280,9 @@ const Search = () => {
                     }
                   })
                   .map((product, index) => (
-                    <tr key={index} className="trows">
+                    <React.Fragment key={index}>
+
+                    <tr onClick={() => handleButtonClick(index)} key={index}  className="trows">
 
                       <td>
                         <Link to={`/product/${product._id}`}>
@@ -248,9 +299,18 @@ const Search = () => {
                       <td>{product.status}</td>
 
                     </tr>
+                    {visibleRow === index && (
+                      <tr>
+                        <td colSpan="5">
+                          <p>{product.description}</p>
+                        </td>
+                      </tr>
+                      )}
+                    </React.Fragment>
                   ))}
               </tbody>
             </table>
+            </>
           )}
           {showResults && searchResults.length === 0 && (
             <table className="table-container">

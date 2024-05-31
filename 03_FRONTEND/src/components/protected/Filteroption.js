@@ -61,8 +61,8 @@ const FilterComponent = ({ getCategory }) => {
 
     }
     if (filedName === "category") {
-
-      updatedFilter = { ...selectedFilterOption, category: value };
+      var Category = categories.find(category => category._id === value)? categories.find(category => category._id === value).categoryName: "";
+      updatedFilter = { ...selectedFilterOption, category: value, Category: Category};
       setSelectedFilterOption(updatedFilter);
 
     } if (filedName === "availablity") {
