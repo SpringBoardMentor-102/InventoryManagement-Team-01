@@ -27,6 +27,7 @@ import PublicRoute from './components/unprotected/PublicRoute';
 import AdminRoute
  from './components/protected/AdminRoute';
 import Footer from './components/protected/Footer';
+import Aboutus from './components/protected/Aboutus';
 const App = () => {
   return (
     <BrowserRouter>
@@ -54,6 +55,7 @@ const App = () => {
         <Route path="/reports" element={<Reports />} />
         <Route path="/product_list" element={<ProductList />} />
         <Route path="/Faq" element={<Faq />} />
+        <Route path="/Aboutus" element={<Aboutus />} />
       </Route>
 
       {/* Admin Routes */}

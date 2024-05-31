@@ -17,11 +17,11 @@ const Footer = () => {
         
         <div className="row">
           <ul>
-            <li><Link to='#' >Contact us</Link></li>
-            <li><Link to='#' >Our Services</Link></li>
+            <li><Link to='/Aboutus' >About us</Link></li>
+            <li><Link to='/Dashboard' >Our Products</Link></li>
             <li><Link to='#' >Privacy Policy</Link></li>
             <li><Link to='#' >Terms & Conditions</Link></li>
-            <li><Link to='#' >Career</Link></li>
+            <li><Link to='#' >FAQ</Link></li>
           </ul>
         </div>
         
