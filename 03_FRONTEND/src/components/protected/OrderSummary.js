@@ -2,16 +2,26 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../index.css";
 
+/**
+ * OrderSummary Component
+ * This component displays a summary of the order, including the list of products, 
+ * their quantities, prices, and the total cost including GST and other charges.
+ */
 const OrderSummary = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  
+  // Retrieve selected products from the state, default to an empty array if none are passed
   const selectedProducts = location.state?.selectedProducts || [];
-
+  
+  // Calculate the total price of all selected products
   const totalQuantity = selectedProducts.reduce((total, item) => total + item.quantity, 0);
   const totalPrice = selectedProducts.reduce((total, item) => {
     const price = item.product.price || 0; // Ensure price is defined, defaulting to 0 if not
     return total + (price * item.quantity);
   }, 0);
+
+  // Calculate additional charges
   const gst = totalPrice * 0.18;
   const handlingCharge = 5;
   const deliveryCharge = 0;
@@ -29,6 +39,8 @@ const OrderSummary = () => {
       <h2>Order Summary</h2>
       <p>Billing Address: [User's Address]</p>
       <p>Date: {new Date().toLocaleDateString()}</p>
+
+      {/* Display list of selected products */}
       <div className="items">
         {selectedProducts.map((item, index) => (
           <div key={index} className="item">
@@ -41,6 +53,8 @@ const OrderSummary = () => {
           </div>
         ))}
       </div>
+
+      {/* Display total costs and charges */}    
       <div className="total">
         <p>Total Quantity: {totalQuantity}</p>
         <p>Total Price: ₹{totalPrice.toFixed(2)}</p>
@@ -49,6 +63,8 @@ const OrderSummary = () => {
         <p>Delivery Charge: <span className="free">FREE</span></p>
         <p>Final Amount: ₹{finalAmount.toFixed(2)}</p>
       </div>
+
+      {/* Place Order button */}
       <button className="place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
       <p className="invoice-note">
         As per Section 31 of CGST Act read with Rules, invoice is issued at the point of delivering the goods.
