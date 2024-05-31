@@ -73,6 +73,8 @@ const Search = () => {
       handleSearch();
     }
   };
+
+  // Function to handle search functionality
   const handleSearch = async (query = searchQuery) => {
     if (query.trim() !== "") {
       try {
@@ -107,7 +109,8 @@ const Search = () => {
       setShowResults(false);
     }
   };
-  // Function to handle input change
+  
+  // Function to handle input change in search bar
   const handleChange = (e) => {
     const filteredProducts = products.filter(product =>
       product.name.toLowerCase().includes(e.target.value.toLowerCase())
@@ -115,7 +118,8 @@ const Search = () => {
   setSearchSuggest(filteredProducts.slice(0, 6))
     setSearchQuery(e.target.value);
   };
-  // Function to get products by category
+  
+  // Function to filter products based on selected category and other criteria
   const getCategory = (filterCriteria) => {
     let filteredProducts;
     setSaveCategoryId(true);
@@ -128,7 +132,7 @@ const Search = () => {
       setSearchResults(filteredProducts);
       setShowResults(true);
     } else {
-      // for dashboard filter
+      // Apply filter for dashboard products
       filteredProducts = originalProducts?.filter(product => filterCriteria?.category === "" ? true : (product?.categoryId?._id === filterCriteria.category));
       filteredProducts = filteredProducts?.filter(product => filterCriteria?.availablity === "" ? true : (product?.status === filterCriteria.availablity));
       filteredProducts = filteredProducts?.filter(product => filterCriteria?.price === "" ? true : (product?.price <= Number(filterCriteria.price)));
@@ -136,7 +140,8 @@ const Search = () => {
       setShowResults(false);
     }
   }
-
+  
+  // Function to render badges for selected filters
   const renderBadges = () => {
     return Object.keys(prevFilterOption).map((key) => {
         const value = prevFilterOption[key];
@@ -150,10 +155,13 @@ const Search = () => {
         return null;
     });
 };
+
+// Function to handle focus event on search input
 const handleSearchFocus = () => {
   setIsSearchFocused(true);
 };
 
+// Function to handle blur event on search input
 const handleSearchBlur = () => {
   setIsSearchFocused(false);
 };
@@ -192,7 +200,8 @@ const handleSearchBlur = () => {
                     )}
               </div>
             </div>
-            {/* filter */}
+
+           {/* Filter option component */}
             <div style={{ marginTop: "10px" }}>
               <Filteroption getCategory={getCategory} />
             </div>
