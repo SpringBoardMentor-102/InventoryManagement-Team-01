@@ -28,13 +28,13 @@ Make sure you have the following installed on your machine:
 
     **For the backend:**
     ```sh
-    cd backend
+    cd InventoryManagement-Team-01\04_BACKEND>
     npm install
     ```
 
     **For the frontend:**
     ```sh
-    cd ../frontend
+    cd InventoryManagement-Team-01\03_FRONTEND>
     npm install
     ```
 
@@ -49,14 +49,14 @@ Make sure you have the following installed on your machine:
 2. **Start the backend server:**
     Open a terminal, navigate to the `backend` directory, and run:
     ```sh
-    cd backend
+    cd InventoryManagement-Team-01\04_BACKEND>
     nodemon index.js
     ```
 
 3. **Start the frontend server:**
     Open another terminal, navigate to the `frontend` directory, and run:
     ```sh
-    cd frontend
+    cd InventoryManagement-Team-01\03_FRONTEND>
     npm run start
     ```
 
@@ -65,25 +65,26 @@ Make sure you have the following installed on your machine:
 
 ## Project Structure
 
+```plaintext
 inventory-management-system/
 │
-├── backend/ # Backend code (Node.js + Express.js)
-│ ├── models/ # Mongoose models
-│ ├── routes/ # Express routes
-│ ├── controllers/ # Route controllers
-│ ├── config/ # Configuration files (e.g., database connection)
-│ ├── index.js # Entry point for the backend server
-│ └── package.json # Backend dependencies and scripts
+├── backend/                 # Backend code (Node.js + Express.js)
+│   ├── models/              # Mongoose models
+│   ├── routes/              # Express routes
+│   ├── controllers/         # Route controllers
+│   ├── config/              # Configuration files (e.g., database connection)
+│   ├── index.js             # Entry point for the backend server
+│   └── package.json         # Backend dependencies and scripts
 │
-├── frontend/ # Frontend code (React.js)
-│ ├── src/
-│ │ ├── components/ # React components
-│ │ ├── pages/ # React pages
-│ │ ├── App.js # Main App component
-│ │ ├── index.js # Entry point for the frontend
-│ └── package.json # Frontend dependencies and scripts
+├── frontend/                # Frontend code (React.js)
+│   ├── src/
+│   │   ├── components/      # React components
+│   │   ├── pages/           # React pages
+│   │   ├── App.js           # Main App component
+│   │   ├── index.js         # Entry point for the frontend
+│   └── package.json         # Frontend dependencies and scripts
 │
-└── README.md # This readme file
+└── README.md                # This readme file
 
 ## Configuration
 
