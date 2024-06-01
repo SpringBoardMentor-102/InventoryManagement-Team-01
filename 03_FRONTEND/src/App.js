@@ -28,6 +28,7 @@ import AdminRoute
  from './components/protected/AdminRoute';
 import Footer from './components/protected/Footer';
 import Aboutus from './components/protected/Aboutus';
+import Privacypolicy from './components/protected/Privacypolicy';
 const App = () => {
   return (
     <BrowserRouter>
@@ -56,6 +57,7 @@ const App = () => {
         <Route path="/product_list" element={<ProductList />} />
         <Route path="/Faq" element={<Faq />} />
         <Route path="/Aboutus" element={<Aboutus />} />
+        <Route path="/Privacypolicy" element={<Privacypolicy />} />
       </Route>
 
       {/* Admin Routes */}
