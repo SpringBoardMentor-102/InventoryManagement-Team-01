@@ -2461,3 +2461,43 @@ h1 {
   line-height: 1.6;
   margin-bottom: 15px;
 }
+
+/*CSS for Terms & Condition*/
+.terms-conditions-container {
+  font-family: Arial, sans-serif;
+  color: #333;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.terms-conditions-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.terms-conditions-content h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #000dff;
+}
+
+.terms-conditions-content h2 {
+  font-size: 1.5em;
+  margin-top: 20px;
+  color: #000dff;
+}
+
+.terms-conditions-content p,
+.terms-conditions-content ul {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.terms-conditions-content ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
